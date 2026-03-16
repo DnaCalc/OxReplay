@@ -1,0 +1,16 @@
+[package]
+name = "oxreplay-distill"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+publish = false
+
+[lints]
+workspace = true
+
+[dependencies]
+oxreplay-core = { path = "../oxreplay-core" }
+oxreplay-governance = { path = "../oxreplay-governance" }
+serde.workspace = true

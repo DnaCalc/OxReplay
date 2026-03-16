@@ -8,6 +8,12 @@ This directory is the OxReplay-owned mutable spec set after bootstrap.
 3. `docs/spec/OXREPLAY_BUNDLE_WITNESS_AND_REGISTRY_MODEL.md`
 4. `docs/spec/OXREPLAY_ADAPTER_AND_CONFORMANCE_MODEL.md`
 5. `docs/spec/DNA_RECALC_HOST.md`
+6. `docs/spec/OXREPLAY_IMPLEMENTATION_BASELINE.md`
+7. `docs/spec/OXREPLAY_REPLAY_CLASS_AND_SCENARIO_REGISTER.md`
+8. `docs/spec/OXREPLAY_CAPABILITY_AND_PACK_TRACEABILITY.md`
+9. `docs/spec/OXREPLAY_INITIAL_ADAPTER_INTAKE_PLAN.md`
+10. `docs/spec/DNA_RECALC_CLI_CONTRACT.md`
+11. `docs/spec/OXREPLAY_WITNESS_LIFECYCLE_TRANSITIONS.md`
 
 ## Consumed doctrine
 Foundation remains higher-precedence doctrine owner for:
@@ -35,3 +41,9 @@ For initial `OxReplay` work, read in this order after the repo root docs:
 3. `docs/spec/OXREPLAY_BUNDLE_WITNESS_AND_REGISTRY_MODEL.md`
 4. `docs/spec/OXREPLAY_ADAPTER_AND_CONFORMANCE_MODEL.md`
 5. `docs/spec/DNA_RECALC_HOST.md`
+6. `docs/spec/OXREPLAY_IMPLEMENTATION_BASELINE.md`
+7. `docs/spec/OXREPLAY_REPLAY_CLASS_AND_SCENARIO_REGISTER.md`
+8. `docs/spec/OXREPLAY_CAPABILITY_AND_PACK_TRACEABILITY.md`
+9. `docs/spec/OXREPLAY_INITIAL_ADAPTER_INTAKE_PLAN.md`
+10. `docs/spec/DNA_RECALC_CLI_CONTRACT.md`
+11. `docs/spec/OXREPLAY_WITNESS_LIFECYCLE_TRANSITIONS.md`

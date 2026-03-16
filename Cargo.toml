@@ -1,0 +1,32 @@
+[workspace]
+resolver = "2"
+members = [
+    "src/oxreplay-abstractions",
+    "src/oxreplay-bundle",
+    "src/oxreplay-core",
+    "src/oxreplay-diff",
+    "src/oxreplay-explain",
+    "src/oxreplay-distill",
+    "src/oxreplay-governance",
+    "src/oxreplay-conformance",
+    "src/oxreplay-dnarecalc-cli",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+authors = ["DNA Kode"]
+repository = "https://github.com/DnaCalc/OxReplay"
+publish = false
+
+[workspace.dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = "warn"

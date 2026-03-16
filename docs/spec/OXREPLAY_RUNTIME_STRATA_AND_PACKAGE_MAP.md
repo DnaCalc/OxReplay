@@ -27,7 +27,7 @@ The initial shared-runtime split is:
 ## 3. Physical workspace model
 The repo layout should map work approximately as follows:
 1. `src/`
-   - shared runtime and host code, stratified by the logical model above.
+   - active Rust Cargo workspace for shared runtime and host code, stratified by the logical model above.
 2. `tests/`
    - unit, scenario, conformance, and retained regression tests aligned to the same strata.
 3. `tools/`
@@ -38,6 +38,26 @@ The repo layout should map work approximately as follows:
    - checked-in registry, lifecycle, or other retained state artifacts when they are part of the evidence model.
 6. `formal/`
    - formal models or notes for reduction, compatibility, or lifecycle invariants when applicable.
+
+### 3.1 Rust workspace baseline
+The active implementation direction is Rust-first.
+
+The initial Cargo workspace should live at repo root and include `src/` members named:
+1. `src/oxreplay-abstractions`
+2. `src/oxreplay-bundle`
+3. `src/oxreplay-core`
+4. `src/oxreplay-diff`
+5. `src/oxreplay-explain`
+6. `src/oxreplay-distill`
+7. `src/oxreplay-governance`
+8. `src/oxreplay-conformance`
+9. `src/oxreplay-dnarecalc-cli`
+
+Rust workspace rules:
+1. keep crate boundaries aligned to the strata and ownership split,
+2. forbid `unsafe` by default,
+3. treat `cargo fmt`, `cargo clippy`, and `cargo test` as the minimum local validation floor,
+4. do not introduce a parallel non-Rust implementation tree for the same runtime scope.
 
 ## 4. Boundary rules
 1. Host layers may depend downward on shared runtime layers.

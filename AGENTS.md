@@ -16,12 +16,18 @@ On session start, read in this order:
 10. `docs/spec/OXREPLAY_BUNDLE_WITNESS_AND_REGISTRY_MODEL.md`
 11. `docs/spec/OXREPLAY_ADAPTER_AND_CONFORMANCE_MODEL.md`
 12. `docs/spec/DNA_RECALC_HOST.md`
-13. Inbound observation ledgers from sibling repos, if present (see `OPERATIONS.md` Section 12.2):
+13. `docs/spec/OXREPLAY_IMPLEMENTATION_BASELINE.md`
+14. `docs/spec/OXREPLAY_REPLAY_CLASS_AND_SCENARIO_REGISTER.md`
+15. `docs/spec/OXREPLAY_CAPABILITY_AND_PACK_TRACEABILITY.md`
+16. `docs/spec/OXREPLAY_INITIAL_ADAPTER_INTAKE_PLAN.md`
+17. `docs/spec/DNA_RECALC_CLI_CONTRACT.md`
+18. `docs/spec/OXREPLAY_WITNESS_LIFECYCLE_TRANSITIONS.md`
+19. Inbound observation ledgers from sibling repos, if present (see `OPERATIONS.md` Section 12.2):
    - `../OxCalc/docs/upstream/NOTES_FOR_OXREPLAY.md`
    - `../OxFml/docs/upstream/NOTES_FOR_OXREPLAY.md`
    - `../OxFunc/docs/upstream/NOTES_FOR_OXREPLAY.md`
    - `../OxVba/docs/upstream/NOTES_FOR_OXREPLAY.md`
-14. Foundation doctrine docs (`../Foundation/CHARTER.md`, `../Foundation/ARCHITECTURE_AND_REQUIREMENTS.md`, `../Foundation/OPERATIONS.md`, `../Foundation/REPLAY_APPLIANCE.md`)
+20. Foundation doctrine docs (`../Foundation/CHARTER.md`, `../Foundation/ARCHITECTURE_AND_REQUIREMENTS.md`, `../Foundation/OPERATIONS.md`, `../Foundation/REPLAY_APPLIANCE.md`)
 
 ## 2. Source-of-Truth Precedence
 

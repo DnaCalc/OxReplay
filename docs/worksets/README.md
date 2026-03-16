@@ -11,9 +11,18 @@ Worksets are the execution units for `OxReplay`.
 6. `W006_WITNESS_DISTILLATION_AND_LIFECYCLE_GOVERNANCE_BASELINE.md`
 
 ## Workset rule
+Workset files in this directory are the execution packets for `OxReplay`.
+
 Each workset should declare:
 1. objective,
 2. scope,
 3. dependencies,
 4. exit gate,
-5. expected pack or capability impact.
+5. expected capability impact,
+6. expected pack impact,
+7. environment preconditions,
+8. evidence layout,
+9. replay-corpus readiness,
+10. pack-evidence traceability.
+
+If a workset is the first one expected to produce runtime code, its packet must also declare the initial implementation stack explicitly before the workset moves to `in_progress`.

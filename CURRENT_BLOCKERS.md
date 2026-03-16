@@ -14,7 +14,15 @@ Last reviewed: 2026-03-16.
 
 ## Resolved Blockers
 
-(none)
+### BLK-REPLAY-001: First implementation stack undeclared
+
+- **Status**: resolved
+- **Impact**: `W002` through `W006` activation packet quality
+- **Current state**: Rust-first implementation direction is now declared, the active Cargo workspace root is `src/`, workspace checks are explicit, and the workset packets now reference the chosen stack
+- **Exact unblock steps**: none; resolved by the Rust-first baseline update and execution-packet expansion
+- **Recommendation**: workaround
+- **Opened**: 2026-03-16
+- **Resolved**: 2026-03-16
 
 ---
 

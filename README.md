@@ -19,10 +19,17 @@ It exists to implement the cross-lane replay substrate defined by Foundation doc
 4. Not a spreadsheet product host.
 
 ## Startup docs
-1. `AGENTS.md`
-2. `CHARTER.md`
-3. `OPERATIONS.md`
-4. `docs/spec/README.md`
+`AGENTS.md` is the authoritative startup path for agents and doctrinal work.
+
+Minimum repo-orientation read order:
+1. `README.md`
+2. `AGENTS.md`
+3. `CHARTER.md`
+4. `OPERATIONS.md`
+5. `CURRENT_BLOCKERS.md`
+6. `docs/IN_PROGRESS_FEATURE_WORKLIST.md`
+7. `docs/worksets/README.md`
+8. `docs/spec/README.md`
 
 ## Bootstrap workspace layout
 1. `docs/spec/`
@@ -41,8 +48,19 @@ It exists to implement the cross-lane replay substrate defined by Foundation doc
    - code, harness, state, and formalization roots to be populated as implementation advances.
 
 ## Bootstrap status
-The repo starts doc-first. No implementation language or build graph is locked yet.
-The runtime strata and ownership boundaries are fixed first so code can be added without semantic drift.
+The repo started doc-first so runtime strata and ownership boundaries could be fixed before code landed.
+The implementation direction is now Rust-first, with the active workspace rooted at `src/` and aligned to the family pattern used by `OxCalc`.
+The bootstrap packet remains `in_progress` while the Rust workspace, corpus scenarios, adapter intake, and retained evidence lanes are widened from planning into exercised surfaces.
+
+## Implementation Direction
+1. `OxReplay` is Rust-first for shared runtime, conformance tooling, and the `DNA ReCalc` CLI host.
+2. The active implementation lives under `src/` as a Cargo workspace with crate boundaries that follow the declared replay strata.
+3. New execution should follow the local Rust quality floor:
+   - `cargo fmt --all --check`
+   - `cargo clippy --workspace --all-targets --all-features -- -D warnings`
+   - `cargo test --workspace`
+   - `pwsh ./scripts/meta-check.ps1`
+4. Historical non-Rust parallel trees are out of scope for this repo. Future widening should remain idiomatic Rust rather than a cross-language transliteration lane.
 
 ## Foundation alignment
 Precedence and constitutional constraints are inherited from:
