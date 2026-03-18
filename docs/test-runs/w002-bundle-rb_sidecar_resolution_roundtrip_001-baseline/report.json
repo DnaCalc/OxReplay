@@ -1,0 +1,29 @@
+{
+  "status": "valid",
+  "manifest_path": "docs/test-corpus/bundles/rb_sidecar_resolution_roundtrip_001/manifest.json",
+  "bundle_id": "bundle-sidecar-roundtrip-001",
+  "scenario_id": "rb_sidecar_resolution_roundtrip_001",
+  "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
+  "capability_impact": "shared validate/ingest surface only; no adapter capability claim",
+  "errors": [],
+  "warnings": [],
+  "index": {
+    "registry_families": [
+      "capability_level",
+      "severity"
+    ],
+    "sidecar_artifacts": [
+      {
+        "path": "sidecars/run-manifest.json"
+      },
+      {
+        "path": "sidecars/events.json"
+      }
+    ],
+    "view_artifacts": [
+      {
+        "path": "views/index-view.json"
+      }
+    ]
+  }
+}

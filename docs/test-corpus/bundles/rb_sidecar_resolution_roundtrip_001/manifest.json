@@ -1,0 +1,37 @@
+{
+  "bundle_id": "bundle-sidecar-roundtrip-001",
+  "scenario_id": "rb_sidecar_resolution_roundtrip_001",
+  "bundle_schema": "replay.bundle.v1",
+  "source_schema": "oxcalc.tracecalc.v1",
+  "lane_id": "oxcalc",
+  "adapter_id": "oxcalc.replay.v1",
+  "capture_mode": "deterministic",
+  "registry_refs": [
+    {
+      "family": "capability_level",
+      "version": "2026-03-16"
+    },
+    {
+      "family": "severity",
+      "version": "2026-03-16"
+    }
+  ],
+  "projection_status": "lossless",
+  "capture_loss": "none",
+  "sidecars": [
+    {
+      "artifact_family": "run_manifest",
+      "path": "sidecars/run-manifest.json"
+    },
+    {
+      "artifact_family": "event_stream",
+      "path": "sidecars/events.json"
+    }
+  ],
+  "views": [
+    {
+      "artifact_family": "replay_view",
+      "path": "views/index-view.json"
+    }
+  ]
+}

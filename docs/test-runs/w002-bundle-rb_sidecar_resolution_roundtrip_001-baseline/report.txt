@@ -1,0 +1,8 @@
+status: Valid
+manifest_path: docs/test-corpus/bundles/rb_sidecar_resolution_roundtrip_001/manifest.json
+bundle_id: bundle-sidecar-roundtrip-001
+scenario_id: rb_sidecar_resolution_roundtrip_001
+capability_impact: shared validate/ingest surface only; no adapter capability claim
+pack_impact: candidate validate/ingest surface for PACK.replay.appliance
+index: registries=2, sidecars=2, views=1
+errors: none

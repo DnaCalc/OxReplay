@@ -1,0 +1,2 @@
+dna-recalc validate-bundle --bundle docs/test-corpus/bundles/rb_manifest_schema_invalid_001/manifest.json --format json
+dna-recalc validate-bundle --bundle docs/test-corpus/bundles/rb_manifest_schema_invalid_001/manifest.json --format text

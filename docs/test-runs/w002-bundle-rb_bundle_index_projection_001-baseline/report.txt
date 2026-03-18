@@ -1,0 +1,8 @@
+status: Valid
+manifest_path: docs/test-corpus/bundles/rb_bundle_index_projection_001/manifest.json
+bundle_id: bundle-index-projection-001
+scenario_id: rb_bundle_index_projection_001
+capability_impact: shared validate/ingest surface only; no adapter capability claim
+pack_impact: candidate validate/ingest surface for PACK.replay.appliance
+index: registries=2, sidecars=1, views=2
+errors: none

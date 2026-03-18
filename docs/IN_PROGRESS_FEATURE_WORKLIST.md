@@ -3,10 +3,10 @@
 ## Active bootstrap worksets
 
 1. `W001_REPO_BOOTSTRAP_AND_RUNTIME_STRATA`
-   - status: in_progress
+   - status: complete
    - objective: lock repo skeleton, runtime strata, and first package map.
 2. `W002_BUNDLE_AND_SCHEMA_RUNTIME`
-   - status: in_progress
+   - status: complete
    - objective: stand up canonical bundle parsing, validation, and indexing.
 3. `W003_ADAPTER_CAPABILITY_AND_CONFORMANCE_HARNESS`
    - status: planned
@@ -23,8 +23,9 @@
 
 ## Activation note
 1. The Rust-first stack is now declared for the repo.
-2. `W002` is the active first implementation workset over that stack.
-3. `W003` through `W006` remain planned until `W002` has emitted retained validator fixtures and baseline outputs.
+2. `W002` has now emitted retained validator fixtures and baseline outputs for the first bundle/runtime slice.
+3. `W003` is now the next activatable workset over the retained `W002` bundle baseline.
+4. `W004` through `W006` remain planned until later scope is explicitly activated.
 
 ## Reserved follow-on lane entry
 1. `OxCalc` remains the first lane expected to drive toward `C5.pack_valid`.

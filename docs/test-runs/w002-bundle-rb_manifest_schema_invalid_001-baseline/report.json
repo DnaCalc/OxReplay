@@ -1,0 +1,19 @@
+{
+  "status": "invalid",
+  "manifest_path": "docs/test-corpus/bundles/rb_manifest_schema_invalid_001/manifest.json",
+  "bundle_id": "bundle-schema-invalid-001",
+  "scenario_id": "rb_manifest_schema_invalid_001",
+  "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
+  "capability_impact": "shared validate/ingest surface only; no adapter capability claim",
+  "errors": [
+    {
+      "code": "invalid_manifest",
+      "message": "bundle schema must not be empty",
+      "artifact_ref": {
+        "path": "docs/test-corpus/bundles/rb_manifest_schema_invalid_001/manifest.json"
+      }
+    }
+  ],
+  "warnings": [],
+  "index": null
+}

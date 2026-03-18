@@ -1,0 +1,7 @@
+[
+  {
+    "event_id": "evt-001",
+    "source_label": "Sheet1!A1",
+    "normalized_family": "value_observation"
+  }
+]

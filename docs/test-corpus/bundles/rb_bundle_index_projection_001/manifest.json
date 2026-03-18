@@ -1,0 +1,37 @@
+{
+  "bundle_id": "bundle-index-projection-001",
+  "scenario_id": "rb_bundle_index_projection_001",
+  "bundle_schema": "replay.bundle.v1",
+  "source_schema": "oxfml.session.v1",
+  "lane_id": "oxfml",
+  "adapter_id": "oxfml.replay.v1",
+  "capture_mode": "deterministic",
+  "registry_refs": [
+    {
+      "family": "capability_level",
+      "version": "2026-03-16"
+    },
+    {
+      "family": "mismatch_kind",
+      "version": "2026-03-16"
+    }
+  ],
+  "projection_status": "lossless",
+  "capture_loss": "none",
+  "sidecars": [
+    {
+      "artifact_family": "session_trace",
+      "path": "sidecars/session-trace.json"
+    }
+  ],
+  "views": [
+    {
+      "artifact_family": "candidate_view",
+      "path": "views/candidate-view.json"
+    },
+    {
+      "artifact_family": "commit_view",
+      "path": "views/commit-view.json"
+    }
+  ]
+}

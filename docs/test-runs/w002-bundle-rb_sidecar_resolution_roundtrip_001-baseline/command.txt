@@ -1,0 +1,2 @@
+dna-recalc validate-bundle --bundle docs/test-corpus/bundles/rb_sidecar_resolution_roundtrip_001/manifest.json --format json
+dna-recalc validate-bundle --bundle docs/test-corpus/bundles/rb_sidecar_resolution_roundtrip_001/manifest.json --format text
