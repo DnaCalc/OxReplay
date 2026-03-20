@@ -17,4 +17,10 @@ path = "src/main.rs"
 [dependencies]
 oxreplay-abstractions = { path = "../oxreplay-abstractions" }
 oxreplay-bundle = { path = "../oxreplay-bundle" }
+oxreplay-conformance = { path = "../oxreplay-conformance" }
+oxreplay-core = { path = "../oxreplay-core" }
+oxreplay-diff = { path = "../oxreplay-diff" }
+oxreplay-distill = { path = "../oxreplay-distill" }
+oxreplay-explain = { path = "../oxreplay-explain" }
+oxreplay-governance = { path = "../oxreplay-governance" }
 serde_json.workspace = true

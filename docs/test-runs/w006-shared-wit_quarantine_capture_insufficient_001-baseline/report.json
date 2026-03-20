@@ -1,0 +1,11 @@
+{
+  "witness_id": "witness-wit_quarantine_capture_insufficient_001",
+  "source_scenario_id": "wit_quarantine_capture_insufficient_001",
+  "predicate": {
+    "predicate_id": "preserve-reject-envelope",
+    "description": "Require enough replay evidence to preserve the reject envelope."
+  },
+  "outcome": {
+    "quarantined": "insufficient_capture"
+  }
+}

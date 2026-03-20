@@ -1,0 +1,9 @@
+{
+  "adapter_id": "adapter.minimal.valid",
+  "accepted": true,
+  "diagnostics": [],
+  "normalized_claimed_capabilities": [
+    "c0_ingest_valid"
+  ],
+  "lifecycle_required": false
+}

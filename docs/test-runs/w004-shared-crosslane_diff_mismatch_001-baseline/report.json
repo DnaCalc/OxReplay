@@ -1,0 +1,11 @@
+{
+  "equivalent": false,
+  "mismatches": [
+    {
+      "left_scenario_id": "tc_accept_publish_001",
+      "right_scenario_id": "oxfml_fec_accept_publication_001",
+      "mismatch_kind": "trace_event",
+      "severity": "semantic"
+    }
+  ]
+}

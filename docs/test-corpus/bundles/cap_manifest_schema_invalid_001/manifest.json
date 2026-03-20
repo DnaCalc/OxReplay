@@ -1,0 +1,28 @@
+{
+  "adapter_id": "adapter.schema.invalid",
+  "adapter_version": "0.1.0",
+  "lane_id": "oxfml",
+  "supported_source_schema_ids": [
+    "oxfml.local.source_schema.fec_commit_replay_cases.v1"
+  ],
+  "supported_replay_bundle_schema_versions": [
+    "replay.bundle.v1"
+  ],
+  "supported_capture_modes": [
+    "deterministic"
+  ],
+  "claimed_capability_levels": [
+    "cap.C9.unknown"
+  ],
+  "known_limits": [
+    "invalid capability fixture"
+  ],
+  "conformance_artifact_refs": [],
+  "registry_version_refs": [
+    {
+      "registry_family": "capability_level",
+      "registry_version": "foundation.replay.authoritative-pass-01.2026-03-15"
+    }
+  ],
+  "lifecycle_states": []
+}

@@ -1,0 +1,18 @@
+{
+  "scenario_id": "crosslane_diff_mismatch_001",
+  "purpose": "Cross-lane mismatch baseline between the first OxCalc and OxFml intake scenarios.",
+  "left": {
+    "kind": "oxcalc-tracecalc",
+    "path": "../OxCalc/docs/test-corpus/core-engine/tracecalc/hand-auditable/tc_accept_publish_001.json"
+  },
+  "right": {
+    "kind": "oxfml-fec-commit",
+    "path": "../OxFml/crates/oxfml_core/tests/fixtures/fec_commit_replay_cases.json",
+    "case_id": "fec_001_accept"
+  },
+  "expected_equivalent": false,
+  "notes": [
+    "This descriptor retains the current alias mapping from OxCalc tc_accept_publish_001 to OxReplay oxcalc_tracecalc_accept_publish_001.",
+    "This descriptor retains the current alias mapping from OxFml fec_001_accept to OxReplay oxfml_fec_accept_publication_001."
+  ]
+}

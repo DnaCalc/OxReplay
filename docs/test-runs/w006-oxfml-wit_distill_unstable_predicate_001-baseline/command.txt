@@ -1,0 +1,1 @@
+dna-recalc distill --bundle docs/test-corpus/witnesses/wit_distill_unstable_predicate_001/scenario.replay.json --kind normalized-replay --predicate-id unstable-oracle-reference --predicate-description "Retain the oracle-facing surface only when the unstable predicate remains satisfiable."

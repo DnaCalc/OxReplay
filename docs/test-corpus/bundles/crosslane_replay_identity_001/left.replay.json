@@ -1,0 +1,17 @@
+{
+  "scenario_id": "crosslane_replay_identity_001_left",
+  "lane_id": "oxcalc",
+  "events": [
+    {
+      "event_id": "left-01",
+      "source_label": "candidate_emitted",
+      "normalized_family": "candidate.built"
+    },
+    {
+      "event_id": "left-02",
+      "source_label": "candidate_published",
+      "normalized_family": "publication.committed"
+    }
+  ],
+  "registry_refs": []
+}

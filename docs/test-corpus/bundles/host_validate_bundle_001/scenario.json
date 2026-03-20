@@ -1,0 +1,5 @@
+{
+  "scenario_id": "host_validate_bundle_001",
+  "command_family": "validate-bundle",
+  "input_ref": "docs/test-corpus/bundles/rb_manifest_minimal_valid_001/manifest.json"
+}

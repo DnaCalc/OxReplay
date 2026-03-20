@@ -21,6 +21,11 @@ It does not redefine lane adapter semantics.
 Current planning scenario:
 1. `oxcalc_tracecalc_accept_publish_001`
 
+Current retained source and observations:
+1. source anchor: `../OxCalc/docs/test-corpus/core-engine/tracecalc/hand-auditable/tc_accept_publish_001.json`
+2. current alias mapping: `tc_accept_publish_001` -> `oxcalc_tracecalc_accept_publish_001`
+3. current conformance result in `OxReplay`: manifest loads, but current `cap.C4.distill_valid` claim is rejected locally until lifecycle states are declared
+
 Questions to answer during activation:
 1. which retained `TraceCalc` artifacts should be mirrored locally versus referenced remotely
 2. whether `engine_diff` is already sufficient for shared diff intake or requires a narrower projection pass
@@ -35,6 +40,11 @@ Questions to answer during activation:
 
 Current planning scenario:
 1. `oxfml_fec_accept_publication_001`
+
+Current retained source and observations:
+1. source anchor: `../OxFml/crates/oxfml_core/tests/fixtures/fec_commit_replay_cases.json` with case id `fec_001_accept`
+2. current alias mapping: `fec_001_accept` -> `oxfml_fec_accept_publication_001`
+3. current conformance result in `OxReplay`: manifest passes the local `C0` through `C3` validator floor and keeps `C4` scaffolded
 
 Questions to answer during activation:
 1. which fixture family should act as the first retained shared replay import
@@ -53,3 +63,7 @@ Write or update outbound notes if intake discovers:
 2. missing source identity fields needed by shared replay/explain
 3. lane-local naming drift that requires explicit adapter normalization
 4. lifecycle or registry requirements that are not yet exposed by the lane repo
+
+Current triggered outbound notes:
+1. `NOTES_FOR_OXCALC.md` for the current `C4` lifecycle-state gap and retained alias mapping
+2. `NOTES_FOR_OXFML.md` for the retained case-id alias mapping and first shared replay intake expectations

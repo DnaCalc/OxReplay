@@ -11,9 +11,10 @@ The baseline command families are:
 2. `replay`
 3. `diff`
 4. `explain`
-5. `validate-adapter`
-6. `witness-state`
-7. `pack-export`
+5. `distill`
+6. `validate-adapter`
+7. `witness-state`
+8. `pack-export`
 
 ## 3. Invocation shape
 The initial executable name is:
@@ -26,9 +27,12 @@ General invocation form:
 Common input flags should include:
 1. `--bundle <path>`
 2. `--adapter <path>`
-3. `--format json|text`
-4. `--output <path>`
-5. `--run-id <id>` when a retained or transient run id is required
+3. `--kind <kind>` for replay, diff, explain, and distill inputs
+4. `--case-id <id>` when a fixture family requires a stable case selection
+5. `--predicate-id <id>` and `--predicate-description <text>` for distillation
+6. `--format json|text`
+7. `--output <path>`
+8. `--run-id <id>` when a retained or transient run id is required
 
 ## 5. Output model
 Rules:
@@ -53,11 +57,13 @@ Rules:
    - compares candidate versus baseline replay surfaces using typed mismatch output
 4. `explain`
    - returns causal explanation records for replay, diff, reject, or lifecycle questions
-5. `validate-adapter`
+5. `distill`
+   - emits predicate-bound reduction manifests and quarantine outcomes without moving distillation into hot-path replay
+6. `validate-adapter`
    - validates adapter manifest shape, capability claims, registry refs, and declared limits
-6. `witness-state`
+7. `witness-state`
    - queries or updates witness lifecycle state through governed transitions only
-7. `pack-export`
+8. `pack-export`
    - emits pack-facing replay outputs without implying pack readiness unless evidence exists
 
 ## 8. Machine-readable floor

@@ -1,0 +1,4 @@
+{
+  "predicate_id": "preserve-reject-envelope",
+  "description": "Require enough replay evidence to preserve the reject envelope."
+}

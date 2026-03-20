@@ -1,0 +1,2 @@
+dna-recalc validate-adapter --adapter docs/test-corpus/bundles/cap_claim_matrix_floor_001/manifest.json --format json
+dna-recalc validate-adapter --adapter docs/test-corpus/bundles/cap_claim_matrix_floor_001/manifest.json --format text

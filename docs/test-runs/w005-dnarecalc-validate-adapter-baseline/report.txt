@@ -1,0 +1,5 @@
+accepted: false
+adapter_id: oxcalc-tracecalc-replay-adapter
+normalized_claimed_capabilities: 5
+diagnostics:
+  - distill/pack claims require declared lifecycle states

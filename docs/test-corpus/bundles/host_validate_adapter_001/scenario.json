@@ -1,0 +1,5 @@
+{
+  "scenario_id": "host_validate_adapter_001",
+  "command_family": "validate-adapter",
+  "input_ref": "../OxCalc/docs/spec/core-engine/CORE_ENGINE_REPLAY_ADAPTER_CAPABILITY_MANIFEST_V1.json"
+}

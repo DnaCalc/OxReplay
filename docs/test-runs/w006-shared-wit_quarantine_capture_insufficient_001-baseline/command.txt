@@ -1,0 +1,1 @@
+dna-recalc distill --bundle docs/test-corpus/witnesses/wit_quarantine_capture_insufficient_001/scenario.replay.json --kind normalized-replay --predicate-id preserve-reject-envelope --predicate-description "Require enough replay evidence to preserve the reject envelope."

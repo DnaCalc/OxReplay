@@ -1,0 +1,9 @@
+{
+  "witness_id": "witness-wit_distill_stable_001",
+  "source_scenario_id": "wit_distill_stable_001",
+  "predicate": {
+    "predicate_id": "preserve-publication-path",
+    "description": "Preserve the publication path while allowing non-semantic witness trimming."
+  },
+  "outcome": "stable"
+}

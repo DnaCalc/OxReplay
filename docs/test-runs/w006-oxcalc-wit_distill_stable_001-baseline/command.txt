@@ -1,0 +1,1 @@
+dna-recalc distill --bundle docs/test-corpus/witnesses/wit_distill_stable_001/scenario.replay.json --kind normalized-replay --predicate-id preserve-publication-path --predicate-description "Preserve the publication path while allowing non-semantic witness trimming."

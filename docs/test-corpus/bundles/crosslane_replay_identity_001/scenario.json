@@ -1,0 +1,13 @@
+{
+  "scenario_id": "crosslane_replay_identity_001",
+  "purpose": "Shared-runtime identity control over normalized replay scenarios from two lanes.",
+  "left": {
+    "kind": "normalized-replay",
+    "path": "left.replay.json"
+  },
+  "right": {
+    "kind": "normalized-replay",
+    "path": "right.replay.json"
+  },
+  "expected_equivalent": true
+}

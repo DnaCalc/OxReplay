@@ -1,0 +1,22 @@
+{
+  "scenario_id": "tc_accept_publish_001",
+  "lane_id": "oxcalc",
+  "events": [
+    {
+      "event_id": "candidate_admitted-01",
+      "source_label": "candidate_admitted",
+      "normalized_family": "candidate.admitted"
+    },
+    {
+      "event_id": "candidate_emitted-01",
+      "source_label": "candidate_emitted",
+      "normalized_family": "candidate.built"
+    },
+    {
+      "event_id": "candidate_published-01",
+      "source_label": "candidate_published",
+      "normalized_family": "publication.committed"
+    }
+  ],
+  "registry_refs": []
+}

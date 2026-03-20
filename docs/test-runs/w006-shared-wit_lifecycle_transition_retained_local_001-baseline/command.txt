@@ -1,0 +1,2 @@
+dna-recalc witness-state --record states/lifecycle/wit_lifecycle_transition_retained_local_001/record.json
+dna-recalc witness-state --record states/lifecycle/wit_lifecycle_transition_retained_local_001/record.json --next-state retained_local

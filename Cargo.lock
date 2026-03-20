@@ -38,6 +38,8 @@ dependencies = [
  "oxreplay-abstractions",
  "oxreplay-governance",
  "serde",
+ "serde_json",
+ "thiserror",
 ]
 
 [[package]]
@@ -46,6 +48,8 @@ version = "0.1.0"
 dependencies = [
  "oxreplay-abstractions",
  "serde",
+ "serde_json",
+ "thiserror",
 ]
 
 [[package]]
@@ -61,6 +65,7 @@ dependencies = [
 name = "oxreplay-distill"
 version = "0.1.0"
 dependencies = [
+ "oxreplay-abstractions",
  "oxreplay-core",
  "oxreplay-governance",
  "serde",
@@ -72,6 +77,12 @@ version = "0.1.0"
 dependencies = [
  "oxreplay-abstractions",
  "oxreplay-bundle",
+ "oxreplay-conformance",
+ "oxreplay-core",
+ "oxreplay-diff",
+ "oxreplay-distill",
+ "oxreplay-explain",
+ "oxreplay-governance",
  "serde_json",
 ]
 
@@ -89,6 +100,7 @@ version = "0.1.0"
 dependencies = [
  "oxreplay-abstractions",
  "serde",
+ "thiserror",
 ]
 
 [[package]]

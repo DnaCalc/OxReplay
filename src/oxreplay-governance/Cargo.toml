@@ -13,3 +13,4 @@ workspace = true
 [dependencies]
 oxreplay-abstractions = { path = "../oxreplay-abstractions" }
 serde.workspace = true
+thiserror.workspace = true

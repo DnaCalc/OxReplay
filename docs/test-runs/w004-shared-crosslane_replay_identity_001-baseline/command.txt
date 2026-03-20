@@ -1,0 +1,1 @@
+dna-recalc diff --left docs/test-corpus/bundles/crosslane_replay_identity_001/left.replay.json --left-kind normalized-replay --right docs/test-corpus/bundles/crosslane_replay_identity_001/right.replay.json --right-kind normalized-replay

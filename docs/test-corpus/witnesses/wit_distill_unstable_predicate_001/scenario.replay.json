@@ -1,0 +1,12 @@
+{
+  "scenario_id": "wit_distill_unstable_predicate_001",
+  "lane_id": "oxfml",
+  "events": [
+    {
+      "event_id": "unstable-01",
+      "source_label": "CommitAccepted",
+      "normalized_family": "publication.committed"
+    }
+  ],
+  "registry_refs": []
+}

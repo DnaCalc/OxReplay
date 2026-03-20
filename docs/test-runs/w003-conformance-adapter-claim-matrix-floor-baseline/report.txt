@@ -1,0 +1,4 @@
+accepted: true
+adapter_id: adapter.claim.matrix.floor
+normalized_claimed_capabilities: 4
+diagnostics: none

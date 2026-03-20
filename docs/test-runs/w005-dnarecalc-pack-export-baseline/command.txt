@@ -1,0 +1,1 @@
+dna-recalc pack-export --bundle docs/test-corpus/bundles/rb_bundle_index_projection_001/manifest.json

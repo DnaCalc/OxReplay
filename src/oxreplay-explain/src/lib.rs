@@ -1,6 +1,6 @@
 #![forbid(unsafe_code)]
 
-use oxreplay_diff::ReplayDiff;
+use oxreplay_diff::ReplayDiffReport;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -15,12 +15,21 @@ pub struct ExplainRecord {
     pub summary: String,
 }
 
-pub fn explain_diff(diff: &ReplayDiff) -> ExplainRecord {
+pub fn explain_diff(diff: &ReplayDiffReport) -> ExplainRecord {
+    if diff.equivalent {
+        return ExplainRecord {
+            query_id: "explain-equivalent".to_string(),
+            summary: "scenarios are equivalent on the current normalized replay surface"
+                .to_string(),
+        };
+    }
+
+    let first = &diff.mismatches[0];
     ExplainRecord {
-        query_id: format!("explain-{}", diff.left_scenario_id),
+        query_id: format!("explain-{}", first.left_scenario_id),
         summary: format!(
             "mismatch {:?} between {} and {}",
-            diff.mismatch_kind, diff.left_scenario_id, diff.right_scenario_id
+            first.mismatch_kind, first.left_scenario_id, first.right_scenario_id
         ),
     }
 }

@@ -1,0 +1,5 @@
+accepted: false
+adapter_id: adapter.registry.mismatch
+normalized_claimed_capabilities: 1
+diagnostics:
+  - unsupported registry family `mismatch_class`

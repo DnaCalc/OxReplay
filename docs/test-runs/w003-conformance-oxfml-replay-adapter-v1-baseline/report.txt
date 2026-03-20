@@ -1,0 +1,4 @@
+accepted: true
+adapter_id: oxfml.replay_adapter.v1
+normalized_claimed_capabilities: 4
+diagnostics: none

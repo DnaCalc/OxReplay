@@ -1,0 +1,27 @@
+{
+  "scenario_id": "oxfml_fec_accept_publication_001",
+  "lane_id": "oxfml",
+  "events": [
+    {
+      "event_id": "fec_001_accept-candidate",
+      "source_label": "AcceptedCandidateResultBuilt",
+      "normalized_family": "candidate.accepted"
+    },
+    {
+      "event_id": "fec_001_accept-publication",
+      "source_label": "CommitAccepted",
+      "normalized_family": "publication.committed"
+    },
+    {
+      "event_id": "fec_001_accept-spill",
+      "source_label": "SpillTakeover",
+      "normalized_family": "spill.observed"
+    },
+    {
+      "event_id": "fec_001_accept-payload",
+      "source_label": "Number(42)",
+      "normalized_family": "publication.payload"
+    }
+  ],
+  "registry_refs": []
+}

@@ -1,0 +1,1 @@
+dna-recalc explain --left ..\OxCalc\docs\test-corpus\core-engine\tracecalc\hand-auditable\tc_accept_publish_001.json --left-kind oxcalc-tracecalc --right ..\OxFml\crates\oxfml_core\tests\fixtures\fec_commit_replay_cases.json --right-kind oxfml-fec-commit --right-case-id fec_001_accept

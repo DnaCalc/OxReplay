@@ -1,0 +1,6 @@
+{
+  "scenario_id": "host_replay_bundle_001",
+  "command_family": "replay",
+  "input_ref": "../OxCalc/docs/test-corpus/core-engine/tracecalc/hand-auditable/tc_accept_publish_001.json",
+  "kind": "oxcalc-tracecalc"
+}

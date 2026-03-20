@@ -1,0 +1,12 @@
+{
+  "artifact_refs": [
+    {
+      "path": "docs/test-corpus/bundles/rb_bundle_index_projection_001/manifest.json"
+    }
+  ],
+  "bundle_id": "bundle-index-projection-001",
+  "command_id": "pack-export",
+  "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
+  "scenario_id": "rb_bundle_index_projection_001",
+  "status": "valid"
+}

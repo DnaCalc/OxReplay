@@ -1,0 +1,2 @@
+dna-recalc validate-adapter --adapter ..\OxFml\docs\spec\OXFML_REPLAY_ADAPTER_CAPABILITY_MANIFEST_V1.json --format json
+dna-recalc validate-adapter --adapter ..\OxFml\docs\spec\OXFML_REPLAY_ADAPTER_CAPABILITY_MANIFEST_V1.json --format text

@@ -1,0 +1,8 @@
+{
+  "scenario_id": "host_diff_bundle_001",
+  "command_family": "diff",
+  "left_ref": "docs/test-corpus/bundles/crosslane_replay_identity_001/left.replay.json",
+  "left_kind": "normalized-replay",
+  "right_ref": "docs/test-corpus/bundles/crosslane_replay_identity_001/right.replay.json",
+  "right_kind": "normalized-replay"
+}

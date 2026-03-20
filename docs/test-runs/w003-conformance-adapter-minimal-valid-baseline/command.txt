@@ -1,0 +1,2 @@
+dna-recalc validate-adapter --adapter docs/test-corpus/bundles/cap_manifest_minimal_valid_001/manifest.json --format json
+dna-recalc validate-adapter --adapter docs/test-corpus/bundles/cap_manifest_minimal_valid_001/manifest.json --format text

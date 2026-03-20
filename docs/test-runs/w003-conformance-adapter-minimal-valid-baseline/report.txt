@@ -1,0 +1,4 @@
+accepted: true
+adapter_id: adapter.minimal.valid
+normalized_claimed_capabilities: 1
+diagnostics: none

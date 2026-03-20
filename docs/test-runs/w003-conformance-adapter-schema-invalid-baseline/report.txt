@@ -1,0 +1,5 @@
+accepted: false
+adapter_id: adapter.schema.invalid
+normalized_claimed_capabilities: 0
+diagnostics:
+  - unsupported capability level `cap.C9.unknown`

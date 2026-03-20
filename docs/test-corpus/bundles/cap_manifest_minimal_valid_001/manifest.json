@@ -1,0 +1,30 @@
+{
+  "adapter_id": "adapter.minimal.valid",
+  "adapter_version": "0.1.0",
+  "lane_id": "oxcalc",
+  "supported_source_schema_ids": [
+    "tracecalc-s1"
+  ],
+  "supported_replay_bundle_schema_versions": [
+    "replay.bundle.v1"
+  ],
+  "supported_capture_modes": [
+    "deterministic"
+  ],
+  "claimed_capability_levels": [
+    "cap.C0.ingest_valid"
+  ],
+  "known_limits": [
+    "local manifest-shape fixture only"
+  ],
+  "conformance_artifact_refs": [
+    "docs/test-corpus/bundles/cap_manifest_minimal_valid_001/manifest.json"
+  ],
+  "registry_version_refs": [
+    {
+      "registry_family": "capability_level",
+      "registry_version": "foundation.replay.authoritative-pass-01.2026-03-15"
+    }
+  ],
+  "lifecycle_states": []
+}

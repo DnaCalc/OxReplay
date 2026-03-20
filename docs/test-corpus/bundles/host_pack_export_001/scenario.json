@@ -1,0 +1,5 @@
+{
+  "scenario_id": "host_pack_export_001",
+  "command_family": "pack-export",
+  "input_ref": "docs/test-corpus/bundles/rb_bundle_index_projection_001/manifest.json"
+}

@@ -1,14 +1,21 @@
 # CURRENT_BLOCKERS.md — OxReplay
 
-Status: no active blockers.
+Status: active blockers present.
 
-Last reviewed: 2026-03-16.
+Last reviewed: 2026-03-18.
 
 ---
 
 ## Active Blockers
 
-(none)
+### BLK-REPLAY-002: OxCalc manifest C4 lifecycle gap
+
+- **Status**: active
+- **Impact**: `W003` sibling-manifest acceptance, `W004` honest capability intake, and any local acceptance of `OxCalc` `cap.C4.distill_valid`
+- **Current state**: the retained `OxReplay` W003 conformance baseline rejects `../OxCalc/docs/spec/core-engine/CORE_ENGINE_REPLAY_ADAPTER_CAPABILITY_MANIFEST_V1.json` because it claims `cap.C4.distill_valid` without declaring lifecycle states
+- **Exact unblock steps**: either add explicit lifecycle states to the `OxCalc` manifest and keep the `C4` claim, or downgrade the current claim to `C3` and keep `C4` as target or scaffolded until lifecycle evidence is exposed
+- **Recommendation**: escalate
+- **Opened**: 2026-03-18
 
 ---
 

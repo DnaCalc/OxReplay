@@ -1,0 +1,17 @@
+{
+  "scenario_id": "wit_distill_stable_001",
+  "lane_id": "oxcalc",
+  "events": [
+    {
+      "event_id": "stable-01",
+      "source_label": "candidate_emitted",
+      "normalized_family": "candidate.built"
+    },
+    {
+      "event_id": "stable-02",
+      "source_label": "candidate_published",
+      "normalized_family": "publication.committed"
+    }
+  ],
+  "registry_refs": []
+}

@@ -1,0 +1,15 @@
+{
+  "adapter_id": "oxcalc-tracecalc-replay-adapter",
+  "accepted": false,
+  "diagnostics": [
+    "distill/pack claims require declared lifecycle states"
+  ],
+  "normalized_claimed_capabilities": [
+    "c0_ingest_valid",
+    "c1_replay_valid",
+    "c2_diff_valid",
+    "c3_explain_valid",
+    "c4_distill_valid"
+  ],
+  "lifecycle_required": true
+}

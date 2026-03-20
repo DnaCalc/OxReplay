@@ -1,0 +1,21 @@
+{
+  "status": "valid",
+  "manifest_path": "docs/test-corpus/bundles/rb_manifest_minimal_valid_001/manifest.json",
+  "bundle_id": "bundle-minimal-valid-001",
+  "scenario_id": "rb_manifest_minimal_valid_001",
+  "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
+  "capability_impact": "shared validate/ingest surface only; no adapter capability claim",
+  "errors": [],
+  "warnings": [],
+  "index": {
+    "registry_families": [
+      "capability_level"
+    ],
+    "sidecar_artifacts": [],
+    "view_artifacts": [
+      {
+        "path": "views/manifest-summary.json"
+      }
+    ]
+  }
+}

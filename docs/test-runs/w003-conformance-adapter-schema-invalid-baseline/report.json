@@ -1,0 +1,9 @@
+{
+  "adapter_id": "adapter.schema.invalid",
+  "accepted": false,
+  "diagnostics": [
+    "unsupported capability level `cap.C9.unknown`"
+  ],
+  "normalized_claimed_capabilities": [],
+  "lifecycle_required": false
+}

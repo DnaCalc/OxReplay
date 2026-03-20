@@ -1,0 +1,11 @@
+{
+  "adapter_id": "adapter.registry.mismatch",
+  "accepted": false,
+  "diagnostics": [
+    "unsupported registry family `mismatch_class`"
+  ],
+  "normalized_claimed_capabilities": [
+    "c0_ingest_valid"
+  ],
+  "lifecycle_required": false
+}

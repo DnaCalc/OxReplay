@@ -1,0 +1,12 @@
+{
+  "adapter_id": "adapter.claim.matrix.floor",
+  "accepted": true,
+  "diagnostics": [],
+  "normalized_claimed_capabilities": [
+    "c0_ingest_valid",
+    "c1_replay_valid",
+    "c2_diff_valid",
+    "c3_explain_valid"
+  ],
+  "lifecycle_required": false
+}

@@ -1,0 +1,4 @@
+{
+  "predicate_id": "unstable-oracle-reference",
+  "description": "Retain the oracle-facing surface only when the unstable predicate remains satisfiable."
+}

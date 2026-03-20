@@ -1,3 +1,3 @@
-# states/lifecycle
+# lifecycle
 
-Reserved for retained witness lifecycle and quarantine state examples when checked-in state is required.
+Reserved for retained witness lifecycle examples and governed transition fixtures.

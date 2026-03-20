@@ -9,23 +9,25 @@
    - status: complete
    - objective: stand up canonical bundle parsing, validation, and indexing.
 3. `W003_ADAPTER_CAPABILITY_AND_CONFORMANCE_HARNESS`
-   - status: planned
+   - status: complete
    - objective: validate adapter manifests and capability claims.
 4. `W004_OXCALC_OXFML_ADAPTER_INTAKE_AND_REPLAY_PATH`
-   - status: planned
+   - status: in_progress
    - objective: exercise initial adapters from the first two integrated lanes.
 5. `W005_DNA_RECALC_CLI_SHELL_AND_PACK_EXPORT_BASELINE`
-   - status: planned
+   - status: in_progress
    - objective: provide the first usable host shell and pack-facing replay export path.
 6. `W006_WITNESS_DISTILLATION_AND_LIFECYCLE_GOVERNANCE_BASELINE`
-   - status: planned
+   - status: in_progress
    - objective: stand up predicate-driven witness reduction and lifecycle/quarantine handling.
 
 ## Activation note
 1. The Rust-first stack is now declared for the repo.
 2. `W002` has now emitted retained validator fixtures and baseline outputs for the first bundle/runtime slice.
-3. `W003` is now the next activatable workset over the retained `W002` bundle baseline.
-4. `W004` through `W006` remain planned until later scope is explicitly activated.
+3. `W003` has now emitted retained conformance fixtures and baseline outputs, including current sibling-manifest acceptance and rejection cases.
+4. `W004` is now active over the first retained `OxCalc` and `OxFml` replay intake baselines and the first shared diff control/mismatch runs.
+5. `W005` is now active over the first usable `DNA ReCalc` host shell baselines for validate, replay, diff, explain, adapter validation, distill, witness-state, and pack export.
+6. `W006` is now active over retained distillation and lifecycle-governance examples; broad adapter `C4` and `C5` claims remain later evidence lanes.
 
 ## Reserved follow-on lane entry
 1. `OxCalc` remains the first lane expected to drive toward `C5.pack_valid`.

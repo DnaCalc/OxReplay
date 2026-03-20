@@ -1,0 +1,17 @@
+{
+  "scenario_id": "crosslane_replay_identity_001_right",
+  "lane_id": "oxfml",
+  "events": [
+    {
+      "event_id": "right-01",
+      "source_label": "CommitAccepted",
+      "normalized_family": "candidate.built"
+    },
+    {
+      "event_id": "right-02",
+      "source_label": "PublicationCommitted",
+      "normalized_family": "publication.committed"
+    }
+  ],
+  "registry_refs": []
+}

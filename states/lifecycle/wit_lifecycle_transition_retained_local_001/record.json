@@ -1,0 +1,9 @@
+{
+  "witness_id": "wit_lifecycle_transition_retained_local_001",
+  "lane_id": "oxcalc",
+  "scenario_id": "wit_lifecycle_transition_retained_local_001",
+  "state": "explanatory_only",
+  "quarantine_reason": null,
+  "supersedes": null,
+  "pack_eligible": false
+}

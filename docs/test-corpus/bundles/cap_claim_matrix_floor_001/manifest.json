@@ -1,0 +1,43 @@
+{
+  "adapter_id": "adapter.claim.matrix.floor",
+  "adapter_version": "0.1.0",
+  "lane_id": "oxcalc",
+  "supported_source_schema_ids": [
+    "tracecalc-s1"
+  ],
+  "supported_replay_bundle_schema_versions": [
+    "dna-replay-bundle/v1"
+  ],
+  "supported_capture_modes": [
+    "deterministic"
+  ],
+  "claimed_capability_levels": [
+    "cap.C0.ingest_valid",
+    "cap.C1.replay_valid",
+    "cap.C2.diff_valid",
+    "cap.C3.explain_valid"
+  ],
+  "target_capability_levels": [
+    "cap.C4.distill_valid"
+  ],
+  "known_limits": [
+    {
+      "limit_id": "local.limit.distill_not_proven",
+      "summary": "Distill remains a later lane."
+    }
+  ],
+  "conformance_artifact_refs": [
+    "docs/test-corpus/bundles/cap_claim_matrix_floor_001/manifest.json"
+  ],
+  "registry_version_refs": [
+    {
+      "registry_family": "predicate_kind",
+      "registry_version": "foundation.replay.authoritative-pass-01.2026-03-15"
+    },
+    {
+      "registry_family": "capability_level",
+      "registry_version": "foundation.replay.authoritative-pass-01.2026-03-15"
+    }
+  ],
+  "lifecycle_states": []
+}

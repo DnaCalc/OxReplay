@@ -1,0 +1,4 @@
+{
+  "predicate_id": "preserve-publication-path",
+  "description": "Preserve the publication path while allowing non-semantic witness trimming."
+}

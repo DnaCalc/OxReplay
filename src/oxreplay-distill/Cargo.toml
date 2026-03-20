@@ -11,6 +11,7 @@ publish = false
 workspace = true
 
 [dependencies]
+oxreplay-abstractions = { path = "../oxreplay-abstractions" }
 oxreplay-core = { path = "../oxreplay-core" }
 oxreplay-governance = { path = "../oxreplay-governance" }
 serde.workspace = true
