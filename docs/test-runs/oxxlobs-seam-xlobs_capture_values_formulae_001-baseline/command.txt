@@ -1,0 +1,2 @@
+dna-recalc validate-bundle --bundle ..\OxXlObs\states\excel\xlobs_capture_values_formulae_001\oxreplay-manifest.json --format json
+dna-recalc replay --bundle ..\OxXlObs\states\excel\xlobs_capture_values_formulae_001\views\normalized-replay.json --kind normalized-replay

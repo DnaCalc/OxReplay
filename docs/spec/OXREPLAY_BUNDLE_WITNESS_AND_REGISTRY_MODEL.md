@@ -36,14 +36,30 @@ The shared runtime is expected to handle these artifact families:
 5. use canonical registry ids when a replay-governed registry family exists and snapshot the required registry versions in retained artifacts,
 6. expose machine-usable failure classes for invalid bundles, unsupported capabilities, incompatible registries, or unstable distillation outcomes.
 
-## 5. Non-goals
+## 5. Non-`DNA ReCalc` host artifact use
+A downstream host such as `DNA OneCalc` may keep product-level artifacts such as scenarios, scenario runs, comparisons, and handoff packets outside `OxReplay`.
+
+When those artifacts rely on `OxReplay`, they should retain or point to:
+1. the replay bundle or view id,
+2. source lane and adapter identity,
+3. source schema lineage,
+4. capture mode and projection status,
+5. registry refs when present,
+6. lifecycle state and quarantine status when present,
+7. retained diff, explain, or reduction artifact refs.
+
+Rule:
+1. `OxReplay`-governed evidence should remain retained evidence,
+2. it should not be collapsed into UI-only or product-only state with no replay lineage.
+
+## 6. Non-goals
 `OxReplay` must not:
 1. invent missing source semantics,
 2. infer lane-local safe rewrites,
 3. silently coerce incompatible source schemas into "best effort" runtime behavior,
 4. treat witness lifecycle state as optional decoration.
 
-## 6. Suggested retained roots
+## 7. Suggested retained roots
 The initial retained artifact layout should prefer:
 1. `docs/test-corpus/bundles/`
    - canonical retained sample bundles and bundle-shape fixtures.
@@ -56,7 +72,7 @@ The initial retained artifact layout should prefer:
 5. `docs/test-runs/<run-id>/`
    - human-readable summaries of validation, conformance, and retained replay runs.
 
-## 7. Canonical registry families
+## 8. Canonical registry families
 The initial replay-governed registry families are:
 1. predicate kind,
 2. mismatch kind,
@@ -70,7 +86,11 @@ Registry rule:
 2. bundles snapshot the registry versions they depend on,
 3. lane-local labels may remain as explanatory metadata but do not replace canonical ids.
 
-## 8. Bootstrap validation slices
+Current conservative consumer rule:
+1. if a retained upstream artifact arrives without registry refs, treat that intake as provisional rather than silently upgrading it to a registry-pinned surface,
+2. do not make broad witness or pack claims over a lossy or registry-unpinned observation projection unless retained conformance says that is acceptable for the exact claim being made.
+
+## 9. Bootstrap validation slices
 The initial implementation sequence for these artifact families should be:
 1. ingest and validate canonical bundles,
 2. ingest and validate adapter capability manifests,
@@ -78,7 +98,7 @@ The initial implementation sequence for these artifact families should be:
 4. support replay and diff/explain inputs,
 5. add witness emission and lifecycle handling after the above are stable.
 
-## 9. Evidence rule
+## 10. Evidence rule
 Any runtime feature that claims support for one of the artifact families above must identify:
 1. the tracked artifact root,
 2. the relevant schema or registry versions,

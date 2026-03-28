@@ -26,7 +26,20 @@ The runtime should support:
 3. plugin-style adapters loaded by `DNA ReCalc`,
 4. conformance-only test adapters and fixtures.
 
-## 4. Capability ladder
+## 4. Downstream host consumer rule
+A non-`DNA ReCalc` host such as `DNA OneCalc` may consume `OxReplay` through:
+1. shared bundle schemas,
+2. shared replay runtime types,
+3. adapter capability validation,
+4. in-process or wrapped replay, diff, explain, distill, or witness-state services.
+
+That host must still:
+1. rely on declared adapter meaning,
+2. state the capability level it actually depends on,
+3. treat missing or provisional capability as a real product constraint,
+4. avoid presenting local product UX as the `DNA ReCalc` host contract.
+
+## 5. Capability ladder
 Shared capability levels are:
 1. `C0.ingest_valid`
 2. `C1.replay_valid`
@@ -39,14 +52,28 @@ Shared capability levels are:
 
 Downstream packs, hosts, and promotion packets must state the required capability level explicitly rather than assuming Replay support generically.
 
-## 5. Bootstrap rollout baseline
+## 6. Bootstrap rollout baseline
 Foundation rollout expectations for initial lane growth are:
 1. `OxCalc` is the first lane expected to drive toward `C5.pack_valid` and the first proving ground for shared diff and witness-distillation flows.
 2. `OxFml` should first prove ingest, replay, diff, and explain; distillation follows only after seam evidence stabilizes.
 3. `OxFunc` joins later through narrower initial replay surfaces and later capability growth.
 4. `OxVba` joins later through narrower initial conformance and host-policy replay surfaces.
 
-## 6. Required adapter manifest content
+## 7. Current conservative downstream floor
+For a downstream consumer such as `DNA OneCalc`, the current honest local floor is:
+
+| Surface | Conservative assumption | Local basis |
+|---|---|---|
+| `OxFml` | accepted through `C3.explain_valid`; do not assume `C4` or `C5` | `docs/test-runs/w003-conformance-oxfml-replay-adapter-v1-baseline/report.json`, `docs/upstream/NOTES_FOR_OXFML.md` |
+| `OxFunc` | no accepted local direct replay-intake floor yet | `docs/IN_PROGRESS_FEATURE_WORKLIST.md`, `docs/upstream/NOTES_FOR_OXFUNC.md` |
+| `OxXlObs` | accepted first-pass observation-source seam without a formal adapter capability claim; current replay-facing view remains `lossy` | `docs/spec/OXREPLAY_OXXLOBS_OBSERVATION_SEAM.md`, `docs/test-runs/oxxlobs-seam-xlobs_capture_values_formulae_001-baseline/` |
+| `OxVba` | later and narrower lane with no accepted local replay capability floor yet | `docs/IN_PROGRESS_FEATURE_WORKLIST.md`, `docs/upstream/NOTES_FOR_OXVBA.md` |
+
+Interpretation rule:
+1. absence of accepted local capability evidence means `no accepted capability claim`,
+2. planning docs and worklists do not upgrade that floor by themselves.
+
+## 8. Required adapter manifest content
 1. adapter id and version,
 2. lane id,
 3. supported source schemas,
@@ -57,7 +84,7 @@ Foundation rollout expectations for initial lane growth are:
 8. conformance artifact refs,
 9. registry version refs.
 
-## 7. Conformance runtime duties
+## 9. Conformance runtime duties
 `OxReplay` should provide shared machinery to:
 1. validate manifest shape,
 2. validate capability claims against shared rules,
@@ -65,7 +92,7 @@ Foundation rollout expectations for initial lane growth are:
 4. report missing lifecycle support for distillation or pack claims,
 5. emit machine-readable validation results for CI and `DNA ReCalc`.
 
-## 8. Distillation boundary
+## 10. Distillation boundary
 `OxReplay` may execute reduction search, but:
 1. preservation predicates remain explicit inputs,
 2. closure rules come from the adapter,
@@ -73,5 +100,5 @@ Foundation rollout expectations for initial lane growth are:
 4. unstable predicates or insufficient capture must produce explicit outcomes,
 5. witness lifecycle and quarantine handling remain governed outputs.
 
-## 9. Resulting rule
+## 11. Resulting rule
 `OxReplay` hosts the adapter runtime and conformance machinery, but the lane repos remain the semantic owners of what their adapters mean.

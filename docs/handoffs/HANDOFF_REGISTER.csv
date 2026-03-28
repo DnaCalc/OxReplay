@@ -1,1 +1,2 @@
 handoff_id,date,status,from_repo,to_repo,topic,artifact_path,notes
+HANDOFF_OXXLOBS_001,2026-03-20,acknowledged,OxReplay,OxXlObs,Initial observation-to-replay seam,docs/handoffs/HANDOFF_OXXLOBS_001_OBSERVATION_SEAM.md,OxXlObs responded with a dual-artifact seam and first emitted canonical intake artifacts

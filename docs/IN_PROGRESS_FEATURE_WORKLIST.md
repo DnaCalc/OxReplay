@@ -34,6 +34,11 @@
 2. `OxFml` should first prove ingest, replay, diff, and explain before distillation is widened.
 3. `OxFunc` and `OxVba` are later and narrower intake lanes; do not imply broad replay or pack-valid scope for them by default.
 
+## Downstream host note
+1. `DNA OneCalc` consumes current `OxReplay` surfaces as shared infrastructure, not as a second replay-host contract.
+2. The current honest floor for that consumer is accepted `OxFml` `C0` through `C3` plus the first accepted `OxXlObs` observation-source seam.
+3. Direct `OxFunc` and `OxVba` replay intake remain later narrower lanes.
+
 ## Activation rule
 Move a workset to `in_progress` only when:
 1. scope is explicit,

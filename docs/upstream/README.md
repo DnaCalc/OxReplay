@@ -12,7 +12,8 @@ Current local note files:
 2. `NOTES_FOR_OXFML.md`
 3. `NOTES_FOR_OXFUNC.md`
 4. `NOTES_FOR_OXVBA.md`
-5. `NOTES_FOR_FOUNDATION.md`
+5. `NOTES_FOR_OXXLOBS.md`
+6. `NOTES_FOR_FOUNDATION.md`
 
 Inbound notes to `OxReplay` are expected to live in the sibling repos, for example:
 1. `../OxCalc/docs/upstream/NOTES_FOR_OXREPLAY.md`

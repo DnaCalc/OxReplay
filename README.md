@@ -4,6 +4,8 @@ OxReplay is the shared Replay appliance implementation repo and library family f
 
 It exists to implement the cross-lane replay substrate defined by Foundation doctrine without taking ownership of lane-native semantics away from `OxFunc`, `OxFml`, `OxCalc`, or `OxVba`.
 
+It also provides the shared replay intake seam for observation-source repos such as `OxXlObs`, while keeping Excel-driving behavior outside this repo.
+
 ## Core responsibilities
 1. Canonical replay bundle parsing, validation, serialization, and indexing.
 2. Shared replay runtime surfaces for replay, diff, explain, and witness distillation.

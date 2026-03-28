@@ -13,7 +13,8 @@ It exists to provide reusable mechanics for:
 4. witness distillation,
 5. registry and lifecycle tooling,
 6. adapter capability validation,
-7. `DNA ReCalc`.
+7. `DNA ReCalc`,
+8. downstream host consumption through declared shared-runtime surfaces.
 
 ## 3. In scope
 1. Shared replay abstractions and runtime types.
@@ -23,6 +24,7 @@ It exists to provide reusable mechanics for:
 5. Registry snapshot handling and witness lifecycle mechanics.
 6. Adapter SDK, loader, and conformance harnesses.
 7. Pack-facing export mechanics for replay-governed packs.
+8. Shared runtime surfaces that a non-`DNA ReCalc` host may embed or invoke without taking semantic ownership.
 
 ## 4. Out of scope
 1. Semantic ownership of evaluator, function, coordinator, or VBA behavior.
@@ -35,9 +37,22 @@ It exists to provide reusable mechanics for:
 1. Foundation owns doctrine and governance.
 2. Lane repos own semantic meaning.
 3. `OxReplay` owns shared runtime mechanics.
-4. `DNA ReCalc` is the host surface over those mechanics.
+4. `DNA ReCalc` is the generic host surface over those mechanics.
+5. Downstream product hosts may consume those mechanics, but they remain separate hosts with their own UI, persistence, and orchestration policy.
 
-## 6. Module boundary model
+## 6. Non-`DNA ReCalc` host consumer rule
+A downstream spreadsheet proving host such as `DNA OneCalc` may:
+1. call `OxReplay` libraries or runtime services directly,
+2. emit canonical replay artifacts over its own scenarios or retained comparisons,
+3. surface replay, diff, explain, witness, and scenario-library controls in its own UI.
+
+It may not:
+1. redefine itself as `DNA ReCalc`,
+2. bypass adapters or canonical bundle contracts,
+3. move replay doctrine or witness-governance authority out of Foundation,
+4. use shared-runtime convenience to absorb lane-semantic meaning.
+
+## 7. Module boundary model
 The intended initial module split is:
 1. `Abstractions`
 2. `Bundle`
@@ -51,7 +66,7 @@ The intended initial module split is:
 
 This split is a starting model, not a frozen package map.
 
-## 7. Dependency constitution
+## 8. Dependency constitution
 Allowed:
 1. dependence on shared schemas and local abstractions,
 2. adapter loading through declared contracts,
@@ -60,9 +75,10 @@ Allowed:
 Forbidden without explicit override:
 1. importing lane-semantic internals into shared runtime interpretation,
 2. turning adapter helpers into semantic-core dependencies,
-3. letting `DNA ReCalc` become the semantic authority instead of the replay host.
+3. letting `DNA ReCalc` become the semantic authority instead of the replay host,
+4. letting a downstream product host bypass shared replay contracts by linking directly to lane-semantic internals.
 
-## 8. First bootstrap goals
+## 9. First bootstrap goals
 1. Stand up bundle and schema validation.
 2. Validate adapter capability manifests.
 3. Load and exercise initial `OxCalc` and `OxFml` adapters.

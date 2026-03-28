@@ -48,10 +48,18 @@ The ids below are planning commitments until the retained artifacts exist.
 | `quarantine_required` | `wit_quarantine_capture_insufficient_001` | `docs/test-corpus/witnesses/wit_quarantine_capture_insufficient_001/` |
 | `lifecycle_transition` | `wit_lifecycle_transition_retained_local_001` | `states/lifecycle/wit_lifecycle_transition_retained_local_001/` |
 
-## 7. Naming rule
+## 7. Reserved OxXlObs seam classes
+| Replay class | Scenario id | Planned retained root |
+|---|---|---|
+| `xlobs_manifest_shape_valid` | `xlobs_manifest_minimal_valid_001` | reserved until `OxXlObs` emits a retained manifest fixture |
+| `xlobs_observation_bundle_valid` | `xlobs_capture_values_formulae_001` | acknowledged emitted scenario from `../OxXlObs/states/excel/xlobs_capture_values_formulae_001/` |
+| `xlobs_capture_loss_declared` | `xlobs_capture_loss_formula_unavailable_001` | acknowledged proposed first capture-loss scenario from `OxXlObs` |
+| `xlobs_diff_ready_against_dna` | `xlobs_diff_ready_against_dna_001` | reserved until `OxXlObs` proposes the first Excel-vs-DNA comparison-ready scenario |
+
+## 8. Naming rule
 Scenario ids must remain stable once a retained artifact root is created.
 
-## 8. Widening rule
+## 9. Widening rule
 Later scenario families should:
 1. add new ids rather than mutate existing ids silently,
 2. record supersession explicitly if a scenario family is replaced,
