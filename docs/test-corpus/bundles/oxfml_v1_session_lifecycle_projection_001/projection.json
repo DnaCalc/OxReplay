@@ -1,0 +1,21 @@
+{
+  "source_artifact_family": "runtime_managed_commit",
+  "source_schema_id": "oxfml.replay_projection.v1",
+  "source_case_id": "session_001_commit",
+  "source_case_ids": [
+    "session_001_open",
+    "session_001_execute",
+    "session_001_commit"
+  ],
+  "shared_scenario_alias": "oxfml_session_lifecycle_001",
+  "formula_stable_id": "replay:session",
+  "session_id": "session-001",
+  "phase": "Committed",
+  "candidate_result_id": "cand-session-001",
+  "commit_decision_kind": "accepted",
+  "trace_event_kinds": [
+    "SessionOpened",
+    "ManagedExecutionCompleted",
+    "CommitAccepted"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "source_artifact_family": "runtime_managed_commit",
+  "source_schema_id": "oxfml.replay_projection.v1",
+  "source_fixture_family": "fec_commit_replay_cases",
+  "source_case_id": "fec_001_accept",
+  "source_case_ids": [
+    "fec_001_accept"
+  ],
+  "shared_scenario_alias": "oxfml_fec_accept_publication_001",
+  "formula_stable_id": "replay:runtime",
+  "session_id": "session-accept-001",
+  "library_context_snapshot_ref": {
+    "snapshot_id": "ctx-main",
+    "snapshot_version": "v1"
+  },
+  "typed_query_bundle_spec": {
+    "families": [
+      "workbook_structure",
+      "runtime_bindings"
+    ]
+  },
+  "registry_pin": "reg-oxfml-2026-04-01",
+  "phase": "Committed",
+  "candidate_result_id": "cand-accept-001",
+  "commit_decision_kind": "accepted",
+  "trace_event_kinds": [
+    "CommitAccepted",
+    "PublishedPayloadReady"
+  ],
+  "first_host_replay_capture_packet": {
+    "formula_stable_id": "replay:runtime",
+    "candidate_result_id": "cand-accept-001",
+    "commit_decision_kind": "accepted"
+  }
+}

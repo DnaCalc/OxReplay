@@ -4,7 +4,7 @@ use oxreplay_bundle::{ValidationStatus, render_text_report, validate_bundle_at_p
 use oxreplay_conformance::{load_manifest_from_path, validate_manifest};
 use oxreplay_core::{
     ReplayScenario, load_oxcalc_tracecalc_projection, load_oxfml_fec_projection,
-    load_replay_scenario_from_path,
+    load_oxfml_v1_replay_projection, load_replay_scenario_from_path,
 };
 use oxreplay_diff::diff_summary;
 use oxreplay_distill::{ReductionOutcome, ReplayPreservationPredicate, planned_reduction};
@@ -301,7 +301,9 @@ fn run_distill(args: Vec<String>) -> i32 {
         return 2;
     };
     let Some(kind) = kind else {
-        eprintln!("distill requires --kind <oxcalc-tracecalc|oxfml-fec-commit|normalized-replay>");
+        eprintln!(
+            "distill requires --kind <oxcalc-tracecalc|oxfml-v1-replay-projection|oxfml-fec-commit|normalized-replay>"
+        );
         return 2;
     };
     let Some(predicate_id) = predicate_id else {
@@ -484,7 +486,9 @@ fn parse_replay_input(args: Vec<String>) -> Result<ReplayScenario, i32> {
         return Err(2);
     };
     let Some(kind) = kind else {
-        eprintln!("replay requires --kind <oxcalc-tracecalc|oxfml-fec-commit|normalized-replay>");
+        eprintln!(
+            "replay requires --kind <oxcalc-tracecalc|oxfml-v1-replay-projection|oxfml-fec-commit|normalized-replay>"
+        );
         return Err(2);
     };
 
@@ -548,6 +552,10 @@ fn load_scenario_by_kind(
             4
         }),
         "normalized-replay" => load_replay_scenario_from_path(path).map_err(|error| {
+            eprintln!("{error}");
+            4
+        }),
+        "oxfml-v1-replay-projection" => load_oxfml_v1_replay_projection(path).map_err(|error| {
             eprintln!("{error}");
             4
         }),

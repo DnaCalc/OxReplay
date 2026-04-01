@@ -34,6 +34,11 @@ Common input flags should include:
 7. `--output <path>`
 8. `--run-id <id>` when a retained or transient run id is required
 
+Current seam-transition rule:
+1. lane-specific raw fixture or helper inputs are acceptable while the relevant lane replay facade is still only a declared target surface,
+2. once a lane publishes a preferred replay projection result as its declared consumer-facing seam, `DNA ReCalc` should treat that projection result as the preferred intake packet rather than continuing to privilege fixture-family-specific arguments,
+3. `OxFml` has now published that preferred `OxFml_V1` replay projection seam, so `--kind oxfml-v1-replay-projection` is the preferred ordinary intake and `--kind oxfml-fec-commit --case-id <id>` remains transitional support only.
+
 ## 5. Output model
 Rules:
 1. `--format json` is the machine-usable baseline

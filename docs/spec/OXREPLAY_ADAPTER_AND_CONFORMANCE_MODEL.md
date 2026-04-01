@@ -26,6 +26,15 @@ The runtime should support:
 3. plugin-style adapters loaded by `DNA ReCalc`,
 4. conformance-only test adapters and fixtures.
 
+### 3.1 Consumer-facing seam direction may narrow without changing semantic ownership
+Lane repos may also define a preferred consumer-facing facade over their adapter-facing or replay-facing projection surfaces.
+
+Rule:
+1. `OxReplay` should prefer the lane-declared consumer-facing replay projection surface when one exists and when it preserves the required replay-governed metadata,
+2. once that preferred replay-facing surface is landed and declared canonical by the lane repo, `OxReplay` should treat it as the ordinary intake seam and demote helper- or fixture-family-specific intake to transitional support,
+3. such a facade narrows consumer entrypoints but does not transfer semantic ownership from the lane repo to `OxReplay`,
+4. packaging changes alone do not upgrade capability claims.
+
 ## 4. Downstream host consumer rule
 A non-`DNA ReCalc` host such as `DNA OneCalc` may consume `OxReplay` through:
 1. shared bundle schemas,
@@ -36,8 +45,12 @@ A non-`DNA ReCalc` host such as `DNA OneCalc` may consume `OxReplay` through:
 That host must still:
 1. rely on declared adapter meaning,
 2. state the capability level it actually depends on,
-3. treat missing or provisional capability as a real product constraint,
-4. avoid presenting local product UX as the `DNA ReCalc` host contract.
+3. treat missing or provisional capability as a real product constraint rather than a cosmetic label,
+4. gate product modes against the honest capability floor for each active lane,
+5. surface lossy, registry-unpinned, or capture-incomplete inputs visibly when they affect comparison or witness reliability,
+6. avoid presenting local product UX as the `DNA ReCalc` host contract.
+
+For the full downstream-host consumption model, see `docs/spec/OXREPLAY_DNA_ONECALC_CONSUMPTION_MODEL.md`.
 
 ## 5. Capability ladder
 Shared capability levels are:
@@ -71,7 +84,9 @@ For a downstream consumer such as `DNA OneCalc`, the current honest local floor 
 
 Interpretation rule:
 1. absence of accepted local capability evidence means `no accepted capability claim`,
-2. planning docs and worklists do not upgrade that floor by themselves.
+2. planning docs and worklists do not upgrade that floor by themselves,
+3. an observation-source seam such as `OxXlObs` without a formal adapter capability manifest is treated as a provisional observation intake, not as a capability-bearing lane adapter,
+4. a downstream host mode that requires a capability floor beyond the current honest evidence must be hidden, disabled, or explicitly marked provisional.
 
 ## 8. Required adapter manifest content
 1. adapter id and version,
@@ -91,6 +106,13 @@ Interpretation rule:
 3. surface registry-version mismatches,
 4. report missing lifecycle support for distillation or pack claims,
 5. emit machine-readable validation results for CI and `DNA ReCalc`.
+
+For lane-declared replay projection surfaces, `OxReplay` should also validate that the preferred projection result preserves the metadata required for honest replay intake when that metadata is part of the declared seam:
+1. source identity and alias publication where applicable,
+2. source schema and source artifact family,
+3. pinned library-context refs when present,
+4. typed query bundle and replay-capture carriage when present,
+5. registry bindings, capability floor, and lifecycle metadata when applicable.
 
 ## 10. Distillation boundary
 `OxReplay` may execute reduction search, but:

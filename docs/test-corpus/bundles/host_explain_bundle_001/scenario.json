@@ -3,7 +3,6 @@
   "command_family": "explain",
   "left_ref": "../OxCalc/docs/test-corpus/core-engine/tracecalc/hand-auditable/tc_accept_publish_001.json",
   "left_kind": "oxcalc-tracecalc",
-  "right_ref": "../OxFml/crates/oxfml_core/tests/fixtures/fec_commit_replay_cases.json",
-  "right_kind": "oxfml-fec-commit",
-  "right_case_id": "fec_001_accept"
+  "right_ref": "docs/test-corpus/bundles/oxfml_v1_replay_projection_001/projection.json",
+  "right_kind": "oxfml-v1-replay-projection"
 }

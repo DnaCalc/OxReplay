@@ -23,15 +23,20 @@ It is the generic replay host reference surface for `OxReplay`.
 ## 4. Relationship to other hosts
 A non-`DNA ReCalc` host such as `DNA OneCalc` may:
 1. call `OxReplay` libraries,
-2. embed replay, diff, explain, or witness views in its own UI,
-3. retain `OxReplay` outputs as part of its own scenario or handoff model.
+2. embed shared runtime strata as in-process dependencies,
+3. embed replay, diff, explain, or witness views in its own UI,
+4. retain `OxReplay` outputs as part of its own scenario or handoff model,
+5. use capability validation and conformance outputs to gate its own product modes.
 
 That does not make it `DNA ReCalc`.
 
 Working rule:
-1. `DNA ReCalc` remains the canonical shared replay-host contract,
+1. `DNA ReCalc` remains the canonical shared replay-host contract and CLI reference surface,
 2. `DNA OneCalc` remains a separate proving host that consumes shared replay mechanics,
-3. any app-facing `DNA OneCalc` replay UX is a host-local projection over `OxReplay`, not a rewrite of the `DNA ReCalc` host contract.
+3. any app-facing `DNA OneCalc` replay UX is a host-local projection over `OxReplay`, not a rewrite of the `DNA ReCalc` host contract,
+4. a downstream host must not embed or re-expose the `DNA ReCalc` host shell as a subsystem.
+
+For the detailed non-`DNA ReCalc` downstream-host consumption model, see `docs/spec/OXREPLAY_DNA_ONECALC_CONSUMPTION_MODEL.md`.
 
 ## 5. Initial command families
 The initial host should expect to cover:
@@ -59,3 +64,11 @@ It should consume lane behavior through adapters and canonical bundles rather th
 2. Exercise initial `OxCalc` and `OxFml` adapters.
 3. Surface typed diffs and causal explanations.
 4. Delay broader UI ambitions until the shared runtime is stable.
+
+## 9. Current OxFml seam read
+For `OxFml`, `DNA ReCalc` should prefer the landed `OxFml_V1` replay projection seam over fixture-family-specific helper intake.
+
+Working rule:
+1. ordinary OxFml replay intake should consume the replay projection packet through the `OxFml_V1` seam,
+2. fixture-family-specific `oxfml-fec-commit` intake remains transitional support for retained historical evidence and narrow compatibility only,
+3. `DNA ReCalc` should preserve surfaced OxFml replay metadata rather than collapsing it into a thinner local alias-only projection.

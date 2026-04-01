@@ -26,7 +26,9 @@
 2. `W002` has now emitted retained validator fixtures and baseline outputs for the first bundle/runtime slice.
 3. `W003` has now emitted retained conformance fixtures and baseline outputs, including current sibling-manifest acceptance and rejection cases.
 4. `W004` is now active over the first retained `OxCalc` and `OxFml` replay intake baselines and the first shared diff control/mismatch runs.
+   - current note: the local OxFml replay intake now prefers the landed `OxFml_V1` projection seam; historical FEC helper intake is retained as transitional support only.
 5. `W005` is now active over the first usable `DNA ReCalc` host shell baselines for validate, replay, diff, explain, adapter validation, distill, witness-state, and pack export.
+   - current note: retained `DNA ReCalc` replay, diff, and explain evidence for OxFml has been refreshed to the preferred `oxfml-v1-replay-projection` intake path where applicable.
 6. `W006` is now active over retained distillation and lifecycle-governance examples; broad adapter `C4` and `C5` claims remain later evidence lanes.
 
 ## Reserved follow-on lane entry

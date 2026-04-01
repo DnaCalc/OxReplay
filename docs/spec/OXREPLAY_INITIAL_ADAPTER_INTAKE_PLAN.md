@@ -48,11 +48,34 @@ Current retained source and observations:
 1. source anchor: `../OxFml/crates/oxfml_core/tests/fixtures/fec_commit_replay_cases.json` with case id `fec_001_accept`
 2. current alias mapping: `fec_001_accept` -> `oxfml_fec_accept_publication_001`
 3. current conformance result in `OxReplay`: manifest passes the local `C0` through `C3` validator floor and keeps `C4` scaffolded
+4. current OxFml reply to `OxReplay`: `../OxFml/docs/upstream/NOTES_FOR_OXREPLAY.md`
+5. current canonical `OxFml_V1` consumer packet for this seam: `../OxFml/docs/spec/OXFML_CONSUMER_INTERFACE_AND_FACADE_CONTRACT_V1.md`
+
+Current consumed `OxFml_V1` seam from OxFml:
+1. the preferred OxFml -> `OxReplay` entry surface is the replay facade rather than broad helper or fixture-family dependence
+2. the current replay-facing packet family is:
+   - `ReplayProjectionRequest`
+   - `ReplayProjectionService`
+   - `ReplayProjectionResult`
+3. the preferred ordinary public module entry for downstream consumers is `oxfml_core::consumer::replay`, with `consumer::runtime` used only when projection begins from runtime or session result objects
+4. the consumed projection result should preserve:
+   - source case id
+   - shared scenario alias when present
+   - source schema id and source artifact family
+   - pinned `LibraryContextSnapshotRef` when present
+   - typed query bundle carriage and replay-relevant captured packet truth when present
+   - registry bindings and lifecycle metadata when applicable
+   - lifecycle metadata when applicable
+   - canonical replay envelope refs and sidecar refs
+5. shared-scenario alias publication is expected inline in projection results rather than as a separate alias sidecar
+6. current helper and adapter projection paths remain transitional support only; they are no longer the preferred consumer seam
+7. this seam direction is packaging and metadata publication only; it does not widen the current accepted OxFml capability floor beyond `C3`
 
 Questions to answer during activation:
-1. which fixture family should act as the first retained shared replay import
-2. what the first shared explain surface should consume
-3. what remains local-only evidence versus retained shared replay evidence
+1. which retained OxFml V1 projection packets should be checked in locally as stable replay-governed evidence beyond the first accepted packet
+2. which session-lifecycle packet should act as the first retained shared replay import after the accepted FEC-style commit projection
+3. what the first shared explain surface should consume once replay projection results become the preferred intake packet
+4. what remains local-only evidence versus retained shared replay evidence during the transition from helper intake to replay-facade intake
 
 ## 5. Shared intake invariants
 1. `OxReplay` consumes declared adapter meaning; it does not reinterpret lane semantics
@@ -102,3 +125,6 @@ Current triggered outbound notes:
 1. `NOTES_FOR_OXCALC.md` for the current `C4` lifecycle-state gap and retained alias mapping
 2. `NOTES_FOR_OXFML.md` for the retained case-id alias mapping and first shared replay intake expectations
 3. `NOTES_FOR_OXXLOBS.md` for the initial observation-to-replay seam expectations
+
+Current processed inbound reply:
+1. `../OxFml/docs/upstream/NOTES_FOR_OXREPLAY.md` is now treated locally as the current `OxFml_V1` replay consumer seam for downstream implementation

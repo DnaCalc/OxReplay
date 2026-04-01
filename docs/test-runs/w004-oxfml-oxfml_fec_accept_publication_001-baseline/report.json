@@ -3,25 +3,55 @@
   "lane_id": "oxfml",
   "events": [
     {
-      "event_id": "fec_001_accept-candidate",
-      "source_label": "AcceptedCandidateResultBuilt",
+      "event_id": "oxfml_fec_accept_publication_001-01",
+      "source_label": "accepted",
       "normalized_family": "candidate.accepted"
     },
     {
-      "event_id": "fec_001_accept-publication",
-      "source_label": "CommitAccepted",
+      "event_id": "oxfml_fec_accept_publication_001-02",
+      "source_label": "Committed",
       "normalized_family": "publication.committed"
     },
     {
-      "event_id": "fec_001_accept-spill",
-      "source_label": "SpillTakeover",
-      "normalized_family": "spill.observed"
-    },
-    {
-      "event_id": "fec_001_accept-payload",
-      "source_label": "Number(42)",
+      "event_id": "oxfml_fec_accept_publication_001-03",
+      "source_label": "PublishedPayloadReady",
       "normalized_family": "publication.payload"
     }
   ],
-  "registry_refs": []
+  "registry_refs": [],
+  "source_metadata": {
+    "candidate_result_id": "cand-accept-001",
+    "commit_decision_kind": "accepted",
+    "first_host_replay_capture_packet": {
+      "candidate_result_id": "cand-accept-001",
+      "commit_decision_kind": "accepted",
+      "formula_stable_id": "replay:runtime"
+    },
+    "formula_stable_id": "replay:runtime",
+    "library_context_snapshot_ref": {
+      "snapshot_id": "ctx-main",
+      "snapshot_version": "v1"
+    },
+    "phase": "Committed",
+    "registry_pin": "reg-oxfml-2026-04-01",
+    "session_id": "session-accept-001",
+    "shared_scenario_alias": "oxfml_fec_accept_publication_001",
+    "source_artifact_family": "runtime_managed_commit",
+    "source_case_id": "fec_001_accept",
+    "source_case_ids": [
+      "fec_001_accept"
+    ],
+    "source_fixture_family": "fec_commit_replay_cases",
+    "source_schema_id": "oxfml.replay_projection.v1",
+    "trace_event_kinds": [
+      "CommitAccepted",
+      "PublishedPayloadReady"
+    ],
+    "typed_query_bundle_spec": {
+      "families": [
+        "workbook_structure",
+        "runtime_bindings"
+      ]
+    }
+  }
 }

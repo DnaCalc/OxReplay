@@ -62,6 +62,7 @@ mod tests {
                 normalized_family: "candidate.built".to_string(),
             }],
             registry_refs: Vec::new(),
+            source_metadata: None,
         }
     }
 
