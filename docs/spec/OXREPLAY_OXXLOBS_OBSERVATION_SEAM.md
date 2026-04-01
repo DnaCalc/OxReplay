@@ -112,14 +112,36 @@ Still provisional:
 3. witness creation and scenario-library growth,
 4. replay-visible comparison controls in its own UI.
 
-Current consumer rule:
+### 10.1 Current consumer rule
 1. `DNA OneCalc` should treat the current `OxXlObs` replay-facing normalized view as a first-pass observation projection,
 2. it should not treat that projection as broad semantic equivalence truth,
 3. it must keep source observation identity, projection status, and capture-loss visible when those affect interpretation.
 
-Platform rule:
+### 10.2 Labeling rule
+When `DNA OneCalc` retains or displays `OxXlObs`-originated artifacts consumed through `OxReplay`:
+1. the source lane should be labeled `oxxlobs` with observation source kind `excel`,
+2. the projection status should be labeled `lossy` when the current normalized replay view is explicitly lossy,
+3. the capture mode should be carried as declared by `OxXlObs`, typically `excel_black_box_observation`,
+4. Excel build, version, channel, workbook fingerprint, and trigger-recipe provenance should be surfaced when available,
+5. capture-loss, downgraded-instrumentation, unavailable-surface, or nondeterminism markers must be carried through into retained downstream artifacts and UI state.
+
+### 10.3 Comparison reliability badge
+Comparisons that involve `OxXlObs`-originated inputs should carry a reliability badge:
+1. `direct` only when the compared observation surface is directly captured with no declared projection loss,
+2. `lossy` when the current retained view explicitly drops or normalizes facts,
+3. `provisional` when the comparison depends on a still-provisional seam, capability floor, or registry-unpinned input.
+
+The badge must be visible in both the UI and retained comparison artifacts.
+
+### 10.4 Interpretation caution
+1. value-sensitive differential structure should widen beyond string-encoded normalized families before broad equivalence claims are made,
+2. `DNA OneCalc` should not present `OxXlObs`-backed comparison as Excel parity truth where the underlying view is declared lossy,
+3. the current seam lacks a formal adapter capability manifest and richer registry-pinned diff structure; that absence is a real product constraint, not a cosmetic gap.
+
+### 10.5 Platform rule
 1. live Excel-backed comparison remains Windows-only because the current live `OxXlObs` capture path remains Windows-only,
-2. non-Windows hosts may still replay, diff, and explain retained `OxXlObs` artifacts through `OxReplay`.
+2. non-Windows hosts may still replay, diff, and explain retained `OxXlObs` artifacts through `OxReplay`,
+3. the `DNA OneCalc` UI must surface the Windows-only restriction when the active mode involves live Excel observation.
 
 ## 11. Resulting rule
 The `OxXlObs` seam is ready when `OxXlObs` can hand `OxReplay` declared, provenance-rich, replay-ready observation artifacts without forcing `OxReplay` to absorb Excel-driving logic or semantic ownership.

@@ -43,14 +43,20 @@ It exists to provide reusable mechanics for:
 ## 6. Non-`DNA ReCalc` host consumer rule
 A downstream spreadsheet proving host such as `DNA OneCalc` may:
 1. call `OxReplay` libraries or runtime services directly,
-2. emit canonical replay artifacts over its own scenarios or retained comparisons,
-3. surface replay, diff, explain, witness, and scenario-library controls in its own UI.
+2. embed shared runtime strata (`Abstractions`, `Bundle`, `Core`, `Diff`, `Explain`, `Distill`, `Governance`, `Conformance`) as in-process dependencies,
+3. emit canonical replay artifacts over its own scenarios or retained comparisons,
+4. surface replay, diff, explain, witness, and scenario-library controls in its own UI,
+5. use capability and conformance validation outputs to gate its own product modes.
 
 It may not:
 1. redefine itself as `DNA ReCalc`,
-2. bypass adapters or canonical bundle contracts,
-3. move replay doctrine or witness-governance authority out of Foundation,
-4. use shared-runtime convenience to absorb lane-semantic meaning.
+2. embed or re-expose the `DNA ReCalc` host shell as a subsystem,
+3. bypass adapters or canonical bundle contracts,
+4. locally extend shared id families, mismatch kinds, or lifecycle states without upstream promotion,
+5. move replay doctrine or witness-governance authority out of Foundation,
+6. use shared-runtime convenience to absorb lane-semantic meaning.
+
+For the detailed downstream-host consumption contract, see `docs/spec/OXREPLAY_DNA_ONECALC_CONSUMPTION_MODEL.md`.
 
 ## 7. Module boundary model
 The intended initial module split is:

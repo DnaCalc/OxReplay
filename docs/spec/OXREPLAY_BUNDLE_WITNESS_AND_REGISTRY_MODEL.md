@@ -52,6 +52,16 @@ Rule:
 1. `OxReplay`-governed evidence should remain retained evidence,
 2. it should not be collapsed into UI-only or product-only state with no replay lineage.
 
+### 5.1 Lossy and registry-unpinned input obligations for downstream hosts
+When a downstream host such as `DNA OneCalc` consumes artifacts that are explicitly lossy, registry-unpinned, or capture-incomplete:
+
+1. the downstream artifact must carry the `lossy`, `provisional`, or `unpinned` status through to its own retained state and UI,
+2. the host must not silently upgrade a lossy or unpinned intake into a registry-pinned or capture-complete surface,
+3. witness, pack, and semantic-equivalence claims over such inputs must acknowledge the intake status explicitly,
+4. if registry pinning is later added upstream, the downstream artifact should record the transition rather than back-dating the pinning.
+
+For the full downstream-host lineage obligations, see `docs/spec/OXREPLAY_DNA_ONECALC_CONSUMPTION_MODEL.md` Section 7.
+
 ## 6. Non-goals
 `OxReplay` must not:
 1. invent missing source semantics,
