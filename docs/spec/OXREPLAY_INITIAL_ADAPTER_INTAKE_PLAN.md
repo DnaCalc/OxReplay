@@ -45,8 +45,8 @@ Current planning scenario:
 1. `oxfml_fec_accept_publication_001`
 
 Current retained source and observations:
-1. source anchor: `../OxFml/crates/oxfml_core/tests/fixtures/fec_commit_replay_cases.json` with case id `fec_001_accept`
-2. current alias mapping: `fec_001_accept` -> `oxfml_fec_accept_publication_001`
+1. retained intake anchor: `docs/test-corpus/bundles/oxfml_v1_replay_projection_001/projection.json`
+2. current shared scenario alias carried by the retained intake packet: `oxfml_fec_accept_publication_001`
 3. current conformance result in `OxReplay`: manifest passes the local `C0` through `C3` validator floor and keeps `C4` scaffolded
 4. current OxFml reply to `OxReplay`: `../OxFml/docs/upstream/NOTES_FOR_OXREPLAY.md`
 5. current canonical `OxFml_V1` consumer packet for this seam: `../OxFml/docs/spec/OXFML_CONSUMER_INTERFACE_AND_FACADE_CONTRACT_V1.md`
@@ -68,14 +68,13 @@ Current consumed `OxFml_V1` seam from OxFml:
    - lifecycle metadata when applicable
    - canonical replay envelope refs and sidecar refs
 5. shared-scenario alias publication is expected inline in projection results rather than as a separate alias sidecar
-6. current helper and adapter projection paths remain transitional support only; they are no longer the preferred consumer seam
-7. this seam direction is packaging and metadata publication only; it does not widen the current accepted OxFml capability floor beyond `C3`
+6. this seam direction is packaging and metadata publication only; it does not widen the current accepted OxFml capability floor beyond `C3`
 
 Questions to answer during activation:
 1. which retained OxFml V1 projection packets should be checked in locally as stable replay-governed evidence beyond the first accepted packet
 2. which session-lifecycle packet should act as the first retained shared replay import after the accepted FEC-style commit projection
 3. what the first shared explain surface should consume once replay projection results become the preferred intake packet
-4. what remains local-only evidence versus retained shared replay evidence during the transition from helper intake to replay-facade intake
+4. what remains local-only evidence versus retained shared replay evidence as V1 packet coverage expands
 
 ## 5. Shared intake invariants
 1. `OxReplay` consumes declared adapter meaning; it does not reinterpret lane semantics
@@ -123,7 +122,7 @@ Write or update outbound notes if intake discovers:
 
 Current triggered outbound notes:
 1. `NOTES_FOR_OXCALC.md` for the current `C4` lifecycle-state gap and retained alias mapping
-2. `NOTES_FOR_OXFML.md` for the retained case-id alias mapping and first shared replay intake expectations
+2. `NOTES_FOR_OXFML.md` for the first shared replay intake expectations and preserved projection metadata floor
 3. `NOTES_FOR_OXXLOBS.md` for the initial observation-to-replay seam expectations
 
 Current processed inbound reply:

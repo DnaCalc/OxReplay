@@ -35,7 +35,7 @@ Lane repos remain the source for lane-native adapter meaning and semantics-speci
 
 Current integration note:
 1. the landed `OxFml_V1` consumer seam is now treated locally as the ordinary OxFml replay intake boundary,
-2. local helper- or fixture-family-specific OxFml intake paths are retained only as transitional support and historical evidence readers.
+2. local retained OxFml evidence is now expressed through that V1 replay projection seam.
 
 ## Mirror policy
 This repo may restate implementation-boundary detail, but may not create local doctrine that conflicts with Foundation or reassigns lane ownership.

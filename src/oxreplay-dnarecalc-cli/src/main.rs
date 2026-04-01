@@ -3,8 +3,8 @@
 use oxreplay_bundle::{ValidationStatus, render_text_report, validate_bundle_at_path};
 use oxreplay_conformance::{load_manifest_from_path, validate_manifest};
 use oxreplay_core::{
-    ReplayScenario, load_oxcalc_tracecalc_projection, load_oxfml_fec_projection,
-    load_oxfml_v1_replay_projection, load_replay_scenario_from_path,
+    ReplayScenario, load_oxcalc_tracecalc_projection, load_oxfml_v1_replay_projection,
+    load_replay_scenario_from_path,
 };
 use oxreplay_diff::diff_summary;
 use oxreplay_distill::{ReductionOutcome, ReplayPreservationPredicate, planned_reduction};
@@ -277,7 +277,6 @@ fn run_explain(args: Vec<String>) -> i32 {
 fn run_distill(args: Vec<String>) -> i32 {
     let mut bundle_path = None;
     let mut kind = None;
-    let mut case_id = None;
     let mut predicate_id = None;
     let mut predicate_description = None;
 
@@ -286,7 +285,6 @@ fn run_distill(args: Vec<String>) -> i32 {
         match arg.as_str() {
             "--bundle" => bundle_path = iter.next(),
             "--kind" => kind = iter.next(),
-            "--case-id" => case_id = iter.next(),
             "--predicate-id" => predicate_id = iter.next(),
             "--predicate-description" => predicate_description = iter.next(),
             other => {
@@ -302,7 +300,7 @@ fn run_distill(args: Vec<String>) -> i32 {
     };
     let Some(kind) = kind else {
         eprintln!(
-            "distill requires --kind <oxcalc-tracecalc|oxfml-v1-replay-projection|oxfml-fec-commit|normalized-replay>"
+            "distill requires --kind <oxcalc-tracecalc|oxfml-v1-replay-projection|normalized-replay>"
         );
         return 2;
     };
@@ -315,7 +313,7 @@ fn run_distill(args: Vec<String>) -> i32 {
         return 2;
     };
 
-    let scenario = match load_scenario_by_kind(&bundle_path, &kind, case_id.as_deref()) {
+    let scenario = match load_scenario_by_kind(&bundle_path, &kind) {
         Ok(scenario) => scenario,
         Err(code) => return code,
     };
@@ -466,14 +464,12 @@ fn run_pack_export(args: Vec<String>) -> i32 {
 fn parse_replay_input(args: Vec<String>) -> Result<ReplayScenario, i32> {
     let mut bundle_path = None;
     let mut kind = None;
-    let mut case_id = None;
 
     let mut iter = args.into_iter();
     while let Some(arg) = iter.next() {
         match arg.as_str() {
             "--bundle" => bundle_path = iter.next(),
             "--kind" => kind = iter.next(),
-            "--case-id" => case_id = iter.next(),
             other => {
                 eprintln!("unknown replay argument: {other}");
                 return Err(2);
@@ -487,31 +483,27 @@ fn parse_replay_input(args: Vec<String>) -> Result<ReplayScenario, i32> {
     };
     let Some(kind) = kind else {
         eprintln!(
-            "replay requires --kind <oxcalc-tracecalc|oxfml-v1-replay-projection|oxfml-fec-commit|normalized-replay>"
+            "replay requires --kind <oxcalc-tracecalc|oxfml-v1-replay-projection|normalized-replay>"
         );
         return Err(2);
     };
 
-    load_scenario_by_kind(&bundle_path, &kind, case_id.as_deref())
+    load_scenario_by_kind(&bundle_path, &kind)
 }
 
 fn parse_diff_inputs(args: Vec<String>) -> Result<(ReplayScenario, ReplayScenario), i32> {
     let mut left = None;
     let mut left_kind = None;
-    let mut left_case_id = None;
     let mut right = None;
     let mut right_kind = None;
-    let mut right_case_id = None;
 
     let mut iter = args.into_iter();
     while let Some(arg) = iter.next() {
         match arg.as_str() {
             "--left" => left = iter.next(),
             "--left-kind" => left_kind = iter.next(),
-            "--left-case-id" => left_case_id = iter.next(),
             "--right" => right = iter.next(),
             "--right-kind" => right_kind = iter.next(),
-            "--right-case-id" => right_case_id = iter.next(),
             other => {
                 eprintln!("unknown diff/explain argument: {other}");
                 return Err(2);
@@ -536,16 +528,12 @@ fn parse_diff_inputs(args: Vec<String>) -> Result<(ReplayScenario, ReplayScenari
         return Err(2);
     };
 
-    let left = load_scenario_by_kind(&left, &left_kind, left_case_id.as_deref())?;
-    let right = load_scenario_by_kind(&right, &right_kind, right_case_id.as_deref())?;
+    let left = load_scenario_by_kind(&left, &left_kind)?;
+    let right = load_scenario_by_kind(&right, &right_kind)?;
     Ok((left, right))
 }
 
-fn load_scenario_by_kind(
-    path: &str,
-    kind: &str,
-    case_id: Option<&str>,
-) -> Result<ReplayScenario, i32> {
+fn load_scenario_by_kind(path: &str, kind: &str) -> Result<ReplayScenario, i32> {
     match kind {
         "oxcalc-tracecalc" => load_oxcalc_tracecalc_projection(path).map_err(|error| {
             eprintln!("{error}");
@@ -559,16 +547,6 @@ fn load_scenario_by_kind(
             eprintln!("{error}");
             4
         }),
-        "oxfml-fec-commit" => {
-            let Some(case_id) = case_id else {
-                eprintln!("oxfml-fec-commit requires --case-id <id>");
-                return Err(2);
-            };
-            load_oxfml_fec_projection(path, case_id).map_err(|error| {
-                eprintln!("{error}");
-                4
-            })
-        }
         other => {
             eprintln!("unsupported replay kind: {other}");
             Err(2)

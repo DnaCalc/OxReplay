@@ -31,7 +31,7 @@ Lane repos may also define a preferred consumer-facing facade over their adapter
 
 Rule:
 1. `OxReplay` should prefer the lane-declared consumer-facing replay projection surface when one exists and when it preserves the required replay-governed metadata,
-2. once that preferred replay-facing surface is landed and declared canonical by the lane repo, `OxReplay` should treat it as the ordinary intake seam and demote helper- or fixture-family-specific intake to transitional support,
+2. once that preferred replay-facing surface is landed and declared canonical by the lane repo, `OxReplay` should treat it as the consumed intake seam,
 3. such a facade narrows consumer entrypoints but does not transfer semantic ownership from the lane repo to `OxReplay`,
 4. packaging changes alone do not upgrade capability claims.
 

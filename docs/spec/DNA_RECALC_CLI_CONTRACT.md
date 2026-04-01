@@ -28,16 +28,15 @@ Common input flags should include:
 1. `--bundle <path>`
 2. `--adapter <path>`
 3. `--kind <kind>` for replay, diff, explain, and distill inputs
-4. `--case-id <id>` when a fixture family requires a stable case selection
-5. `--predicate-id <id>` and `--predicate-description <text>` for distillation
-6. `--format json|text`
-7. `--output <path>`
-8. `--run-id <id>` when a retained or transient run id is required
+4. `--predicate-id <id>` and `--predicate-description <text>` for distillation
+5. `--format json|text`
+6. `--output <path>`
+7. `--run-id <id>` when a retained or transient run id is required
 
 Current seam-transition rule:
 1. lane-specific raw fixture or helper inputs are acceptable while the relevant lane replay facade is still only a declared target surface,
 2. once a lane publishes a preferred replay projection result as its declared consumer-facing seam, `DNA ReCalc` should treat that projection result as the preferred intake packet rather than continuing to privilege fixture-family-specific arguments,
-3. `OxFml` has now published that preferred `OxFml_V1` replay projection seam, so `--kind oxfml-v1-replay-projection` is the preferred ordinary intake and `--kind oxfml-fec-commit --case-id <id>` remains transitional support only.
+3. `OxFml` has now published that preferred `OxFml_V1` replay projection seam, so `DNA ReCalc` should consume OxFml replay through `--kind oxfml-v1-replay-projection`.
 
 ## 5. Output model
 Rules:

@@ -66,9 +66,8 @@ It should consume lane behavior through adapters and canonical bundles rather th
 4. Delay broader UI ambitions until the shared runtime is stable.
 
 ## 9. Current OxFml seam read
-For `OxFml`, `DNA ReCalc` should prefer the landed `OxFml_V1` replay projection seam over fixture-family-specific helper intake.
+For `OxFml`, `DNA ReCalc` should consume the landed `OxFml_V1` replay projection seam as the host-facing replay intake.
 
 Working rule:
 1. ordinary OxFml replay intake should consume the replay projection packet through the `OxFml_V1` seam,
-2. fixture-family-specific `oxfml-fec-commit` intake remains transitional support for retained historical evidence and narrow compatibility only,
-3. `DNA ReCalc` should preserve surfaced OxFml replay metadata rather than collapsing it into a thinner local alias-only projection.
+2. `DNA ReCalc` should preserve surfaced OxFml replay metadata rather than collapsing it into a thinner local alias-only projection.

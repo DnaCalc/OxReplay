@@ -4,7 +4,7 @@
 Record `OxReplay` observations that materially affect `OxFml` adapter or replay-facing design.
 
 ## Core message
-The current `OxFml` intake passes the local `C0` through `C3` validator floor and projects the first retained FEC commit case through the shared replay path, but `OxReplay` still depends on a fixture-specific intake shape that is narrower than the OxFml replay-facing direction now documented upstream.
+The current `OxFml` intake passes the local `C0` through `C3` validator floor and now consumes the landed `OxFml_V1` replay projection seam directly through retained projection packets.
 
 The highest-value interface changes for `OxReplay` are:
 1. publish machine-readable replay projection metadata, including source-case-id to shared-scenario alias bindings, instead of leaving that mapping private to `OxReplay`,
@@ -14,7 +14,7 @@ The highest-value interface changes for `OxReplay` are:
 ## Current evidence
 1. retained manifest-validation output: `docs/test-runs/w003-conformance-oxfml-replay-adapter-v1-baseline/`
 2. retained replay intake output: `docs/test-runs/w004-oxfml-oxfml_fec_accept_publication_001-baseline/`
-3. current source scenario anchor imported by `OxReplay`: `crates/oxfml_core/tests/fixtures/fec_commit_replay_cases.json` with case id `fec_001_accept`
+3. current retained intake packet consumed by `OxReplay`: `docs/test-corpus/bundles/oxfml_v1_replay_projection_001/projection.json`
 4. current local `OxReplay` intake loader and alias map: `src/oxreplay-core/src/lib.rs`
 5. current `DNA ReCalc` `OxFml` intake switch: `src/oxreplay-dnarecalc-cli/src/main.rs`
 6. OxFml replay-facing preferred consumer direction: `docs/spec/OXFML_CONSUMER_INTERFACE_REARCHITECTURE_PLAN.md`
@@ -22,7 +22,7 @@ The highest-value interface changes for `OxReplay` are:
 
 ## Interface implications
 1. publish source-case-id to replay-scenario-id alias bindings in a machine-readable artifact next to the retained replay fixture families so `OxReplay` does not need a private hardcoded alias map
-2. make the preferred Replay-facing contract a replay projection service or facade over OxFml-owned artifacts rather than a loose collection of proving-host helpers and fixture-family assumptions
+2. make the preferred Replay-facing contract a replay projection service or facade over OxFml-owned artifacts
 3. include replay-relevant preserved metadata in that projection surface:
    - source schema id and source artifact family
    - source case id and shared scenario id
