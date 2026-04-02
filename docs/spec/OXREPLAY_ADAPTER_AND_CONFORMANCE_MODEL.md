@@ -79,13 +79,13 @@ For a downstream consumer such as `DNA OneCalc`, the current honest local floor 
 |---|---|---|
 | `OxFml` | accepted through `C3.explain_valid`; do not assume `C4` or `C5` | `docs/test-runs/w003-conformance-oxfml-replay-adapter-v1-baseline/report.json`, `docs/upstream/NOTES_FOR_OXFML.md` |
 | `OxFunc` | no accepted local direct replay-intake floor yet | `docs/IN_PROGRESS_FEATURE_WORKLIST.md`, `docs/upstream/NOTES_FOR_OXFUNC.md` |
-| `OxXlObs` | accepted first-pass observation-source seam without a formal adapter capability claim; current replay-facing view remains `lossy` | `docs/spec/OXREPLAY_OXXLOBS_OBSERVATION_SEAM.md`, `docs/test-runs/oxxlobs-seam-xlobs_capture_values_formulae_001-baseline/` |
+| `OxXlPlay` | accepted first-pass observation-source seam without a formal adapter capability claim; current replay-facing view remains `lossy` | `docs/spec/OXREPLAY_OXXLPLAY_OBSERVATION_SEAM.md`, `docs/test-runs/oxxlplay-seam-xlplay_capture_values_formulae_001-baseline/` |
 | `OxVba` | later and narrower lane with no accepted local replay capability floor yet | `docs/IN_PROGRESS_FEATURE_WORKLIST.md`, `docs/upstream/NOTES_FOR_OXVBA.md` |
 
 Interpretation rule:
 1. absence of accepted local capability evidence means `no accepted capability claim`,
 2. planning docs and worklists do not upgrade that floor by themselves,
-3. an observation-source seam such as `OxXlObs` without a formal adapter capability manifest is treated as a provisional observation intake, not as a capability-bearing lane adapter,
+3. an observation-source seam such as `OxXlPlay` without a formal adapter capability manifest is treated as a provisional observation intake, not as a capability-bearing lane adapter,
 4. a downstream host mode that requires a capability floor beyond the current honest evidence must be hidden, disabled, or explicitly marked provisional.
 
 ## 8. Required adapter manifest content

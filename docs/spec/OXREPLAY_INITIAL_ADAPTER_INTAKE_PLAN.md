@@ -1,7 +1,7 @@
 # OXREPLAY_INITIAL_ADAPTER_INTAKE_PLAN.md
 
 ## 1. Position
-This document defines the first adapter-intake plan for `OxCalc`, `OxFml`, and the initial `OxXlObs` observation seam.
+This document defines the first adapter-intake plan for `OxCalc`, `OxFml`, and the initial `OxXlPlay` observation seam.
 
 It is a local planning companion for `W004`.
 It does not redefine lane adapter semantics.
@@ -10,7 +10,7 @@ For downstream hosts such as `DNA OneCalc`, read this file as current intake ord
 ## 2. Intake sequence
 1. intake `OxCalc` first because Foundation already treats it as the first expected lane toward higher replay capability growth
 2. intake `OxFml` second in the same workset, with initial emphasis on ingest/replay/diff/explain rather than distillation
-3. prepare the `OxXlObs` seam as an observation-source contract before direct intake begins
+3. prepare the `OxXlPlay` seam as an observation-source contract before direct intake begins
 4. defer `OxFunc` and `OxVba` to later narrower lanes after the first two lanes have stabilized inside `OxReplay`
 5. downstream hosts like `DNA OneCalc` should not read this ordering as permission to assume direct `OxFunc` or `OxVba` replay support before local intake evidence exists
 
@@ -82,8 +82,8 @@ Questions to answer during activation:
 3. local retained imports must preserve source-lane identity and schema lineage
 4. any normative pressure discovered during intake must route back through outbound notes or handoff packets
 
-## 6. OxXlObs seam expectations
-`OxReplay` expects these source surfaces from `OxXlObs`:
+## 6. OxXlPlay seam expectations
+`OxReplay` expects these source surfaces from `OxXlPlay`:
 1. replay-ready observation artifacts rather than opaque automation logs
 2. explicit direct-observation versus inference markers
 3. Excel build, version, channel, workbook fingerprint, and trigger-recipe provenance
@@ -91,20 +91,20 @@ Questions to answer during activation:
 5. either direct canonical replay-bundle emission or a narrow declared observation-contract phase
 
 Reserved first seam classes:
-1. `xlobs_manifest_shape_valid`
-2. `xlobs_observation_bundle_valid`
-3. `xlobs_capture_loss_declared`
-4. `xlobs_diff_ready_against_dna`
+1. `xlplay_manifest_shape_valid`
+2. `xlplay_observation_bundle_valid`
+3. `xlplay_capture_loss_declared`
+4. `xlplay_diff_ready_against_dna`
 
-Acknowledged current emitted shapes from `OxXlObs`:
-1. source observation bundle: `../OxXlObs/states/excel/xlobs_capture_values_formulae_001/bundle.json`
-2. canonical replay manifest: `../OxXlObs/states/excel/xlobs_capture_values_formulae_001/oxreplay-manifest.json`
-3. normalized replay view: `../OxXlObs/states/excel/xlobs_capture_values_formulae_001/views/normalized-replay.json`
+Acknowledged current emitted shapes from `OxXlPlay`:
+1. source observation bundle: `../OxXlPlay/states/excel/xlplay_capture_values_formulae_001/bundle.json`
+2. canonical replay manifest: `../OxXlPlay/states/excel/xlplay_capture_values_formulae_001/oxreplay-manifest.json`
+3. normalized replay view: `../OxXlPlay/states/excel/xlplay_capture_values_formulae_001/views/normalized-replay.json`
 4. accepted first-pass seam choices:
-   - `lane_id`: `oxxlobs`
+   - `lane_id`: `oxxlplay`
    - `capture_mode`: `excel_black_box_observation`
    - `projection_status`: `lossy`
-   - `source_schema`: `oxxlobs.replay_bundle_seed.v1`
+   - `source_schema`: `oxxlplay.replay_bundle_seed.v1`
    - empty `registry_refs` for the first non-claiming intake pass
 
 Questions to answer during activation:
@@ -123,7 +123,7 @@ Write or update outbound notes if intake discovers:
 Current triggered outbound notes:
 1. `NOTES_FOR_OXCALC.md` for the current `C4` lifecycle-state gap and retained alias mapping
 2. `NOTES_FOR_OXFML.md` for the first shared replay intake expectations and preserved projection metadata floor
-3. `NOTES_FOR_OXXLOBS.md` for the initial observation-to-replay seam expectations
+3. `NOTES_FOR_OXXLPLAY.md` for the initial observation-to-replay seam expectations
 
 Current processed inbound reply:
 1. `../OxFml/docs/upstream/NOTES_FOR_OXREPLAY.md` is now treated locally as the current `OxFml_V1` replay consumer seam for downstream implementation

@@ -15,7 +15,7 @@ This directory is the OxReplay-owned mutable spec set after bootstrap.
 10. `docs/spec/OXREPLAY_INITIAL_ADAPTER_INTAKE_PLAN.md`
 11. `docs/spec/DNA_RECALC_CLI_CONTRACT.md`
 12. `docs/spec/OXREPLAY_WITNESS_LIFECYCLE_TRANSITIONS.md`
-13. `docs/spec/OXREPLAY_OXXLOBS_OBSERVATION_SEAM.md`
+13. `docs/spec/OXREPLAY_OXXLPLAY_OBSERVATION_SEAM.md`
 
 ## Consumed doctrine
 Foundation remains higher-precedence doctrine owner for:
@@ -48,7 +48,7 @@ That document covers:
 2. current conservative capability floor per lane,
 3. mode gate discipline for `Replay`, `Diff`, `Explain`, `Distill`, and `Handoff`,
 4. artifact-lineage obligations including lossy, registry-unpinned, and capture-incomplete inputs,
-5. `OxXlObs` input labeling and interpretation rules,
+5. `OxXlPlay` input labeling and interpretation rules,
 6. UI visibility and control guidance,
 7. scenario-library growth and promotion caution.
 
@@ -57,7 +57,7 @@ Supporting downstream-consumer detail also appears in:
 2. `docs/spec/OXREPLAY_ADAPTER_AND_CONFORMANCE_MODEL.md` Sections 4 and 7,
 3. `docs/spec/DNA_RECALC_HOST.md` Section 4,
 4. `docs/spec/OXREPLAY_BUNDLE_WITNESS_AND_REGISTRY_MODEL.md` Section 5,
-5. `docs/spec/OXREPLAY_OXXLOBS_OBSERVATION_SEAM.md` Section 10.
+5. `docs/spec/OXREPLAY_OXXLPLAY_OBSERVATION_SEAM.md` Section 10.
 
 ## Bootstrap reading path
 For initial `OxReplay` work, read in this order after the repo root docs:
@@ -73,4 +73,4 @@ For initial `OxReplay` work, read in this order after the repo root docs:
 10. `docs/spec/OXREPLAY_INITIAL_ADAPTER_INTAKE_PLAN.md`
 11. `docs/spec/DNA_RECALC_CLI_CONTRACT.md`
 12. `docs/spec/OXREPLAY_WITNESS_LIFECYCLE_TRANSITIONS.md`
-13. `docs/spec/OXREPLAY_OXXLOBS_OBSERVATION_SEAM.md`
+13. `docs/spec/OXREPLAY_OXXLPLAY_OBSERVATION_SEAM.md`

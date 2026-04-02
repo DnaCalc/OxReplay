@@ -38,7 +38,7 @@
 
 ## Downstream host note
 1. `DNA OneCalc` consumes current `OxReplay` surfaces as shared infrastructure, not as a second replay-host contract.
-2. The current honest floor for that consumer is accepted `OxFml` `C0` through `C3` plus the first accepted `OxXlObs` observation-source seam.
+2. The current honest floor for that consumer is accepted `OxFml` `C0` through `C3` plus the first accepted `OxXlPlay` observation-source seam.
 3. Direct `OxFunc` and `OxVba` replay intake remain later narrower lanes.
 
 ## Activation rule

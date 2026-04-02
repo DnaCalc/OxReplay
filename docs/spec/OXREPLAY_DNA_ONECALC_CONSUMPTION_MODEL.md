@@ -16,7 +16,7 @@ When this document and the Foundation `DNA_ONECALC_SCOPE_AND_SPEC.md` note disag
 4. explain,
 5. witness handling,
 6. scenario-library growth,
-7. comparison against retained Excel observation artifacts from `OxXlObs`,
+7. comparison against retained Excel observation artifacts from `OxXlPlay`,
 8. replay-visible UI state and user controls.
 
 `DNA OneCalc` may:
@@ -72,7 +72,7 @@ Rule:
 |---|---|---|
 | `OxFml` | accepted local adapter floor through `C3.explain_valid`; treat `C4` and beyond as later evidence lanes | `docs/test-runs/w003-conformance-oxfml-replay-adapter-v1-baseline/report.json`, `docs/upstream/NOTES_FOR_OXFML.md`, `docs/IN_PROGRESS_FEATURE_WORKLIST.md` |
 | `OxFunc` | no accepted local replay-intake floor yet; consume current function semantics through `OxFml` and lane-native contracts rather than assuming direct `OxReplay` capability | `docs/IN_PROGRESS_FEATURE_WORKLIST.md`, `docs/upstream/NOTES_FOR_OXFUNC.md` |
-| `OxXlObs` | accepted first-pass observation-source seam: source observation bundle plus canonical `replay.bundle.v1` manifest and first normalized replay view; treat it as a `lossy` observation intake, not as a broad equivalence or formal adapter-capability claim | `docs/spec/OXREPLAY_OXXLOBS_OBSERVATION_SEAM.md`, `docs/test-runs/oxxlobs-seam-xlobs_capture_values_formulae_001-baseline/`, `../OxXlObs/docs/test-runs/W007_FIRST_CROSS_REPO_REPLAY_AND_DIFF_CONSUMPTION.md` |
+| `OxXlPlay` | accepted first-pass observation-source seam: source observation bundle plus canonical `replay.bundle.v1` manifest and first normalized replay view; treat it as a `lossy` observation intake, not as a broad equivalence or formal adapter-capability claim | `docs/spec/OXREPLAY_OXXLPLAY_OBSERVATION_SEAM.md`, `docs/test-runs/oxxlplay-seam-xlplay_capture_values_formulae_001-baseline/`, `../OxXlPlay/docs/test-runs/W007_FIRST_CROSS_REPO_REPLAY_AND_DIFF_CONSUMPTION.md` |
 | `OxVba` | later and narrower lane; no accepted local replay capability floor yet | `docs/IN_PROGRESS_FEATURE_WORKLIST.md`, `docs/upstream/NOTES_FOR_OXVBA.md` |
 
 Important non-dependency note:
@@ -86,7 +86,7 @@ The Foundation `DNA_ONECALC_SCOPE_AND_SPEC.md` defines named workbench modes wit
 | OneCalc mode | Required `OxReplay` surface | Minimum capability floor | Platform rule | Current honest state |
 |---|---|---|---|---|
 | `Replay` | accepted lane adapter intake through `Bundle` and `Core`; validated replay execution | `C1.replay_valid` for the active lane | all hosts that can read retained artifacts | honest for `OxFml` through `C3`; `OxFunc` and `OxVba` not yet accepted |
-| `Diff` | typed diff surface through `Diff` stratum; comparable replay artifacts from at least two sources | `C2.diff_valid` for the active lane | same as replay-capable hosts | honest for `OxFml`; first `OxXlObs` diff is accepted but `lossy` |
+| `Diff` | typed diff surface through `Diff` stratum; comparable replay artifacts from at least two sources | `C2.diff_valid` for the active lane | same as replay-capable hosts | honest for `OxFml`; first `OxXlPlay` diff is accepted but `lossy` |
 | `Explain` | causal-query surface through `Explain` stratum; adapter-backed explanation records | `C3.explain_valid` for the active lane | same as replay-capable hosts | honest for `OxFml` through `C3`; lane-limited explanation must be visible |
 | `Distill` | predicate-bound reduction through `Distill` stratum; adapter-declared closure rules and preservation predicates | `C4.distill_valid` for the active lane | only where the active lane adapter supports it | not yet honest for any lane from OneCalc perspective; hide or mark experimental |
 | `Handoff` | lineage-complete replay artifacts with provenance, seam pins, and capability floor | no additional OxReplay floor beyond what the source mode required | all hosts | depends on the source mode floor; handoff must carry exact provisional pins |
@@ -132,25 +132,25 @@ Every comparison surface shown in the UI or retained in artifacts should carry a
 3. `lossy` where the current retained view explicitly drops or normalizes facts,
 4. `provisional` where the compared surface depends on a still-provisional seam or capability floor.
 
-## 8. `OxXlObs` input labeling and interpretation
-When `DNA OneCalc` consumes `OxXlObs`-originated artifacts through `OxReplay`:
+## 8. `OxXlPlay` input labeling and interpretation
+When `DNA OneCalc` consumes `OxXlPlay`-originated artifacts through `OxReplay`:
 
 ### 8.1 Labeling rule
-1. the source lane should be labeled as `oxxlobs` with observation source kind `excel`,
+1. the source lane should be labeled as `oxxlplay` with observation source kind `excel`,
 2. the projection status should be labeled `lossy` when the current normalized replay view is explicitly lossy,
-3. the capture mode should be carried as declared by `OxXlObs`, typically `excel_black_box_observation`,
+3. the capture mode should be carried as declared by `OxXlPlay`, typically `excel_black_box_observation`,
 4. Excel build, version, channel, workbook fingerprint, and trigger-recipe provenance should be surfaced when available,
-5. capture-loss, downgraded-instrumentation, unavailable-surface, or nondeterminism markers from `OxXlObs` must be carried through `OxReplay` into `DNA OneCalc` retained artifacts.
+5. capture-loss, downgraded-instrumentation, unavailable-surface, or nondeterminism markers from `OxXlPlay` must be carried through `OxReplay` into `DNA OneCalc` retained artifacts.
 
 ### 8.2 Interpretation rule
-1. the current `OxXlObs` normalized replay view is useful for replay-path activation and coarse comparison wiring,
+1. the current `OxXlPlay` normalized replay view is useful for replay-path activation and coarse comparison wiring,
 2. it is not yet the right basis for broad semantic equivalence, formatting-complete parity, or registry-heavy witness claims,
 3. value-sensitive differential structure should widen beyond string-encoded normalized families before broad equivalence claims are made,
-4. `DNA OneCalc` should not present the current `OxXlObs`-backed comparison as Excel parity truth where the underlying view is declared lossy.
+4. `DNA OneCalc` should not present the current `OxXlPlay`-backed comparison as Excel parity truth where the underlying view is declared lossy.
 
 ### 8.3 Platform rule
-1. live Excel-backed comparison remains Windows-only because the current live `OxXlObs` capture path remains Windows-only,
-2. non-Windows hosts may still replay, diff, and explain retained `OxXlObs` artifacts through `OxReplay`,
+1. live Excel-backed comparison remains Windows-only because the current live `OxXlPlay` capture path remains Windows-only,
+2. non-Windows hosts may still replay, diff, and explain retained `OxXlPlay` artifacts through `OxReplay`,
 3. the `DNA OneCalc` UI must surface the Windows-only restriction when the mode involves live Excel observation.
 
 ## 9. UI visibility and control rule
@@ -216,7 +216,7 @@ The intended growth path is:
 The first scenario families promoted into comparison and replay spines should favor:
 1. `OxFml` lanes whose host and replay artifacts are already deterministic and typed,
 2. `OxFunc` rows with stable semantic closure or explicit doc-modeled seam contracts consumed through `OxFml`,
-3. `OxXlObs` scenarios with retained provenance-rich bundle emission and no hidden capture assumptions.
+3. `OxXlPlay` scenarios with retained provenance-rich bundle emission and no hidden capture assumptions.
 
 Avoid promoting these as product-claim families unless explicitly marked provisional:
 1. lanes or adapters with no accepted local `OxReplay` capability floor,
@@ -224,7 +224,7 @@ Avoid promoting these as product-claim families unless explicitly marked provisi
 3. Excel-comparison claims that depend on the current lossy replay projection as if it were complete semantic equivalence truth.
 
 ### 10.2 Current caution
-1. the first `OxXlObs` normalized replay view is useful for replay-path activation and coarse comparison wiring,
+1. the first `OxXlPlay` normalized replay view is useful for replay-path activation and coarse comparison wiring,
 2. it is not yet the right basis for broad semantic equivalence, formatting-complete parity, or registry-heavy witness claims,
 3. the `OxFml` replay floor is honest through `C3.explain_valid` but `C4.distill_valid` and `C5.pack_valid` remain later evidence lanes,
 4. `OxFunc` and `OxVba` direct replay intake remain later narrower lanes.
@@ -234,8 +234,8 @@ The following limits remain explicit:
 1. this repo still has no app-facing `DNA OneCalc` host contract analogous to `DNA_RECALC_HOST.md`,
 2. `OxFunc` has no accepted local direct replay-intake floor yet,
 3. `OxVba` has no accepted local replay-intake floor yet,
-4. the `OxXlObs` seam still lacks a formal adapter capability manifest and richer registry-pinned diff structure,
-5. the current `OxXlObs` replay-facing normalized view remains explicitly `lossy`,
+4. the `OxXlPlay` seam still lacks a formal adapter capability manifest and richer registry-pinned diff structure,
+5. the current `OxXlPlay` replay-facing normalized view remains explicitly `lossy`,
 6. broad lane `C4` or `C5` claims remain later evidence lanes unless retained conformance says otherwise,
 7. `DNA OneCalc` currently consumes replay as shared infrastructure rather than through a dedicated app-facing host contract; that gap is acknowledged upstream documentation debt.
 

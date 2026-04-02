@@ -1,6 +1,6 @@
 {
-  "scenario_id": "xlobs_capture_values_formulae_001",
-  "lane_id": "oxxlobs",
+  "scenario_id": "xlplay_capture_values_formulae_001",
+  "lane_id": "oxxlplay",
   "events": [
     {
       "event_id": "sheet1_a1_value",
