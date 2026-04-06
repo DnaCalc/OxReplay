@@ -1,0 +1,132 @@
+{
+  "equivalent": false,
+  "mismatches": [
+    {
+      "left_scenario_id": "oxfml_xml_verification_comparison_views_001",
+      "right_scenario_id": "xlplay_capture_spreadsheetml_formatting_001",
+      "mismatch_kind": "visible_value",
+      "severity": "semantic",
+      "view_family": "visible_value",
+      "left_value": "3",
+      "right_value": "6",
+      "detail": "comparison view values diverged"
+    },
+    {
+      "left_scenario_id": "oxfml_xml_verification_comparison_views_001",
+      "right_scenario_id": "xlplay_capture_spreadsheetml_formatting_001",
+      "mismatch_kind": "effective_display_text",
+      "severity": "informational",
+      "view_family": "effective_display_text",
+      "left_value": "$3.00",
+      "right_value": "$6.00",
+      "detail": "comparison view values diverged"
+    },
+    {
+      "left_scenario_id": "oxfml_xml_verification_comparison_views_001",
+      "right_scenario_id": "xlplay_capture_spreadsheetml_formatting_001",
+      "mismatch_kind": "formatting_view",
+      "severity": "informational",
+      "view_family": "formatting_view",
+      "left_value": {
+        "date1904": false,
+        "display_delta": null,
+        "fill_color": "#445566",
+        "font_color": "#112233",
+        "format_delta": null,
+        "format_dependency_facts": [],
+        "format_profile": "excel-spreadsheetml-2003-default",
+        "locale_format_context": {
+          "currency_symbol": "$",
+          "date_separator": "/",
+          "date_system": "System1900",
+          "decimal_separator": ".",
+          "locale_profile_id": "EnUs",
+          "thousands_separator": ",",
+          "time_separator": ":"
+        },
+        "number_format_code": "$#,##0.00",
+        "presentation_hint": null,
+        "style_hierarchy": [
+          "workbook-default",
+          "calc"
+        ],
+        "style_id": "calc"
+      },
+      "right_value": {
+        "fill_color": "#445566",
+        "font_color": "#112233",
+        "number_format_code": "$#,##0.00",
+        "style_id": "calc"
+      },
+      "detail": "comparison view values diverged"
+    },
+    {
+      "left_scenario_id": "oxfml_xml_verification_comparison_views_001",
+      "right_scenario_id": "xlplay_capture_spreadsheetml_formatting_001",
+      "mismatch_kind": "conditional_formatting_view",
+      "severity": "informational",
+      "view_family": "conditional_formatting_view",
+      "left_value": {
+        "effective_display": [
+          "$3.00"
+        ],
+        "operator": [
+          null
+        ],
+        "rule_kind": [
+          "Expression"
+        ],
+        "rules": [
+          {
+            "effective_display_text": "$3.00",
+            "fill_color": "#00FF00",
+            "font_color": "#FF0000",
+            "operator": null,
+            "rule_kind": "Expression",
+            "target_ranges": [
+              "A1"
+            ],
+            "thresholds": [
+              "=A1>0"
+            ]
+          }
+        ],
+        "target_ranges": [
+          [
+            "A1"
+          ]
+        ],
+        "thresholds": [
+          [
+            "=A1>0"
+          ]
+        ]
+      },
+      "right_value": {
+        "effective_style": {
+          "applied_rule_indexes": [
+            1
+          ],
+          "effective_display_text": "$6.00",
+          "fill_color": "#00FF00",
+          "font_color": "#FF0000",
+          "number_format_code": "$#,##0.00",
+          "source_projection": "spreadsheetml_expression_rules_v1"
+        },
+        "rules": [
+          {
+            "fill_color": "#00FF00",
+            "font_color": "#FF0000",
+            "formula": "=A1>0",
+            "operator": null,
+            "range": "A1",
+            "rule_kind": "expression",
+            "value1": null,
+            "value2": null
+          }
+        ]
+      },
+      "detail": "comparison view values diverged"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ Provide the first usable `DNA ReCalc` shell over `OxReplay`.
 3. Diff and explain entry points.
 4. Adapter validation entry points.
 5. Pack-facing replay export baseline.
+6. Machine-readable explain records for comparison-view-family divergence and coverage gaps when the compared artifacts publish `comparison_views`.
 
 ## Dependencies
 1. `W002`
@@ -19,6 +20,7 @@ Provide the first usable `DNA ReCalc` shell over `OxReplay`.
 1. `DNA ReCalc` host role is executable in repo-local terms.
 2. Pack-facing output path is explicit.
 3. Host remains a replay surface, not a semantics owner.
+4. Explain output can name the diverged or missing comparison-view family without requiring downstream host reinterpretation.
 
 ## Expected capability impact
 1. exposes already-validated replay surfaces through the host shell
@@ -40,24 +42,30 @@ Provide the first usable `DNA ReCalc` shell over `OxReplay`.
 3. stable naming policy for baseline runs: `w005-dnarecalc-<command-family>-baseline`
 
 ## Replay-Corpus Readiness
-1. replay classes requiring corpus scenarios before activation: `cli_validate`, `cli_replay`, `cli_diff`, `cli_explain`, `cli_adapter_validate`, `pack_export`
+1. replay classes requiring corpus scenarios before activation: `cli_validate`, `cli_replay`, `cli_diff`, `cli_explain`, `cli_explain_view_family`, `cli_explain_view_family_integrated`, `cli_explain_view_family_integrated_divergence`, `cli_adapter_validate`, `pack_export`
 2. scenario ids satisfying them:
    - `cli_validate` -> `host_validate_bundle_001`
    - `cli_replay` -> `host_replay_bundle_001`
    - `cli_diff` -> `host_diff_bundle_001`
    - `cli_explain` -> `host_explain_bundle_001`
+   - `cli_explain_view_family` -> `host_explain_view_family_gap_001`
+   - `cli_explain_view_family_integrated` -> `host_explain_view_family_gap_integrated_001`
+   - `cli_explain_view_family_integrated_divergence` -> `host_explain_view_family_divergence_integrated_001`
    - `cli_adapter_validate` -> `host_validate_adapter_001`
    - `pack_export` -> `host_pack_export_001`
 3. reserve or later lanes: optional UI flows and widened host integration
 
 ## Pack-Evidence Traceability
 1. pack name: `PACK.replay.appliance`
-2. replay classes: `cli_validate`, `cli_replay`, `cli_diff`, `cli_explain`, `cli_adapter_validate`, `pack_export`
+2. replay classes: `cli_validate`, `cli_replay`, `cli_diff`, `cli_explain`, `cli_explain_view_family`, `cli_explain_view_family_integrated`, `cli_explain_view_family_integrated_divergence`, `cli_adapter_validate`, `pack_export`
 3. scenario ids or artifact paths:
    - `host_validate_bundle_001` -> `docs/test-corpus/bundles/host_validate_bundle_001/`
    - `host_replay_bundle_001` -> `docs/test-corpus/bundles/host_replay_bundle_001/`
    - `host_diff_bundle_001` -> `docs/test-corpus/bundles/host_diff_bundle_001/`
    - `host_explain_bundle_001` -> `docs/test-corpus/bundles/host_explain_bundle_001/`
+   - `host_explain_view_family_gap_001` -> `docs/test-corpus/bundles/host_explain_view_family_gap_001/`
+   - `host_explain_view_family_gap_integrated_001` -> `docs/test-corpus/bundles/host_explain_view_family_gap_integrated_001/`
+   - `host_explain_view_family_divergence_integrated_001` -> `docs/test-corpus/bundles/host_explain_view_family_divergence_integrated_001/`
    - `host_validate_adapter_001` -> `docs/test-corpus/bundles/host_validate_adapter_001/`
    - `host_pack_export_001` -> `docs/test-corpus/bundles/host_pack_export_001/`
    - retained human-readable runs -> `docs/test-runs/w005-dnarecalc-<command-family>-baseline/`

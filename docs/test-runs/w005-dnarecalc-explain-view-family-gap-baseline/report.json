@@ -1,0 +1,51 @@
+{
+  "equivalent": false,
+  "records": [
+    {
+      "query_id": "explain-crosslane_xml_view_family_gap_001_left-01",
+      "summary": "comparison diverged on `effective_display_text`",
+      "left_scenario_id": "crosslane_xml_view_family_gap_001_left",
+      "right_scenario_id": "crosslane_xml_view_family_gap_001_right",
+      "mismatch_kind": "effective_display_text",
+      "severity": "informational",
+      "view_family": "effective_display_text",
+      "left_value": "6",
+      "right_value": "$6.00",
+      "detail": "comparison view values diverged"
+    },
+    {
+      "query_id": "explain-crosslane_xml_view_family_gap_001_left-02",
+      "summary": "comparison view family `formatting_view` is missing on one side",
+      "left_scenario_id": "crosslane_xml_view_family_gap_001_left",
+      "right_scenario_id": "crosslane_xml_view_family_gap_001_right",
+      "mismatch_kind": "projection_coverage_gap",
+      "severity": "coverage",
+      "view_family": "formatting_view",
+      "right_value": {
+        "fill_color": "#445566",
+        "font_color": "#112233",
+        "number_format_code": "$#,##0.00"
+      },
+      "detail": "comparison view family `formatting_view` is missing on `crosslane_xml_view_family_gap_001_left`"
+    },
+    {
+      "query_id": "explain-crosslane_xml_view_family_gap_001_left-03",
+      "summary": "comparison view family `conditional_formatting_view` is missing on one side",
+      "left_scenario_id": "crosslane_xml_view_family_gap_001_left",
+      "right_scenario_id": "crosslane_xml_view_family_gap_001_right",
+      "mismatch_kind": "projection_coverage_gap",
+      "severity": "coverage",
+      "view_family": "conditional_formatting_view",
+      "right_value": [
+        {
+          "fill_color": "#00FF00",
+          "font_color": "#FF0000",
+          "formula": "=A1>0",
+          "range": "A1",
+          "rule_kind": "expression"
+        }
+      ],
+      "detail": "comparison view family `conditional_formatting_view` is missing on `crosslane_xml_view_family_gap_001_left`"
+    }
+  ]
+}

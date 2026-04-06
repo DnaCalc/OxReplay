@@ -9,7 +9,8 @@ The current `OxFml` intake passes the local `C0` through `C3` validator floor an
 The highest-value interface changes for `OxReplay` are:
 1. publish machine-readable replay projection metadata, including source-case-id to shared-scenario alias bindings, instead of leaving that mapping private to `OxReplay`,
 2. expose a narrower replay-projection entry surface as the preferred long-term consumer-facing path,
-3. preserve more of the replay-relevant OxFml metadata that already exists in fixture and runtime artifacts, especially fence and library-context pin information.
+3. preserve more of the replay-relevant OxFml metadata that already exists in fixture and runtime artifacts, especially fence and library-context pin information,
+4. publish machine-readable `comparison_views` when OxFml can state `visible_value`, `effective_display_text`, `formatting_view`, or `conditional_formatting_view` without forcing a downstream host to infer them.
 
 ## Current evidence
 1. retained manifest-validation output: `docs/test-runs/w003-conformance-oxfml-replay-adapter-v1-baseline/`
@@ -19,6 +20,7 @@ The highest-value interface changes for `OxReplay` are:
 5. current `DNA ReCalc` `OxFml` intake switch: `src/oxreplay-dnarecalc-cli/src/main.rs`
 6. OxFml replay-facing preferred consumer direction: `docs/spec/OXFML_CONSUMER_INTERFACE_REARCHITECTURE_PLAN.md`
 7. OxFml replay adapter contract and manifest: `docs/spec/OXFML_REPLAY_APPLIANCE_ADAPTER_V1.md`, `docs/spec/OXFML_REPLAY_ADAPTER_CAPABILITY_MANIFEST_V1.json`
+8. OxFml XML comparison-view response handoff: `../OxFml/docs/handoffs/HANDOFF_OXREPLAY_001_XML_COMPARISON_VIEWS_RESPONSE.md`
 
 ## Interface implications
 1. publish source-case-id to replay-scenario-id alias bindings in a machine-readable artifact next to the retained replay fixture families so `OxReplay` does not need a private hardcoded alias map
@@ -29,6 +31,7 @@ The highest-value interface changes for `OxReplay` are:
    - observed fence members when present, including `formula_token`, `snapshot_epoch`, `bind_hash`, `profile_version`, and `capability_view_key`
    - library-context snapshot ref when present
    - registry bindings, capability floor, and lifecycle metadata when applicable
+   - `comparison_views` entries for `visible_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` when those families are available for the emitted scenario
 4. identify the first supported projection families beyond the initial FEC commit family in a machine-readable way; the most useful next family for `OxReplay` is session lifecycle because the OxFml manifest already advertises it
 5. keep the current capability stance honest:
    - `C0` through `C3` remain the accepted local floor,
@@ -42,6 +45,7 @@ The highest-value interface changes for `OxReplay` are:
 3. `OxReplay` must not infer broader replay-safe rewrite authority than `OxFml` has declared locally
 4. fence and provider-pin metadata that matter to replay identity or explanation must not be silently dropped by the preferred projection surface
 5. scaffolded `C4` remains scaffolded until retained lifecycle-aware evidence is exported and claimed explicitly
+6. comparison-view families must be adapter-declared facts, not host-inferred convenience strings
 
 ## Response processed locally
 `OxFml` has now answered the main seam questions through:
@@ -52,9 +56,11 @@ Current processed local read:
 1. alias publication is expected inline in replay projection results,
 2. the current replay facade shape is `ReplayProjectionRequest`, `ReplayProjectionService`, and `ReplayProjectionResult`,
 3. the ordinary downstream consumer surface is now `consumer::replay` with `consumer::runtime` used when replay projection begins from runtime/session result objects,
-4. `OxReplay` should now consume the landed `OxFml_V1` seam rather than treating it as a future target.
+4. `OxReplay` should now consume the landed `OxFml_V1` seam rather than treating it as a future target,
+5. OxFml has now answered the XML verification comparison-view request and the local retained OxReplay intake can consume that publication shape without widening capability claims.
 
 ## Remaining implementation questions
 1. what is the first retained shared replay packet after the accepted FEC-style projection that should be checked in locally
 2. which session-lifecycle packet should become the first retained post-FEC shared replay intake
 3. what additional local conformance checks should be added around preserved projection metadata
+4. when should OxFml hand off a full retained replay projection packet for the XML verification lane beyond the current focused `comparison_views` fixture

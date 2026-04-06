@@ -29,6 +29,9 @@ The ids below are planning commitments until the retained artifacts exist.
 | `oxfml_intake` | `oxfml_fec_accept_publication_001` | sibling import from `../OxFml` plus local retained intake note |
 | `shared_replay` | `crosslane_replay_identity_001` | `docs/test-corpus/bundles/crosslane_replay_identity_001/` |
 | `shared_diff` | `crosslane_diff_mismatch_001` | `docs/test-corpus/bundles/crosslane_diff_mismatch_001/` |
+| `shared_view_family_diff` | `crosslane_xml_view_family_gap_001` | `docs/test-corpus/bundles/crosslane_xml_view_family_gap_001/` |
+| `shared_view_family_diff_integrated` | `crosslane_xml_view_family_gap_integrated_001` | `docs/test-corpus/bundles/crosslane_xml_view_family_gap_integrated_001/` |
+| `shared_view_family_diff_integrated_divergence` | `crosslane_xml_view_family_divergence_integrated_001` | `docs/test-corpus/bundles/crosslane_xml_view_family_divergence_integrated_001/` |
 
 ## 5. W005 DNA ReCalc CLI shell
 | Replay class | Scenario id | Planned retained root |
@@ -37,6 +40,9 @@ The ids below are planning commitments until the retained artifacts exist.
 | `cli_replay` | `host_replay_bundle_001` | `docs/test-corpus/bundles/host_replay_bundle_001/` |
 | `cli_diff` | `host_diff_bundle_001` | `docs/test-corpus/bundles/host_diff_bundle_001/` |
 | `cli_explain` | `host_explain_bundle_001` | `docs/test-corpus/bundles/host_explain_bundle_001/` |
+| `cli_explain_view_family` | `host_explain_view_family_gap_001` | `docs/test-corpus/bundles/host_explain_view_family_gap_001/` |
+| `cli_explain_view_family_integrated` | `host_explain_view_family_gap_integrated_001` | `docs/test-corpus/bundles/host_explain_view_family_gap_integrated_001/` |
+| `cli_explain_view_family_integrated_divergence` | `host_explain_view_family_divergence_integrated_001` | `docs/test-corpus/bundles/host_explain_view_family_divergence_integrated_001/` |
 | `cli_adapter_validate` | `host_validate_adapter_001` | `docs/test-corpus/bundles/host_validate_adapter_001/` |
 | `pack_export` | `host_pack_export_001` | `docs/test-corpus/bundles/host_pack_export_001/` |
 
@@ -48,11 +54,12 @@ The ids below are planning commitments until the retained artifacts exist.
 | `quarantine_required` | `wit_quarantine_capture_insufficient_001` | `docs/test-corpus/witnesses/wit_quarantine_capture_insufficient_001/` |
 | `lifecycle_transition` | `wit_lifecycle_transition_retained_local_001` | `states/lifecycle/wit_lifecycle_transition_retained_local_001/` |
 
-## 7. Reserved OxXlPlay seam classes
+## 7. Reserved and acknowledged OxXlPlay seam classes
 | Replay class | Scenario id | Planned retained root |
 |---|---|---|
 | `xlplay_manifest_shape_valid` | `xlplay_manifest_minimal_valid_001` | reserved until `OxXlPlay` emits a retained manifest fixture |
 | `xlplay_observation_bundle_valid` | `xlplay_capture_values_formulae_001` | acknowledged emitted scenario from `../OxXlPlay/states/excel/xlplay_capture_values_formulae_001/` |
+| `xlplay_comparison_view_observation_ready` | `xlplay_capture_spreadsheetml_formatting_001` | acknowledged emitted scenario from `../OxXlPlay/states/excel/xlplay_capture_spreadsheetml_formatting_001/` plus local retained seam baseline |
 | `xlplay_capture_loss_declared` | `xlplay_capture_loss_formula_unavailable_001` | acknowledged proposed first capture-loss scenario from `OxXlPlay` |
 | `xlplay_diff_ready_against_dna` | `xlplay_diff_ready_against_dna_001` | reserved until `OxXlPlay` proposes the first Excel-vs-DNA comparison-ready scenario |
 

@@ -14,3 +14,4 @@ workspace = true
 oxreplay-abstractions = { path = "../oxreplay-abstractions" }
 oxreplay-core = { path = "../oxreplay-core" }
 serde.workspace = true
+serde_json.workspace = true

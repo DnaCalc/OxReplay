@@ -89,9 +89,12 @@ The initial reserved replay classes for `OxXlPlay` intake are:
 These are reserved planning classes only until retained artifacts exist.
 
 ## 9. Processed response status
-`OxReplay` has now locally validated the first acknowledged `OxXlPlay` intake artifacts:
-1. canonical manifest: `../OxXlPlay/states/excel/xlplay_capture_values_formulae_001/oxreplay-manifest.json`
-2. normalized replay view: `../OxXlPlay/states/excel/xlplay_capture_values_formulae_001/views/normalized-replay.json`
+`OxReplay` has now locally validated both the first acknowledged `OxXlPlay` intake artifacts and the widened SpreadsheetML comparison-view artifacts:
+1. first canonical manifest: `../OxXlPlay/states/excel/xlplay_capture_values_formulae_001/oxreplay-manifest.json`
+2. first normalized replay view: `../OxXlPlay/states/excel/xlplay_capture_values_formulae_001/views/normalized-replay.json`
+3. widened SpreadsheetML canonical manifest: `../OxXlPlay/states/excel/xlplay_capture_spreadsheetml_formatting_001/oxreplay-manifest.json`
+4. widened SpreadsheetML normalized replay view: `../OxXlPlay/states/excel/xlplay_capture_spreadsheetml_formatting_001/views/normalized-replay.json`
+5. local retained widened seam baseline: `docs/test-runs/oxxlplay-seam-xlplay_capture_spreadsheetml_formatting_001-baseline/`
 
 Accepted first-pass seam answers:
 1. `lane_id = oxxlplay` is acceptable as an observation-source intake id and does not imply semantic ownership of Excel behavior
@@ -99,11 +102,14 @@ Accepted first-pass seam answers:
 3. an empty `registry_refs` list is acceptable for the first intake pass while no registry-dependent capability claim is being made
 4. the direct canonical-manifest path is acceptable without an immediate formal adapter manifest; a formal adapter manifest becomes useful when the projection surface or capability claim surface broadens
 5. encoding observed values into normalized replay-family strings is acceptable only as a bootstrap activation surface, not as the long-term shared diff contract
+6. the SpreadsheetML family may now publish machine-readable `comparison_views` for `visible_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`
+7. the replay-facing normalized view may now publish `source_metadata` preserving projection status, capture-loss summary, interpretation limits, workbook identity, and family inventory
 
 Still provisional:
-1. the first Excel-vs-DNA comparison-ready scenario is not yet retained inside `OxReplay`
-2. value-sensitive differential structure should widen beyond string-encoded normalized families before broad equivalence claims are made
+1. a retained Excel-vs-DNA comparison-ready scenario now exists inside `OxReplay`, but it remains a lossy observation-versus-projection comparison surface rather than broad Excel parity truth
+2. value-sensitive differential structure has widened into declared comparison families, but the current `formatting_view` and `conditional_formatting_view` envelopes still diverge structurally across lanes and should not be treated as harmonized semantic shapes yet
 3. registry pinning should be added once emitted outputs depend on canonical mismatch, severity, capability, or lifecycle families
+4. the current widened SpreadsheetML formatting and conditional-formatting surfaces remain `derived` and explicitly `lossy`, not direct Excel parity truth
 
 ## 10. `DNA OneCalc` comparison use
 `DNA OneCalc` may consume retained `OxXlPlay` artifacts through `OxReplay` for:
@@ -115,7 +121,8 @@ Still provisional:
 ### 10.1 Current consumer rule
 1. `DNA OneCalc` should treat the current `OxXlPlay` replay-facing normalized view as a first-pass observation projection,
 2. it should not treat that projection as broad semantic equivalence truth,
-3. it must keep source observation identity, projection status, and capture-loss visible when those affect interpretation.
+3. it must keep source observation identity, projection status, and capture-loss visible when those affect interpretation,
+4. `DNA OneCalc` should consume published `comparison_views` and replay-facing `source_metadata` directly through `OxReplay` rather than inferring them from raw normalized event strings.
 
 ### 10.2 Labeling rule
 When `DNA OneCalc` retains or displays `OxXlPlay`-originated artifacts consumed through `OxReplay`:

@@ -1,0 +1,27 @@
+{
+  "scenario_id": "crosslane_xml_view_family_gap_001_left",
+  "lane_id": "oxfml",
+  "events": [
+    {
+      "event_id": "left-01",
+      "source_label": "CommitAccepted",
+      "normalized_family": "candidate.accepted"
+    },
+    {
+      "event_id": "left-02",
+      "source_label": "PublishedPayloadReady",
+      "normalized_family": "publication.payload"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "visible_value",
+      "value": "6"
+    },
+    {
+      "view_family": "effective_display_text",
+      "value": "6"
+    }
+  ]
+}

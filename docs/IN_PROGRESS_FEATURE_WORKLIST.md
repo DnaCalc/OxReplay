@@ -27,8 +27,11 @@
 3. `W003` has now emitted retained conformance fixtures and baseline outputs, including current sibling-manifest acceptance and rejection cases.
 4. `W004` is now active over the first retained `OxCalc` and `OxFml` replay intake baselines and the first shared diff control/mismatch runs.
    - current note: the local OxFml replay intake now uses the landed `OxFml_V1` projection seam as its only consumed interface.
+   - current note: shared diff now has a local mechanics fixture for XML-style comparison families, a retained pre-publication integrated coverage-gap baseline, and a retained post-publication integrated baseline that consumes real OxFml and OxXlPlay `comparison_views`.
 5. `W005` is now active over the first usable `DNA ReCalc` host shell baselines for validate, replay, diff, explain, adapter validation, distill, witness-state, and pack export.
    - current note: retained `DNA ReCalc` replay, diff, and explain evidence for OxFml has been refreshed to the preferred `oxfml-v1-replay-projection` intake path where applicable.
+   - current note: retained `DNA ReCalc` explain output now emits machine-readable per-view-family records when the compared artifacts publish `comparison_views`.
+   - current note: the current honest integrated XML comparison-view result over real OxFml and OxXlPlay publications is now typed per-family divergence across `visible_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`, while the OxXlPlay side remains explicitly `lossy` and provenance-rich through `source_metadata`.
 6. `W006` is now active over retained distillation and lifecycle-governance examples; broad adapter `C4` and `C5` claims remain later evidence lanes.
 
 ## Reserved follow-on lane entry

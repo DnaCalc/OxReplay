@@ -8,6 +8,7 @@ Exercise the first real cross-lane shared replay path through the `OxCalc` and `
 2. Intake of the current `OxFml` replay surface.
 3. Shared replay and diff flow over those adapters.
 4. First retained validation fixtures or witness handles for both lanes.
+5. First retained comparison-view-family diff path for downstream XML-style verification artifacts when upstream surfaces publish those views.
 
 ## Dependencies
 1. `W002`
@@ -18,6 +19,7 @@ Exercise the first real cross-lane shared replay path through the `OxCalc` and `
 1. `OxCalc` and `OxFml` can both pass through the shared runtime path.
 2. Differences between lane-local and shared-runtime responsibilities are explicit.
 3. Next extraction candidates for `OxReplay` are named.
+4. Missing comparison-view families are classified as projection coverage gaps rather than semantic mismatches when the compared artifacts declare view families.
 
 ## Expected capability impact
 1. no capability level is pre-claimed; `W004` measures and records the currently supported `OxCalc` and `OxFml` adapter levels
@@ -40,20 +42,26 @@ Exercise the first real cross-lane shared replay path through the `OxCalc` and `
 3. stable naming policy for baseline runs: `w004-<lane-id>-<scenario-id>-baseline`
 
 ## Replay-Corpus Readiness
-1. replay classes requiring corpus scenarios before activation: `oxcalc_intake`, `oxfml_intake`, `shared_replay`, `shared_diff`
+1. replay classes requiring corpus scenarios before activation: `oxcalc_intake`, `oxfml_intake`, `shared_replay`, `shared_diff`, `shared_view_family_diff`, `shared_view_family_diff_integrated`, `shared_view_family_diff_integrated_divergence`
 2. scenario ids satisfying them:
    - `oxcalc_intake` -> `oxcalc_tracecalc_accept_publish_001`
    - `oxfml_intake` -> `oxfml_fec_accept_publication_001`
    - `shared_replay` -> `crosslane_replay_identity_001`
    - `shared_diff` -> `crosslane_diff_mismatch_001`
+   - `shared_view_family_diff` -> `crosslane_xml_view_family_gap_001`
+   - `shared_view_family_diff_integrated` -> `crosslane_xml_view_family_gap_integrated_001`
+   - `shared_view_family_diff_integrated_divergence` -> `crosslane_xml_view_family_divergence_integrated_001`
 3. reserve or later lanes: shared distillation, lifecycle promotion, and broad pack-export claims
 
 ## Pack-Evidence Traceability
 1. pack name: `PACK.replay.appliance`, `PACK.diff.cross_engine.continuous`
-2. replay classes: `oxcalc_intake`, `oxfml_intake`, `shared_replay`, `shared_diff`
+2. replay classes: `oxcalc_intake`, `oxfml_intake`, `shared_replay`, `shared_diff`, `shared_view_family_diff`, `shared_view_family_diff_integrated`, `shared_view_family_diff_integrated_divergence`
 3. scenario ids or artifact paths:
    - `oxcalc_tracecalc_accept_publish_001` -> lane source import from `../OxCalc`
    - `oxfml_fec_accept_publication_001` -> lane source import from `../OxFml`
    - `crosslane_replay_identity_001` -> `docs/test-corpus/bundles/crosslane_replay_identity_001/`
    - `crosslane_diff_mismatch_001` -> `docs/test-corpus/bundles/crosslane_diff_mismatch_001/`
+   - `crosslane_xml_view_family_gap_001` -> `docs/test-corpus/bundles/crosslane_xml_view_family_gap_001/`
+   - `crosslane_xml_view_family_gap_integrated_001` -> `docs/test-corpus/bundles/crosslane_xml_view_family_gap_integrated_001/`
+   - `crosslane_xml_view_family_divergence_integrated_001` -> `docs/test-corpus/bundles/crosslane_xml_view_family_divergence_integrated_001/`
    - retained human-readable runs -> `docs/test-runs/w004-<lane-id>-<scenario-id>-baseline/`

@@ -1,0 +1,1 @@
+cargo run --manifest-path Cargo.toml -p oxreplay-dnarecalc-cli -- diff --left docs/test-corpus/bundles/crosslane_xml_view_family_gap_001/left.replay.json --left-kind normalized-replay --right docs/test-corpus/bundles/crosslane_xml_view_family_gap_001/right.replay.json --right-kind normalized-replay

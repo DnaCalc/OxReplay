@@ -1,0 +1,8 @@
+{
+  "scenario_id": "host_explain_view_family_gap_integrated_001",
+  "command_family": "explain",
+  "left_ref": "docs/test-corpus/bundles/oxfml_v1_xml_verification_comparison_views_projection_001/projection.json",
+  "left_kind": "oxfml-v1-replay-projection",
+  "right_ref": "docs/test-runs/oxxlplay-seam-xlplay_capture_values_formulae_001-baseline/replay.json",
+  "right_kind": "normalized-replay"
+}

@@ -1,0 +1,108 @@
+{
+  "equivalent": false,
+  "records": [
+    {
+      "query_id": "explain-oxfml_xml_verification_comparison_views_001-01",
+      "summary": "comparison view family `visible_value` is missing on one side",
+      "left_scenario_id": "oxfml_xml_verification_comparison_views_001",
+      "right_scenario_id": "xlplay_capture_values_formulae_001",
+      "mismatch_kind": "projection_coverage_gap",
+      "severity": "coverage",
+      "view_family": "visible_value",
+      "left_value": "3",
+      "detail": "comparison view family `visible_value` is missing on `xlplay_capture_values_formulae_001`"
+    },
+    {
+      "query_id": "explain-oxfml_xml_verification_comparison_views_001-02",
+      "summary": "comparison view family `effective_display_text` is missing on one side",
+      "left_scenario_id": "oxfml_xml_verification_comparison_views_001",
+      "right_scenario_id": "xlplay_capture_values_formulae_001",
+      "mismatch_kind": "projection_coverage_gap",
+      "severity": "coverage",
+      "view_family": "effective_display_text",
+      "left_value": "$3.00",
+      "detail": "comparison view family `effective_display_text` is missing on `xlplay_capture_values_formulae_001`"
+    },
+    {
+      "query_id": "explain-oxfml_xml_verification_comparison_views_001-03",
+      "summary": "comparison view family `formatting_view` is missing on one side",
+      "left_scenario_id": "oxfml_xml_verification_comparison_views_001",
+      "right_scenario_id": "xlplay_capture_values_formulae_001",
+      "mismatch_kind": "projection_coverage_gap",
+      "severity": "coverage",
+      "view_family": "formatting_view",
+      "left_value": {
+        "date1904": false,
+        "display_delta": null,
+        "fill_color": "#445566",
+        "font_color": "#112233",
+        "format_delta": null,
+        "format_dependency_facts": [],
+        "format_profile": "excel-spreadsheetml-2003-default",
+        "locale_format_context": {
+          "currency_symbol": "$",
+          "date_separator": "/",
+          "date_system": "System1900",
+          "decimal_separator": ".",
+          "locale_profile_id": "EnUs",
+          "thousands_separator": ",",
+          "time_separator": ":"
+        },
+        "number_format_code": "$#,##0.00",
+        "presentation_hint": null,
+        "style_hierarchy": [
+          "workbook-default",
+          "calc"
+        ],
+        "style_id": "calc"
+      },
+      "detail": "comparison view family `formatting_view` is missing on `xlplay_capture_values_formulae_001`"
+    },
+    {
+      "query_id": "explain-oxfml_xml_verification_comparison_views_001-04",
+      "summary": "comparison view family `conditional_formatting_view` is missing on one side",
+      "left_scenario_id": "oxfml_xml_verification_comparison_views_001",
+      "right_scenario_id": "xlplay_capture_values_formulae_001",
+      "mismatch_kind": "projection_coverage_gap",
+      "severity": "coverage",
+      "view_family": "conditional_formatting_view",
+      "left_value": {
+        "effective_display": [
+          "$3.00"
+        ],
+        "operator": [
+          null
+        ],
+        "rule_kind": [
+          "Expression"
+        ],
+        "rules": [
+          {
+            "effective_display_text": "$3.00",
+            "fill_color": "#00FF00",
+            "font_color": "#FF0000",
+            "operator": null,
+            "rule_kind": "Expression",
+            "target_ranges": [
+              "A1"
+            ],
+            "thresholds": [
+              "=A1>0"
+            ]
+          }
+        ],
+        "target_ranges": [
+          [
+            "A1"
+          ]
+        ],
+        "thresholds": [
+          [
+            "=A1>0"
+          ]
+        ]
+      },
+      "detail": "comparison view family `conditional_formatting_view` is missing on `xlplay_capture_values_formulae_001`"
+    }
+  ]
+}

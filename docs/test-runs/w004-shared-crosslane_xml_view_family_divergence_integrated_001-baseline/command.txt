@@ -1,0 +1,1 @@
+cargo run --manifest-path Cargo.toml -p oxreplay-dnarecalc-cli -- diff --left docs/test-corpus/bundles/oxfml_v1_xml_verification_comparison_views_projection_001/projection.json --left-kind oxfml-v1-replay-projection --right docs/test-runs/oxxlplay-seam-xlplay_capture_spreadsheetml_formatting_001-baseline/replay.json --right-kind normalized-replay

@@ -72,7 +72,7 @@ Rule:
 |---|---|---|
 | `OxFml` | accepted local adapter floor through `C3.explain_valid`; treat `C4` and beyond as later evidence lanes | `docs/test-runs/w003-conformance-oxfml-replay-adapter-v1-baseline/report.json`, `docs/upstream/NOTES_FOR_OXFML.md`, `docs/IN_PROGRESS_FEATURE_WORKLIST.md` |
 | `OxFunc` | no accepted local replay-intake floor yet; consume current function semantics through `OxFml` and lane-native contracts rather than assuming direct `OxReplay` capability | `docs/IN_PROGRESS_FEATURE_WORKLIST.md`, `docs/upstream/NOTES_FOR_OXFUNC.md` |
-| `OxXlPlay` | accepted first-pass observation-source seam: source observation bundle plus canonical `replay.bundle.v1` manifest and first normalized replay view; treat it as a `lossy` observation intake, not as a broad equivalence or formal adapter-capability claim | `docs/spec/OXREPLAY_OXXLPLAY_OBSERVATION_SEAM.md`, `docs/test-runs/oxxlplay-seam-xlplay_capture_values_formulae_001-baseline/`, `../OxXlPlay/docs/test-runs/W007_FIRST_CROSS_REPO_REPLAY_AND_DIFF_CONSUMPTION.md` |
+| `OxXlPlay` | accepted observation-source seam: source observation bundle plus canonical `replay.bundle.v1` manifest and widened normalized replay view with declared `comparison_views` and `source_metadata`; still treat it as a `lossy` observation intake, not as a broad equivalence or formal adapter-capability claim | `docs/spec/OXREPLAY_OXXLPLAY_OBSERVATION_SEAM.md`, `docs/test-runs/oxxlplay-seam-xlplay_capture_values_formulae_001-baseline/`, `docs/test-runs/oxxlplay-seam-xlplay_capture_spreadsheetml_formatting_001-baseline/`, `../OxXlPlay/docs/test-runs/W007_FIRST_CROSS_REPO_REPLAY_AND_DIFF_CONSUMPTION.md` |
 | `OxVba` | later and narrower lane; no accepted local replay capability floor yet | `docs/IN_PROGRESS_FEATURE_WORKLIST.md`, `docs/upstream/NOTES_FOR_OXVBA.md` |
 
 Important non-dependency note:
@@ -86,8 +86,8 @@ The Foundation `DNA_ONECALC_SCOPE_AND_SPEC.md` defines named workbench modes wit
 | OneCalc mode | Required `OxReplay` surface | Minimum capability floor | Platform rule | Current honest state |
 |---|---|---|---|---|
 | `Replay` | accepted lane adapter intake through `Bundle` and `Core`; validated replay execution | `C1.replay_valid` for the active lane | all hosts that can read retained artifacts | honest for `OxFml` through `C3`; `OxFunc` and `OxVba` not yet accepted |
-| `Diff` | typed diff surface through `Diff` stratum; comparable replay artifacts from at least two sources | `C2.diff_valid` for the active lane | same as replay-capable hosts | honest for `OxFml`; first `OxXlPlay` diff is accepted but `lossy` |
-| `Explain` | causal-query surface through `Explain` stratum; adapter-backed explanation records | `C3.explain_valid` for the active lane | same as replay-capable hosts | honest for `OxFml` through `C3`; lane-limited explanation must be visible |
+| `Diff` | typed diff surface through `Diff` stratum; comparable replay artifacts from at least two sources; prefer per-family comparison where `comparison_views` are published | `C2.diff_valid` for the active lane | same as replay-capable hosts | honest for `OxFml`; the current integrated XML lane now consumes real OxFml and OxXlPlay `comparison_views` and emits typed family divergence over a still-`lossy` OxXlPlay observation input |
+| `Explain` | causal-query surface through `Explain` stratum; adapter-backed explanation records; per-family divergence and coverage-gap records when `comparison_views` are published | `C3.explain_valid` for the active lane | same as replay-capable hosts | honest for `OxFml` through `C3`; the current integrated XML lane now emits per-family divergence explain records over retained OxFml and OxXlPlay artifacts |
 | `Distill` | predicate-bound reduction through `Distill` stratum; adapter-declared closure rules and preservation predicates | `C4.distill_valid` for the active lane | only where the active lane adapter supports it | not yet honest for any lane from OneCalc perspective; hide or mark experimental |
 | `Handoff` | lineage-complete replay artifacts with provenance, seam pins, and capability floor | no additional OxReplay floor beyond what the source mode required | all hosts | depends on the source mode floor; handoff must carry exact provisional pins |
 
@@ -132,6 +132,21 @@ Every comparison surface shown in the UI or retained in artifacts should carry a
 3. `lossy` where the current retained view explicitly drops or normalizes facts,
 4. `provisional` where the compared surface depends on a still-provisional seam or capability floor.
 
+### 7.4 Comparison-view family rule
+When an active adapter or observation seam publishes `comparison_views`, `DNA OneCalc` should prefer per-family comparison over raw replay-event comparison for product-facing diff and explain.
+
+Baseline families for the current XML verification lane are:
+1. `visible_value`
+2. `effective_display_text`
+3. `formatting_view`
+4. `conditional_formatting_view`
+
+Interpretation rule:
+1. a divergence on one of those families should remain typed to that family in retained diff and explain artifacts,
+2. if one side lacks a required family, the retained result should carry a projection coverage gap instead of presenting it as a semantic mismatch,
+3. absence of a family still remains an upstream product constraint; it does not widen the local capability floor by itself,
+4. when both sides publish a family but their JSON envelopes differ, `DNA OneCalc` must preserve the typed mismatch instead of collapsing it into a missing-family story.
+
 ## 8. `OxXlPlay` input labeling and interpretation
 When `DNA OneCalc` consumes `OxXlPlay`-originated artifacts through `OxReplay`:
 
@@ -143,9 +158,9 @@ When `DNA OneCalc` consumes `OxXlPlay`-originated artifacts through `OxReplay`:
 5. capture-loss, downgraded-instrumentation, unavailable-surface, or nondeterminism markers from `OxXlPlay` must be carried through `OxReplay` into `DNA OneCalc` retained artifacts.
 
 ### 8.2 Interpretation rule
-1. the current `OxXlPlay` normalized replay view is useful for replay-path activation and coarse comparison wiring,
-2. it is not yet the right basis for broad semantic equivalence, formatting-complete parity, or registry-heavy witness claims,
-3. value-sensitive differential structure should widen beyond string-encoded normalized families before broad equivalence claims are made,
+1. the current `OxXlPlay` normalized replay view is useful for replay-path activation, declared family comparison, and provenance-carrying intake through `source_metadata`,
+2. it is still not the right basis for broad semantic equivalence, formatting-complete parity, or registry-heavy witness claims,
+3. `comparison_views` and `source_metadata` should be consumed as declared surfaces rather than reconstructed from raw normalized family strings,
 4. `DNA OneCalc` should not present the current `OxXlPlay`-backed comparison as Excel parity truth where the underlying view is declared lossy.
 
 ### 8.3 Platform rule
@@ -237,7 +252,8 @@ The following limits remain explicit:
 4. the `OxXlPlay` seam still lacks a formal adapter capability manifest and richer registry-pinned diff structure,
 5. the current `OxXlPlay` replay-facing normalized view remains explicitly `lossy`,
 6. broad lane `C4` or `C5` claims remain later evidence lanes unless retained conformance says otherwise,
-7. `DNA OneCalc` currently consumes replay as shared infrastructure rather than through a dedicated app-facing host contract; that gap is acknowledged upstream documentation debt.
+7. `DNA OneCalc` currently consumes replay as shared infrastructure rather than through a dedicated app-facing host contract; that gap is acknowledged upstream documentation debt,
+8. the shared runtime can now carry typed comparison-view families and both the OxFml and OxXlPlay XML verification lanes now publish them, but the current cross-lane XML comparison still remains partial because the retained family payloads diverge and the OxXlPlay side remains explicitly lossy.
 
 ## 12. Resulting rule
 `DNA OneCalc` should use `OxReplay` as shared replay infrastructure, not as a substitute product host, lane semantics owner, or replacement for `DNA ReCalc`.

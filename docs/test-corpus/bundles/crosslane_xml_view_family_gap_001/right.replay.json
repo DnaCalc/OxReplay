@@ -1,0 +1,47 @@
+{
+  "scenario_id": "crosslane_xml_view_family_gap_001_right",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "right-01",
+      "source_label": "cell_value:Input!A1:direct",
+      "normalized_family": "excel.surface.cell_value.direct"
+    },
+    {
+      "event_id": "right-02",
+      "source_label": "formula_text:Input!A1:direct",
+      "normalized_family": "excel.surface.formula_text.direct"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "visible_value",
+      "value": "6"
+    },
+    {
+      "view_family": "effective_display_text",
+      "value": "$6.00"
+    },
+    {
+      "view_family": "formatting_view",
+      "value": {
+        "number_format_code": "$#,##0.00",
+        "font_color": "#112233",
+        "fill_color": "#445566"
+      }
+    },
+    {
+      "view_family": "conditional_formatting_view",
+      "value": [
+        {
+          "range": "A1",
+          "rule_kind": "expression",
+          "formula": "=A1>0",
+          "font_color": "#FF0000",
+          "fill_color": "#00FF00"
+        }
+      ]
+    }
+  ]
+}

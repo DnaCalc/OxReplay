@@ -59,6 +59,7 @@ dependencies = [
  "oxreplay-abstractions",
  "oxreplay-core",
  "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -90,8 +91,10 @@ dependencies = [
 name = "oxreplay-explain"
 version = "0.1.0"
 dependencies = [
+ "oxreplay-abstractions",
  "oxreplay-diff",
  "serde",
+ "serde_json",
 ]
 
 [[package]]

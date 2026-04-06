@@ -1,5 +1,6 @@
 #![forbid(unsafe_code)]
 
+use std::collections::BTreeMap;
 use std::fs;
 use std::path::Path;
 
@@ -20,14 +21,25 @@ pub struct ReplayScenario {
     pub lane_id: LaneId,
     pub events: Vec<ReplayEvent>,
     pub registry_refs: Vec<RegistryRef>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub comparison_views: Vec<ReplayComparisonView>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub source_metadata: Option<serde_json::Value>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub struct ReplayView {
+pub struct ReplayComparisonView {
     pub view_family: String,
-    pub artifact_path: String,
+    pub value: serde_json::Value,
+}
+
+impl ReplayScenario {
+    pub fn comparison_view_map(&self) -> BTreeMap<&str, &serde_json::Value> {
+        self.comparison_views
+            .iter()
+            .map(|view| (view.view_family.as_str(), &view.value))
+            .collect()
+    }
 }
 
 pub fn is_replay_ready(scenario: &ReplayScenario) -> bool {
@@ -120,6 +132,7 @@ pub fn load_oxcalc_tracecalc_projection(
         lane_id: LaneId("oxcalc".to_string()),
         events,
         registry_refs: vec![],
+        comparison_views: vec![],
         source_metadata: None,
     })
 }
@@ -156,17 +169,28 @@ pub fn load_oxfml_v1_replay_projection(
         })?;
     let projection: OxFmlV1ReplayProjectionResult = serde_json::from_value(raw_projection.clone())
         .map_err(|source| ReplayScenarioLoadError::Parse {
-            path: path_text,
+            path: path_text.clone(),
             source,
         })?;
     let scenario_id = select_oxfml_v1_scenario_id(&projection);
     let events = project_oxfml_v1_events(&scenario_id, &projection);
+    let comparison_views = project_comparison_views(
+        raw_projection
+            .get("comparison_views")
+            .cloned()
+            .unwrap_or(serde_json::Value::Null),
+    )
+    .map_err(|source| ReplayScenarioLoadError::Parse {
+        path: path_text,
+        source,
+    })?;
 
     Ok(ReplayScenario {
         scenario_id,
         lane_id: LaneId("oxfml".to_string()),
         events,
         registry_refs: vec![],
+        comparison_views,
         source_metadata: Some(raw_projection),
     })
 }
@@ -289,8 +313,6 @@ fn normalize_oxfml_v1_trace_event(trace_event_kind: &str) -> &'static str {
         "publication.payload"
     } else if trace_event_kind.contains("reject") {
         "reject.issued"
-    } else if trace_event_kind.contains("commit") && trace_event_kind.contains("accept") {
-        "publication.committed"
     } else if trace_event_kind.contains("publish") || trace_event_kind.contains("commit") {
         "publication.committed"
     } else if trace_event_kind.contains("accepted") && trace_event_kind.contains("candidate") {
@@ -312,11 +334,21 @@ fn normalize_oxfml_v1_trace_event(trace_event_kind: &str) -> &'static str {
     }
 }
 
+fn project_comparison_views(
+    raw_value: serde_json::Value,
+) -> Result<Vec<ReplayComparisonView>, serde_json::Error> {
+    if raw_value.is_null() {
+        return Ok(Vec::new());
+    }
+
+    serde_json::from_value(raw_value)
+}
+
 #[cfg(test)]
 mod tests {
     use super::{
-        is_replay_ready, load_oxcalc_tracecalc_projection, load_oxfml_v1_replay_projection,
-        load_replay_scenario_from_path,
+        ReplayComparisonView, is_replay_ready, load_oxcalc_tracecalc_projection,
+        load_oxfml_v1_replay_projection, load_replay_scenario_from_path,
     };
     use std::path::PathBuf;
 
@@ -386,6 +418,7 @@ mod tests {
                 "publication.payload",
             ]
         );
+        assert!(scenario.comparison_views.is_empty());
     }
 
     #[test]
@@ -412,6 +445,30 @@ mod tests {
                 "candidate.built",
             ]
         );
+        assert!(scenario.comparison_views.is_empty());
+    }
+
+    #[test]
+    fn loads_oxfml_v1_xml_verification_comparison_views_projection_fixture() {
+        let scenario = load_oxfml_v1_replay_projection(
+            PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
+                "../../docs/test-corpus/bundles/oxfml_v1_xml_verification_comparison_views_projection_001/projection.json",
+            ),
+        )
+        .expect("oxfml xml verification projection should load");
+
+        assert_eq!(
+            scenario.scenario_id,
+            "oxfml_xml_verification_comparison_views_001"
+        );
+        assert_eq!(scenario.comparison_views.len(), 4);
+        assert_eq!(
+            scenario.comparison_views[1],
+            ReplayComparisonView {
+                view_family: "effective_display_text".to_string(),
+                value: serde_json::Value::String("$3.00".to_string()),
+            }
+        );
     }
 
     #[test]
@@ -425,6 +482,61 @@ mod tests {
         assert_eq!(scenario.scenario_id, "crosslane_replay_identity_001_left");
         assert!(is_replay_ready(&scenario));
         assert_eq!(scenario.events.len(), 2);
+        assert!(scenario.comparison_views.is_empty());
         assert!(scenario.source_metadata.is_none());
+    }
+
+    #[test]
+    fn loads_normalized_replay_comparison_views() {
+        let scenario =
+            load_replay_scenario_from_path(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
+                "../../docs/test-corpus/bundles/crosslane_xml_view_family_gap_001/left.replay.json",
+            ))
+            .expect("normalized fixture should load");
+
+        assert_eq!(
+            scenario.comparison_views,
+            vec![
+                ReplayComparisonView {
+                    view_family: "visible_value".to_string(),
+                    value: serde_json::Value::String("6".to_string()),
+                },
+                ReplayComparisonView {
+                    view_family: "effective_display_text".to_string(),
+                    value: serde_json::Value::String("6".to_string()),
+                },
+            ]
+        );
+    }
+
+    #[test]
+    fn loads_oxxlplay_spreadsheetml_replay_source_metadata() {
+        let scenario =
+            load_replay_scenario_from_path(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
+                "../../docs/test-runs/oxxlplay-seam-xlplay_capture_spreadsheetml_formatting_001-baseline/replay.json",
+            ))
+            .expect("oxxlplay spreadsheetml replay should load");
+
+        assert_eq!(
+            scenario.scenario_id,
+            "xlplay_capture_spreadsheetml_formatting_001"
+        );
+        assert_eq!(scenario.comparison_views.len(), 4);
+        assert_eq!(
+            scenario
+                .source_metadata
+                .as_ref()
+                .and_then(|value| value.get("projection_status")),
+            Some(&serde_json::Value::String("lossy".to_string()))
+        );
+        assert_eq!(
+            scenario
+                .source_metadata
+                .as_ref()
+                .and_then(|value| value.get("source_schema_id")),
+            Some(&serde_json::Value::String(
+                "oxxlplay.normalized_replay.v1".to_string()
+            ))
+        );
     }
 }

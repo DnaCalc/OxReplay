@@ -1,3 +1,4 @@
 handoff_id,date,status,from_repo,to_repo,topic,artifact_path,notes
 HANDOFF_OXXLPLAY_001,2026-03-20,acknowledged,OxReplay,OxXlPlay,Initial observation-to-replay seam,docs/handoffs/HANDOFF_OXXLPLAY_001_OBSERVATION_SEAM.md,OxXlPlay responded with a dual-artifact seam and first emitted canonical intake artifacts
 HANDOFF_OXFML_001,2026-04-01,acknowledged,OxReplay,OxFml,Replay-facing interface suggestions,docs/handoffs/HANDOFF_OXFML_001_REPLAY_INTERFACE_SUGGESTIONS.md,OxFml replied through NOTES_FOR_OXREPLAY and OxReplay now treats OXFML_CONSUMER_INTERFACE_AND_FACADE_CONTRACT_V1.md as the current OxFml_V1 seam baseline
+HANDOFF_DNAONECALC_001,2026-04-06,issued,OxReplay,DnaOneCalc,XML view-family comparison response,docs/handoffs/HANDOFF_DNAONECALC_001_XML_VIEW_FAMILY_COMPARISON_RESPONSE.md,OxReplay added comparison_views intake plus per-family diff and explain classification for downstream XML verification

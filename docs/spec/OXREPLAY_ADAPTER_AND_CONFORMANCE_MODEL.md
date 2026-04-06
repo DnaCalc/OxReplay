@@ -48,7 +48,9 @@ That host must still:
 3. treat missing or provisional capability as a real product constraint rather than a cosmetic label,
 4. gate product modes against the honest capability floor for each active lane,
 5. surface lossy, registry-unpinned, or capture-incomplete inputs visibly when they affect comparison or witness reliability,
-6. avoid presenting local product UX as the `DNA ReCalc` host contract.
+6. prefer declared comparison-view families over raw event-only comparison when an adapter or observation seam publishes those views,
+7. treat a missing comparison-view family as a projection coverage gap rather than silently flattening it into a semantic mismatch,
+8. avoid presenting local product UX as the `DNA ReCalc` host contract.
 
 For the full downstream-host consumption model, see `docs/spec/OXREPLAY_DNA_ONECALC_CONSUMPTION_MODEL.md`.
 
@@ -112,7 +114,8 @@ For lane-declared replay projection surfaces, `OxReplay` should also validate th
 2. source schema and source artifact family,
 3. pinned library-context refs when present,
 4. typed query bundle and replay-capture carriage when present,
-5. registry bindings, capability floor, and lifecycle metadata when applicable.
+5. registry bindings, capability floor, and lifecycle metadata when applicable,
+6. declared comparison-view families and their machine-readable values when a downstream host relies on those families for diff or explain.
 
 ## 10. Distillation boundary
 `OxReplay` may execute reduction search, but:
