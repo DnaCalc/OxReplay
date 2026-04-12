@@ -1,5 +1,7 @@
 #![forbid(unsafe_code)]
 
+use serde_json::{Map, Value};
+
 use oxreplay_bundle::{ValidationStatus, render_text_report, validate_bundle_at_path};
 use oxreplay_conformance::{load_manifest_from_path, validate_manifest};
 use oxreplay_core::{
@@ -90,12 +92,26 @@ fn main() {
 
 fn run_validate_bundle(args: Vec<String>) -> i32 {
     let mut bundle_path = None;
+    let mut batch_index_path = None;
+    let mut selection = BatchSelection::All;
     let mut format = String::from("text");
 
     let mut iter = args.into_iter();
     while let Some(arg) = iter.next() {
         match arg.as_str() {
             "--bundle" => bundle_path = iter.next(),
+            "--batch-index" => batch_index_path = iter.next(),
+            "--selection" => {
+                let Some(value) = iter.next() else {
+                    eprintln!("missing value for --selection");
+                    return 2;
+                };
+                let Some(parsed) = parse_batch_selection(&value) else {
+                    eprintln!("unsupported selection: {value}");
+                    return 2;
+                };
+                selection = parsed;
+            }
             "--format" => {
                 if let Some(value) = iter.next() {
                     format = value;
@@ -111,8 +127,93 @@ fn run_validate_bundle(args: Vec<String>) -> i32 {
         }
     }
 
+    if bundle_path.is_some() && batch_index_path.is_some() {
+        eprintln!("validate-bundle accepts either --bundle <path> or --batch-index <path>");
+        return 2;
+    }
+
+    if let Some(batch_index_path) = batch_index_path {
+        let batch = match load_batch_index(&batch_index_path) {
+            Ok(batch) => batch,
+            Err(code) => return code,
+        };
+        let selected_cases = select_batch_cases(&batch.cases, selection);
+        let mut case_reports = Vec::new();
+        let mut invalid_count = 0usize;
+
+        for case in selected_cases {
+            let Some(manifest_path) = case.oxreplay_manifest_path.as_deref() else {
+                eprintln!(
+                    "batch case `{}` is missing `oxreplay_manifest_path`",
+                    case.case_id
+                );
+                return 4;
+            };
+            let report = match validate_bundle_at_path(manifest_path) {
+                Ok(report) => report,
+                Err(error) => {
+                    eprintln!("batch case `{}`: {error}", case.case_id);
+                    return 4;
+                }
+            };
+            if report.status == ValidationStatus::Invalid {
+                invalid_count += 1;
+            }
+            case_reports.push(serde_json::json!({
+                "case_id": case.case_id,
+                "status": case.status,
+                "error": case.error,
+                "output_dir": case.output_dir,
+                "capture_path": case.capture_path,
+                "oxreplay_manifest_path": case.oxreplay_manifest_path,
+                "normalized_replay_path": case.normalized_replay_path,
+                "validation": report,
+            }));
+        }
+
+        let status = if invalid_count == 0 {
+            ValidationStatus::Valid
+        } else {
+            ValidationStatus::Invalid
+        };
+        let output = serde_json::json!({
+            "batch_id": batch.batch_id,
+            "selection": selection.as_str(),
+            "status": status,
+            "case_count": case_reports.len(),
+            "invalid_case_count": invalid_count,
+            "cases": case_reports,
+        });
+
+        match format.as_str() {
+            "json" => match serde_json::to_string_pretty(&output) {
+                Ok(text) => println!("{text}"),
+                Err(error) => {
+                    eprintln!("failed to serialize batch validation output: {error}");
+                    return 4;
+                }
+            },
+            "text" => {
+                println!("status: {:?}", status);
+                println!("batch_id: {}", batch.batch_id);
+                println!("selection: {}", selection.as_str());
+                println!("case_count: {}", case_reports.len());
+                println!("invalid_case_count: {}", invalid_count);
+            }
+            _ => {
+                eprintln!("unsupported format: {format}");
+                return 2;
+            }
+        }
+
+        return match status {
+            ValidationStatus::Valid => 0,
+            ValidationStatus::Invalid => 1,
+        };
+    }
+
     let Some(bundle_path) = bundle_path else {
-        eprintln!("validate-bundle requires --bundle <path>");
+        eprintln!("validate-bundle requires --bundle <path> or --batch-index <path>");
         return 2;
     };
 
@@ -236,6 +337,77 @@ fn run_replay(args: Vec<String>) -> i32 {
 }
 
 fn run_diff(args: Vec<String>) -> i32 {
+    let batch_request = match parse_batch_comparison_request(&args, "diff") {
+        Ok(request) => request,
+        Err(code) => return code,
+    };
+    if let Some(batch_request) = batch_request {
+        let constant = match load_scenario_by_kind(
+            &batch_request.constant_path,
+            &batch_request.constant_kind,
+        ) {
+            Ok(scenario) => scenario,
+            Err(code) => return code,
+        };
+
+        let mut equivalent = true;
+        let mut cases = Vec::new();
+        for case in batch_request.cases {
+            let replay_path = match case.normalized_replay_path.as_deref() {
+                Some(path) => path,
+                None => {
+                    eprintln!(
+                        "batch case `{}` is missing `normalized_replay_path`",
+                        case.case_id
+                    );
+                    return 4;
+                }
+            };
+            let batch_scenario = match load_scenario_by_kind(replay_path, "normalized-replay") {
+                Ok(scenario) => scenario,
+                Err(code) => return code,
+            };
+            let report = match batch_request.batch_side {
+                BatchSide::Left => diff_summary(&batch_scenario, &constant),
+                BatchSide::Right => diff_summary(&constant, &batch_scenario),
+            };
+            if !report.equivalent {
+                equivalent = false;
+            }
+            cases.push(serde_json::json!({
+                "case_id": case.case_id,
+                "status": case.status,
+                "error": case.error,
+                "output_dir": case.output_dir,
+                "capture_path": case.capture_path,
+                "oxreplay_manifest_path": case.oxreplay_manifest_path,
+                "normalized_replay_path": case.normalized_replay_path,
+                "diff": report,
+            }));
+        }
+
+        let output = serde_json::json!({
+            "batch_id": batch_request.batch_id,
+            "selection": batch_request.selection.as_str(),
+            "batch_side": batch_request.batch_side.as_str(),
+            "constant_path": batch_request.constant_path,
+            "constant_kind": batch_request.constant_kind,
+            "equivalent": equivalent,
+            "case_count": cases.len(),
+            "cases": cases,
+        });
+
+        match serde_json::to_string_pretty(&output) {
+            Ok(text) => println!("{text}"),
+            Err(error) => {
+                eprintln!("failed to serialize diff output: {error}");
+                return 4;
+            }
+        }
+
+        return if equivalent { 0 } else { 1 };
+    }
+
     let parsed = match parse_diff_inputs(args) {
         Ok(parsed) => parsed,
         Err(code) => return code,
@@ -255,6 +427,79 @@ fn run_diff(args: Vec<String>) -> i32 {
 }
 
 fn run_explain(args: Vec<String>) -> i32 {
+    let batch_request = match parse_batch_comparison_request(&args, "explain") {
+        Ok(request) => request,
+        Err(code) => return code,
+    };
+    if let Some(batch_request) = batch_request {
+        let constant = match load_scenario_by_kind(
+            &batch_request.constant_path,
+            &batch_request.constant_kind,
+        ) {
+            Ok(scenario) => scenario,
+            Err(code) => return code,
+        };
+
+        let mut equivalent = true;
+        let mut cases = Vec::new();
+        for case in batch_request.cases {
+            let replay_path = match case.normalized_replay_path.as_deref() {
+                Some(path) => path,
+                None => {
+                    eprintln!(
+                        "batch case `{}` is missing `normalized_replay_path`",
+                        case.case_id
+                    );
+                    return 4;
+                }
+            };
+            let batch_scenario = match load_scenario_by_kind(replay_path, "normalized-replay") {
+                Ok(scenario) => scenario,
+                Err(code) => return code,
+            };
+            let diff = match batch_request.batch_side {
+                BatchSide::Left => diff_summary(&batch_scenario, &constant),
+                BatchSide::Right => diff_summary(&constant, &batch_scenario),
+            };
+            let explain = explain_diff(&diff);
+            if !diff.equivalent {
+                equivalent = false;
+            }
+            cases.push(serde_json::json!({
+                "case_id": case.case_id,
+                "status": case.status,
+                "error": case.error,
+                "output_dir": case.output_dir,
+                "capture_path": case.capture_path,
+                "oxreplay_manifest_path": case.oxreplay_manifest_path,
+                "normalized_replay_path": case.normalized_replay_path,
+                "diff": diff,
+                "explain": explain,
+            }));
+        }
+
+        let output = serde_json::json!({
+            "batch_id": batch_request.batch_id,
+            "selection": batch_request.selection.as_str(),
+            "batch_side": batch_request.batch_side.as_str(),
+            "constant_path": batch_request.constant_path,
+            "constant_kind": batch_request.constant_kind,
+            "equivalent": equivalent,
+            "case_count": cases.len(),
+            "cases": cases,
+        });
+
+        match serde_json::to_string_pretty(&output) {
+            Ok(text) => println!("{text}"),
+            Err(error) => {
+                eprintln!("failed to serialize explain output: {error}");
+                return 4;
+            }
+        }
+
+        return if equivalent { 0 } else { 1 };
+    }
+
     let parsed = match parse_diff_inputs(args) {
         Ok(parsed) => parsed,
         Err(code) => return code,
@@ -564,5 +809,394 @@ fn parse_lifecycle_state(state: &str) -> Option<WitnessLifecycleState> {
         "quarantined" => Some(WitnessLifecycleState::Quarantined),
         "gc_eligible" => Some(WitnessLifecycleState::GcEligible),
         _ => None,
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum BatchSelection {
+    All,
+    MismatchOnly,
+}
+
+impl BatchSelection {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::All => "all",
+            Self::MismatchOnly => "mismatch-only",
+        }
+    }
+}
+
+#[derive(Clone)]
+struct BatchCaseIndexEntry {
+    case_id: String,
+    status: String,
+    error: Option<String>,
+    output_dir: Option<String>,
+    capture_path: Option<String>,
+    oxreplay_manifest_path: Option<String>,
+    normalized_replay_path: Option<String>,
+}
+
+struct BatchIndex {
+    batch_id: String,
+    cases: Vec<BatchCaseIndexEntry>,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum BatchSide {
+    Left,
+    Right,
+}
+
+impl BatchSide {
+    fn as_str(self) -> &'static str {
+        match self {
+            Self::Left => "left",
+            Self::Right => "right",
+        }
+    }
+}
+
+struct BatchComparisonRequest {
+    batch_id: String,
+    selection: BatchSelection,
+    batch_side: BatchSide,
+    constant_path: String,
+    constant_kind: String,
+    cases: Vec<BatchCaseIndexEntry>,
+}
+
+fn parse_batch_selection(value: &str) -> Option<BatchSelection> {
+    match value {
+        "all" => Some(BatchSelection::All),
+        "mismatch-only" => Some(BatchSelection::MismatchOnly),
+        _ => None,
+    }
+}
+
+fn load_batch_index(path: &str) -> Result<BatchIndex, i32> {
+    let text = match std::fs::read_to_string(path) {
+        Ok(text) => text,
+        Err(error) => {
+            eprintln!("failed to read batch index `{path}`: {error}");
+            return Err(4);
+        }
+    };
+    let value: Value = match serde_json::from_str(&text) {
+        Ok(value) => value,
+        Err(error) => {
+            eprintln!("failed to parse batch index `{path}`: {error}");
+            return Err(4);
+        }
+    };
+    let Some(root) = value.as_object() else {
+        eprintln!("batch index `{path}` must be a JSON object");
+        return Err(4);
+    };
+    let Some(batch_id) = root.get("batch_id").and_then(Value::as_str) else {
+        eprintln!("batch index `{path}` is missing `batch_id`");
+        return Err(4);
+    };
+    let Some(case_values) = root.get("cases").and_then(Value::as_array) else {
+        eprintln!("batch index `{path}` is missing `cases`");
+        return Err(4);
+    };
+
+    let mut cases = Vec::new();
+    for case_value in case_values {
+        let Some(case) = case_value.as_object() else {
+            eprintln!("batch index `{path}` contains a non-object case entry");
+            return Err(4);
+        };
+        let Some(case_id) = case.get("case_id").and_then(Value::as_str) else {
+            eprintln!("batch index `{path}` contains a case without `case_id`");
+            return Err(4);
+        };
+        let Some(status) = case.get("status").and_then(Value::as_str) else {
+            eprintln!("batch index `{path}` case `{case_id}` is missing `status`");
+            return Err(4);
+        };
+        cases.push(BatchCaseIndexEntry {
+            case_id: case_id.to_string(),
+            status: status.to_string(),
+            error: get_optional_string(case, "error"),
+            output_dir: get_optional_string(case, "output_dir"),
+            capture_path: get_optional_string(case, "capture_path"),
+            oxreplay_manifest_path: get_optional_string(case, "oxreplay_manifest_path"),
+            normalized_replay_path: get_optional_string(case, "normalized_replay_path"),
+        });
+    }
+
+    Ok(BatchIndex {
+        batch_id: batch_id.to_string(),
+        cases,
+    })
+}
+
+fn get_optional_string(object: &Map<String, Value>, key: &str) -> Option<String> {
+    object
+        .get(key)
+        .and_then(Value::as_str)
+        .map(ToString::to_string)
+}
+
+fn select_batch_cases(
+    cases: &[BatchCaseIndexEntry],
+    selection: BatchSelection,
+) -> Vec<BatchCaseIndexEntry> {
+    cases
+        .iter()
+        .filter(|case| match selection {
+            BatchSelection::All => true,
+            BatchSelection::MismatchOnly => {
+                case.status.eq_ignore_ascii_case("mismatch")
+                    || case.status.eq_ignore_ascii_case("mismatched")
+            }
+        })
+        .cloned()
+        .collect()
+}
+
+fn parse_batch_comparison_request(
+    args: &[String],
+    command_name: &str,
+) -> Result<Option<BatchComparisonRequest>, i32> {
+    let mut batch_index_path = None;
+    let mut selection = BatchSelection::All;
+    let mut left = None;
+    let mut left_kind = None;
+    let mut right = None;
+    let mut right_kind = None;
+
+    let mut iter = args.iter();
+    while let Some(arg) = iter.next() {
+        match arg.as_str() {
+            "--batch-index" => batch_index_path = iter.next().cloned(),
+            "--selection" => {
+                let Some(value) = iter.next() else {
+                    eprintln!("missing value for --selection");
+                    return Err(2);
+                };
+                let Some(parsed) = parse_batch_selection(value) else {
+                    eprintln!("unsupported selection: {value}");
+                    return Err(2);
+                };
+                selection = parsed;
+            }
+            "--left" => left = iter.next().cloned(),
+            "--left-kind" => left_kind = iter.next().cloned(),
+            "--right" => right = iter.next().cloned(),
+            "--right-kind" => right_kind = iter.next().cloned(),
+            _ => {}
+        }
+    }
+
+    let Some(batch_index_path) = batch_index_path else {
+        return Ok(None);
+    };
+
+    let batch = load_batch_index(&batch_index_path)?;
+    let cases = select_batch_cases(&batch.cases, selection);
+
+    if let (Some(constant_path), Some(constant_kind), None, None) = (
+        left.clone(),
+        left_kind.clone(),
+        right.clone(),
+        right_kind.clone(),
+    ) {
+        return Ok(Some(BatchComparisonRequest {
+            batch_id: batch.batch_id,
+            selection,
+            batch_side: BatchSide::Right,
+            constant_path,
+            constant_kind,
+            cases,
+        }));
+    }
+
+    if let (None, None, Some(constant_path), Some(constant_kind)) = (
+        left,
+        left_kind,
+        right.clone(),
+        right_kind.clone(),
+    ) {
+        return Ok(Some(BatchComparisonRequest {
+            batch_id: batch.batch_id,
+            selection,
+            batch_side: BatchSide::Left,
+            constant_path,
+            constant_kind,
+            cases,
+        }));
+    }
+
+    eprintln!(
+        "{command_name} with --batch-index requires exactly one constant side: either --left/--left-kind or --right/--right-kind"
+    );
+    Err(2)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{BatchSelection, BatchSide, parse_batch_comparison_request, parse_batch_selection};
+    use std::fs;
+    use std::path::PathBuf;
+    use std::time::{SystemTime, UNIX_EPOCH};
+
+    #[test]
+    fn parse_batch_selection_accepts_supported_values() {
+        assert_eq!(parse_batch_selection("all"), Some(BatchSelection::All));
+        assert_eq!(
+            parse_batch_selection("mismatch-only"),
+            Some(BatchSelection::MismatchOnly)
+        );
+        assert_eq!(parse_batch_selection("mismatch_only"), None);
+    }
+
+    #[test]
+    fn parse_batch_request_uses_left_constant_side() {
+        let batch_index_path = write_batch_index(
+            "batch-parse-left",
+            r#"{
+  "batch_id": "batch-parse-left",
+  "cases": [
+    {
+      "case_id": "case-001",
+      "status": "matched",
+      "error": null,
+      "output_dir": "out/case-001",
+      "capture_path": "out/case-001/capture.json",
+      "oxreplay_manifest_path": "out/case-001/oxreplay-manifest.json",
+      "normalized_replay_path": "out/case-001/normalized-replay.json"
+    },
+    {
+      "case_id": "case-002",
+      "status": "mismatch",
+      "error": "value diverged",
+      "output_dir": "out/case-002",
+      "capture_path": "out/case-002/capture.json",
+      "oxreplay_manifest_path": "out/case-002/oxreplay-manifest.json",
+      "normalized_replay_path": "out/case-002/normalized-replay.json"
+    }
+  ]
+}"#,
+        );
+        let args = vec![
+            "--batch-index".to_string(),
+            batch_index_path.display().to_string(),
+            "--selection".to_string(),
+            "mismatch-only".to_string(),
+            "--left".to_string(),
+            "left.json".to_string(),
+            "--left-kind".to_string(),
+            "normalized-replay".to_string(),
+        ];
+
+        let parsed = parse_batch_comparison_request(&args, "diff")
+            .expect("parse should succeed")
+            .expect("batch request should be detected");
+
+        assert_eq!(parsed.batch_id, "batch-parse-left");
+        assert_eq!(parsed.selection, BatchSelection::MismatchOnly);
+        assert_eq!(parsed.batch_side, BatchSide::Right);
+        assert_eq!(parsed.constant_path, "left.json");
+        assert_eq!(parsed.constant_kind, "normalized-replay");
+        assert_eq!(parsed.cases.len(), 1);
+        assert_eq!(parsed.cases[0].case_id, "case-002");
+        assert_eq!(
+            parsed.cases[0].normalized_replay_path.as_deref(),
+            Some("out/case-002/normalized-replay.json")
+        );
+    }
+
+    #[test]
+    fn parse_batch_request_uses_right_constant_side() {
+        let batch_index_path = write_batch_index(
+            "batch-parse-right",
+            r#"{
+  "batch_id": "batch-parse-right",
+  "cases": [
+    {
+      "case_id": "case-010",
+      "status": "matched",
+      "error": null,
+      "output_dir": "out/case-010",
+      "capture_path": "out/case-010/capture.json",
+      "oxreplay_manifest_path": "out/case-010/oxreplay-manifest.json",
+      "normalized_replay_path": "out/case-010/normalized-replay.json"
+    }
+  ]
+}"#,
+        );
+        let args = vec![
+            "--batch-index".to_string(),
+            batch_index_path.display().to_string(),
+            "--right".to_string(),
+            "right.json".to_string(),
+            "--right-kind".to_string(),
+            "oxfml-v1-replay-projection".to_string(),
+        ];
+
+        let parsed = parse_batch_comparison_request(&args, "explain")
+            .expect("parse should succeed")
+            .expect("batch request should be detected");
+
+        assert_eq!(parsed.batch_id, "batch-parse-right");
+        assert_eq!(parsed.selection, BatchSelection::All);
+        assert_eq!(parsed.batch_side, BatchSide::Left);
+        assert_eq!(parsed.constant_path, "right.json");
+        assert_eq!(parsed.constant_kind, "oxfml-v1-replay-projection");
+        assert_eq!(parsed.cases.len(), 1);
+        assert_eq!(parsed.cases[0].case_id, "case-010");
+    }
+
+    #[test]
+    fn parse_batch_request_rejects_both_constant_sides() {
+        let batch_index_path = write_batch_index(
+            "batch-parse-invalid",
+            r#"{
+  "batch_id": "batch-parse-invalid",
+  "cases": [
+    {
+      "case_id": "case-999",
+      "status": "mismatch",
+      "error": null,
+      "output_dir": "out/case-999",
+      "capture_path": "out/case-999/capture.json",
+      "oxreplay_manifest_path": "out/case-999/oxreplay-manifest.json",
+      "normalized_replay_path": "out/case-999/normalized-replay.json"
+    }
+  ]
+}"#,
+        );
+        let args = vec![
+            "--batch-index".to_string(),
+            batch_index_path.display().to_string(),
+            "--left".to_string(),
+            "left.json".to_string(),
+            "--left-kind".to_string(),
+            "normalized-replay".to_string(),
+            "--right".to_string(),
+            "right.json".to_string(),
+            "--right-kind".to_string(),
+            "normalized-replay".to_string(),
+        ];
+
+        let parsed = parse_batch_comparison_request(&args, "diff");
+        assert!(matches!(parsed, Err(2)));
+    }
+
+    fn write_batch_index(name: &str, body: &str) -> PathBuf {
+        let unique = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("clock should be after unix epoch")
+            .as_nanos();
+        let path = std::env::temp_dir().join(format!(
+            "oxreplay-dnarecalc-cli-{name}-{}-{unique}.json",
+            std::process::id()
+        ));
+        fs::write(&path, body).expect("batch index fixture should be written");
+        path
     }
 }
