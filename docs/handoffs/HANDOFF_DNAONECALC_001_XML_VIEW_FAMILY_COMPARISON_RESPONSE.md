@@ -12,7 +12,7 @@ Respond to `DnaOneCalc`'s XML verification request by declaring the local `OxRep
 
 ## Proposed change
 `OxReplay` now accepts machine-readable `comparison_views` on replay-facing artifacts and uses them to:
-1. classify divergence on `visible_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` explicitly,
+1. classify divergence on `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` explicitly,
 2. classify a missing required family as `projection_coverage_gap` instead of a plain semantic mismatch,
 3. emit explain records that name the diverged or missing family without requiring host-local reinterpretation.
 
@@ -40,7 +40,7 @@ The local contract shape is:
 4. affected repos or hosts: `DnaOneCalc`, `OxFml`, `OxXlPlay`, `DNA ReCalc`
 
 ## Requested response
-1. `DnaOneCalc` should preserve the typed per-family mismatch kinds now emitted when both sides publish `visible_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`
+1. `DnaOneCalc` should preserve the typed per-family mismatch kinds now emitted when both sides publish `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`
 2. `DnaOneCalc` may import the per-record explain JSON directly when the richer shape is present
 3. `DnaOneCalc` should continue to treat future missing-family cases as `projection_coverage_gap`, but the current retained integrated XML path is no longer a missing-family case
 4. `DnaOneCalc` should surface the OxXlPlay-side `projection_status`, `capture_loss`, `interpretation_limits`, and other replay-facing `source_metadata` qualifiers alongside these typed comparison results

@@ -136,7 +136,7 @@ Every comparison surface shown in the UI or retained in artifacts should carry a
 When an active adapter or observation seam publishes `comparison_views`, `DNA OneCalc` should prefer per-family comparison over raw replay-event comparison for product-facing diff and explain.
 
 Baseline families for the current XML verification lane are:
-1. `visible_value`
+1. `comparison_value`
 2. `effective_display_text`
 3. `formatting_view`
 4. `conditional_formatting_view`
@@ -146,6 +146,7 @@ Interpretation rule:
 2. if one side lacks a required family, the retained result should carry a projection coverage gap instead of presenting it as a semantic mismatch,
 3. absence of a family still remains an upstream product constraint; it does not widen the local capability floor by itself,
 4. when both sides publish a family but their JSON envelopes differ, `DNA OneCalc` must preserve the typed mismatch instead of collapsing it into a missing-family story.
+5. for current `comparison_value` intake, the shared value-types crate already exists in `OxFunc`, but `OxReplay` may keep the comparison seam local until an OxFunc-owned serde or replay-wire helper surface is admitted for direct reuse; that temporary seam must not treat legacy `visible_value` behavior as the steady-state path.
 
 ## 8. `OxXlPlay` input labeling and interpretation
 When `DNA OneCalc` consumes `OxXlPlay`-originated artifacts through `OxReplay`:

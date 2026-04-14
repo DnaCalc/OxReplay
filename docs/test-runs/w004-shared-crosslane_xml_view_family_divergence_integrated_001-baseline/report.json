@@ -4,12 +4,20 @@
     {
       "left_scenario_id": "oxfml_xml_verification_comparison_views_001",
       "right_scenario_id": "xlplay_capture_spreadsheetml_formatting_001",
-      "mismatch_kind": "visible_value",
+      "mismatch_kind": "comparison_value",
       "severity": "semantic",
-      "view_family": "visible_value",
-      "left_value": "3",
-      "right_value": "6",
-      "detail": "comparison view values diverged"
+      "view_family": "comparison_value",
+      "left_value": {
+        "payload": "3",
+        "value_kind": "number",
+        "worksheet_value_class": "scalar"
+      },
+      "right_value": {
+        "payload": "6",
+        "value_kind": "number",
+        "worksheet_value_class": "scalar"
+      },
+      "detail": "typed comparison values diverged"
     },
     {
       "left_scenario_id": "oxfml_xml_verification_comparison_views_001",

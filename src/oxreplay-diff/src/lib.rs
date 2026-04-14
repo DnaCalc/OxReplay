@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 #[serde(rename_all = "snake_case")]
 pub enum MismatchKind {
     ScenarioPresence,
+    ComparisonValue,
     VisibleValue,
     EffectiveDisplayText,
     FormattingView,
@@ -71,16 +72,21 @@ fn diff_comparison_views(
             left_views.get(family.as_str()),
             right_views.get(family.as_str()),
         ) {
-            (Some(left_value), Some(right_value)) if left_value != right_value => {
+            (Some(left_value), Some(right_value)) => {
+                let comparison = comparison_view_values(&family, left_value, right_value);
+                if comparison.equivalent {
+                    continue;
+                }
+
                 mismatches.push(ReplayDiff {
                     left_scenario_id: left.scenario_id.clone(),
                     right_scenario_id: right.scenario_id.clone(),
                     mismatch_kind: mismatch_kind_for_view_family(&family),
                     severity: severity_for_view_family(&family),
-                    view_family: Some(family),
+                    view_family: Some(family.clone()),
                     left_value: Some((*left_value).clone()),
                     right_value: Some((*right_value).clone()),
-                    detail: Some("comparison view values diverged".to_string()),
+                    detail: Some(comparison.detail),
                 });
             }
             (Some(left_value), None) => mismatches.push(ReplayDiff {
@@ -155,7 +161,7 @@ fn diff_normalized_events(left: &ReplayScenario, right: &ReplayScenario) -> Repl
 
 fn ordered_view_families(families: &BTreeSet<&str>) -> Vec<String> {
     const PREFERRED: [&str; 4] = [
-        "visible_value",
+        "comparison_value",
         "effective_display_text",
         "formatting_view",
         "conditional_formatting_view",
@@ -179,7 +185,7 @@ fn ordered_view_families(families: &BTreeSet<&str>) -> Vec<String> {
 
 fn mismatch_kind_for_view_family(view_family: &str) -> MismatchKind {
     match view_family {
-        "visible_value" => MismatchKind::VisibleValue,
+        "comparison_value" => MismatchKind::ComparisonValue,
         "effective_display_text" => MismatchKind::EffectiveDisplayText,
         "formatting_view" => MismatchKind::FormattingView,
         "conditional_formatting_view" => MismatchKind::ConditionalFormattingView,
@@ -189,9 +195,386 @@ fn mismatch_kind_for_view_family(view_family: &str) -> MismatchKind {
 
 fn severity_for_view_family(view_family: &str) -> SeverityClass {
     match view_family {
-        "visible_value" => SeverityClass::Semantic,
+        "comparison_value" => SeverityClass::Semantic,
         _ => SeverityClass::Informational,
     }
+}
+
+fn detail_for_view_family(view_family: &str) -> String {
+    match view_family {
+        "comparison_value" => "typed comparison values diverged".to_string(),
+        _ => "comparison view values diverged".to_string(),
+    }
+}
+
+struct ViewComparison {
+    equivalent: bool,
+    detail: String,
+}
+
+fn comparison_view_values(
+    view_family: &str,
+    left: &serde_json::Value,
+    right: &serde_json::Value,
+) -> ViewComparison {
+    match view_family {
+        "comparison_value" => comparison_value_equal(left, right),
+        _ => ViewComparison {
+            equivalent: left == right,
+            detail: detail_for_view_family(view_family),
+        },
+    }
+}
+
+fn comparison_value_equal(left: &serde_json::Value, right: &serde_json::Value) -> ViewComparison {
+    // Switch point: replace this local replay-wire normalization with direct
+    // OxFunc-owned serde/wire helpers once that surface is admitted for reuse.
+    match (
+        parse_typed_comparison_value(left),
+        parse_typed_comparison_value(right),
+    ) {
+        (Ok(left), Ok(right)) => ViewComparison {
+            equivalent: left == right,
+            detail: detail_for_view_family("comparison_value"),
+        },
+        (Err(left_error), Err(right_error)) => ViewComparison {
+            equivalent: false,
+            detail: format!(
+                "comparison_value envelopes are outside the admitted local seam (left: {}; right: {})",
+                left_error.as_message(),
+                right_error.as_message()
+            ),
+        },
+        (Err(left_error), Ok(_)) => ViewComparison {
+            equivalent: false,
+            detail: format!(
+                "left comparison_value envelope is outside the admitted local seam: {}",
+                left_error.as_message()
+            ),
+        },
+        (Ok(_), Err(right_error)) => ViewComparison {
+            equivalent: false,
+            detail: format!(
+                "right comparison_value envelope is outside the admitted local seam: {}",
+                right_error.as_message()
+            ),
+        },
+    }
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum ComparisonValueParseError {
+    MissingDeclaredKind,
+    UnsupportedDeclaredKind,
+    InvalidLogicalPayload,
+    InvalidNumberPayload,
+    InvalidTextPayload,
+    InvalidErrorPayload,
+    MissingReferencePayload,
+    MissingRichPayload,
+    MissingArrayPayload,
+    InvalidArrayPayload,
+    ArrayShapeMismatch,
+}
+
+impl ComparisonValueParseError {
+    fn as_message(self) -> &'static str {
+        match self {
+            Self::MissingDeclaredKind => "missing declared comparison_value kind",
+            Self::UnsupportedDeclaredKind => "unsupported comparison_value kind",
+            Self::InvalidLogicalPayload => "invalid logical payload",
+            Self::InvalidNumberPayload => "invalid number payload",
+            Self::InvalidTextPayload => "invalid text payload",
+            Self::InvalidErrorPayload => "invalid error payload",
+            Self::MissingReferencePayload => "missing reference payload",
+            Self::MissingRichPayload => "missing rich payload",
+            Self::MissingArrayPayload => "missing array payload",
+            Self::InvalidArrayPayload => "invalid array payload",
+            Self::ArrayShapeMismatch => "declared array shape does not match payload",
+        }
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+enum TypedComparisonValue {
+    Blank,
+    Logical(bool),
+    Number(u64),
+    Text(String),
+    Error(String),
+    Reference(serde_json::Value),
+    Rich(serde_json::Value),
+    Array(TypedArrayValue),
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+struct TypedArrayValue {
+    rows: Option<usize>,
+    cols: Option<usize>,
+    items: Vec<TypedComparisonValue>,
+}
+
+fn parse_typed_comparison_value(
+    value: &serde_json::Value,
+) -> Result<TypedComparisonValue, ComparisonValueParseError> {
+    match value {
+        serde_json::Value::Null => Ok(TypedComparisonValue::Blank),
+        serde_json::Value::Bool(boolean) => Ok(TypedComparisonValue::Logical(*boolean)),
+        serde_json::Value::Number(number) => parse_json_number(number)
+            .map(TypedComparisonValue::Number)
+            .ok_or(ComparisonValueParseError::InvalidNumberPayload),
+        serde_json::Value::String(text) => Ok(TypedComparisonValue::Text(text.clone())),
+        serde_json::Value::Array(items) => {
+            parse_nested_array(items).map(TypedComparisonValue::Array)
+        }
+        serde_json::Value::Object(object) => parse_typed_object(object),
+    }
+}
+
+fn parse_typed_object(
+    object: &serde_json::Map<String, serde_json::Value>,
+) -> Result<TypedComparisonValue, ComparisonValueParseError> {
+    let kind = object
+        .get("value_kind")
+        .or_else(|| object.get("kind"))
+        .or_else(|| object.get("type"))
+        .and_then(serde_json::Value::as_str)
+        .map(|value| value.to_ascii_lowercase())
+        .ok_or(ComparisonValueParseError::MissingDeclaredKind)?;
+
+    match kind.as_str() {
+        "blank" | "blanklike" | "empty" => Ok(TypedComparisonValue::Blank),
+        "logical" | "bool" | "boolean" => extract_logical_value(object)
+            .map(TypedComparisonValue::Logical)
+            .ok_or(ComparisonValueParseError::InvalidLogicalPayload),
+        "number" => extract_number_value(object)
+            .map(TypedComparisonValue::Number)
+            .ok_or(ComparisonValueParseError::InvalidNumberPayload),
+        "text" | "string" => extract_text_value(object)
+            .map(TypedComparisonValue::Text)
+            .ok_or(ComparisonValueParseError::InvalidTextPayload),
+        "error" => extract_error_value(object)
+            .map(TypedComparisonValue::Error)
+            .ok_or(ComparisonValueParseError::InvalidErrorPayload),
+        "reference" => extract_payload_value(object)
+            .cloned()
+            .map(TypedComparisonValue::Reference)
+            .ok_or(ComparisonValueParseError::MissingReferencePayload),
+        "rich" | "rich_value" | "richvalue" => extract_payload_value(object)
+            .cloned()
+            .map(TypedComparisonValue::Rich)
+            .ok_or(ComparisonValueParseError::MissingRichPayload),
+        "array" => parse_array_object(object).map(TypedComparisonValue::Array),
+        _ => Err(ComparisonValueParseError::UnsupportedDeclaredKind),
+    }
+}
+
+fn parse_array_object(
+    object: &serde_json::Map<String, serde_json::Value>,
+) -> Result<TypedArrayValue, ComparisonValueParseError> {
+    let rows = extract_dimension(object, &["rows", "row_count"]);
+    let cols = extract_dimension(object, &["cols", "columns", "col_count"]);
+    let payload =
+        extract_payload_value(object).ok_or(ComparisonValueParseError::MissingArrayPayload)?;
+
+    let (derived_rows, derived_cols, items) = match payload {
+        serde_json::Value::Array(items) => {
+            if items.iter().all(serde_json::Value::is_array) {
+                let flattened = flatten_nested_array(items)?;
+                let derived_cols = items
+                    .first()
+                    .and_then(serde_json::Value::as_array)
+                    .map(std::vec::Vec::len)
+                    .unwrap_or(0);
+                (items.len(), derived_cols, flattened)
+            } else {
+                (
+                    1,
+                    items.len(),
+                    items
+                        .iter()
+                        .map(parse_typed_comparison_value)
+                        .collect::<Result<Vec<_>, _>>()?,
+                )
+            }
+        }
+        serde_json::Value::Object(nested) => {
+            let nested_payload = extract_payload_value(nested)
+                .ok_or(ComparisonValueParseError::MissingArrayPayload)?;
+            match nested_payload {
+                serde_json::Value::Array(items) => {
+                    if items.iter().all(serde_json::Value::is_array) {
+                        let flattened = flatten_nested_array(items)?;
+                        let derived_cols = items
+                            .first()
+                            .and_then(serde_json::Value::as_array)
+                            .map(std::vec::Vec::len)
+                            .unwrap_or(0);
+                        (items.len(), derived_cols, flattened)
+                    } else {
+                        (
+                            1,
+                            items.len(),
+                            items
+                                .iter()
+                                .map(parse_typed_comparison_value)
+                                .collect::<Result<Vec<_>, _>>()?,
+                        )
+                    }
+                }
+                _ => return Err(ComparisonValueParseError::InvalidArrayPayload),
+            }
+        }
+        _ => return Err(ComparisonValueParseError::InvalidArrayPayload),
+    };
+
+    if rows.is_some_and(|declared_rows| declared_rows != derived_rows)
+        || cols.is_some_and(|declared_cols| declared_cols != derived_cols)
+    {
+        return Err(ComparisonValueParseError::ArrayShapeMismatch);
+    }
+
+    Ok(TypedArrayValue {
+        rows: Some(rows.unwrap_or(derived_rows)),
+        cols: Some(cols.unwrap_or(derived_cols)),
+        items,
+    })
+}
+
+fn extract_dimension(
+    object: &serde_json::Map<String, serde_json::Value>,
+    keys: &[&str],
+) -> Option<usize> {
+    for key in keys {
+        if let Some(value) = object.get(*key)
+            && let Some(number) = value.as_u64()
+        {
+            return usize::try_from(number).ok();
+        }
+    }
+    object
+        .get("shape")
+        .and_then(serde_json::Value::as_object)
+        .and_then(|shape| {
+            keys.iter()
+                .find_map(|key| shape.get(*key).and_then(serde_json::Value::as_u64))
+        })
+        .and_then(|number| usize::try_from(number).ok())
+}
+
+fn extract_payload_value(
+    object: &serde_json::Map<String, serde_json::Value>,
+) -> Option<&serde_json::Value> {
+    ["payload", "value", "items", "elements", "cells", "values"]
+        .into_iter()
+        .find_map(|key| object.get(key))
+}
+
+fn extract_logical_value(object: &serde_json::Map<String, serde_json::Value>) -> Option<bool> {
+    if let Some(value) = object.get("logical").and_then(serde_json::Value::as_bool) {
+        return Some(value);
+    }
+    match extract_payload_value(object)? {
+        serde_json::Value::Bool(value) => Some(*value),
+        serde_json::Value::String(value) if value.eq_ignore_ascii_case("true") => Some(true),
+        serde_json::Value::String(value) if value.eq_ignore_ascii_case("false") => Some(false),
+        _ => None,
+    }
+}
+
+fn extract_number_value(object: &serde_json::Map<String, serde_json::Value>) -> Option<u64> {
+    object
+        .get("number")
+        .or_else(|| object.get("numeric_value"))
+        .or_else(|| object.get("published_value"))
+        .or_else(|| extract_payload_value(object))
+        .and_then(parse_number_value)
+}
+
+fn extract_text_value(object: &serde_json::Map<String, serde_json::Value>) -> Option<String> {
+    if let Some(value) = object.get("text").and_then(serde_json::Value::as_str) {
+        return Some(value.to_string());
+    }
+    match extract_payload_value(object)? {
+        serde_json::Value::String(value) => Some(value.clone()),
+        _ => None,
+    }
+}
+
+fn extract_error_value(object: &serde_json::Map<String, serde_json::Value>) -> Option<String> {
+    object
+        .get("error_kind")
+        .and_then(serde_json::Value::as_str)
+        .or_else(|| object.get("error_code").and_then(serde_json::Value::as_str))
+        .or_else(|| object.get("code").and_then(serde_json::Value::as_str))
+        .or_else(|| extract_payload_value(object).and_then(serde_json::Value::as_str))
+        .map(ToString::to_string)
+}
+
+fn parse_number_value(value: &serde_json::Value) -> Option<u64> {
+    match value {
+        serde_json::Value::Number(number) => parse_json_number(number),
+        serde_json::Value::String(number) => number.parse::<f64>().ok().map(f64::to_bits),
+        serde_json::Value::Object(object) => {
+            extract_payload_value(object).and_then(parse_number_value)
+        }
+        _ => None,
+    }
+}
+
+fn parse_json_number(number: &serde_json::Number) -> Option<u64> {
+    number.as_f64().map(f64::to_bits)
+}
+
+fn parse_nested_array(
+    items: &[serde_json::Value],
+) -> Result<TypedArrayValue, ComparisonValueParseError> {
+    let is_matrix = items.iter().all(serde_json::Value::is_array);
+    if !is_matrix {
+        return Ok(TypedArrayValue {
+            rows: Some(1),
+            cols: Some(items.len()),
+            items: items
+                .iter()
+                .map(parse_typed_comparison_value)
+                .collect::<Result<Vec<_>, _>>()?,
+        });
+    }
+
+    Ok(TypedArrayValue {
+        rows: Some(items.len()),
+        cols: Some(
+            items
+                .first()
+                .and_then(serde_json::Value::as_array)
+                .map(std::vec::Vec::len)
+                .unwrap_or(0),
+        ),
+        items: flatten_nested_array(items)?,
+    })
+}
+
+fn flatten_nested_array(
+    items: &[serde_json::Value],
+) -> Result<Vec<TypedComparisonValue>, ComparisonValueParseError> {
+    let cols = items
+        .first()
+        .and_then(serde_json::Value::as_array)
+        .map(std::vec::Vec::len)
+        .unwrap_or(0);
+    let mut flattened = Vec::new();
+    for row in items {
+        let row = row
+            .as_array()
+            .ok_or(ComparisonValueParseError::InvalidArrayPayload)?;
+        if row.len() != cols {
+            return Err(ComparisonValueParseError::ArrayShapeMismatch);
+        }
+        for item in row {
+            flattened.push(parse_typed_comparison_value(item)?);
+        }
+    }
+    Ok(flattened)
 }
 
 #[cfg(test)]
@@ -222,8 +605,12 @@ mod tests {
             "left",
             vec![
                 ReplayComparisonView {
-                    view_family: "visible_value".to_string(),
-                    value: serde_json::Value::String("6".to_string()),
+                    view_family: "comparison_value".to_string(),
+                    value: serde_json::json!({
+                        "value_kind": "number",
+                        "worksheet_value_class": "scalar",
+                        "payload": "6"
+                    }),
                 },
                 ReplayComparisonView {
                     view_family: "effective_display_text".to_string(),
@@ -235,8 +622,12 @@ mod tests {
             "right",
             vec![
                 ReplayComparisonView {
-                    view_family: "visible_value".to_string(),
-                    value: serde_json::Value::String("6".to_string()),
+                    view_family: "comparison_value".to_string(),
+                    value: serde_json::json!({
+                        "value_kind": "number",
+                        "worksheet_value_class": "scalar",
+                        "payload": "6.0"
+                    }),
                 },
                 ReplayComparisonView {
                     view_family: "effective_display_text".to_string(),
@@ -260,20 +651,304 @@ mod tests {
     }
 
     #[test]
+    fn classifies_typed_comparison_value_divergence_explicitly() {
+        let left = scenario(
+            "left",
+            vec![
+                ReplayComparisonView {
+                    view_family: "comparison_value".to_string(),
+                    value: serde_json::json!({
+                        "value_kind": "number",
+                        "worksheet_value_class": "scalar",
+                        "payload": "6"
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "effective_display_text".to_string(),
+                    value: serde_json::Value::String("$6.00".to_string()),
+                },
+            ],
+        );
+        let right = scenario(
+            "right",
+            vec![
+                ReplayComparisonView {
+                    view_family: "comparison_value".to_string(),
+                    value: serde_json::json!({
+                        "value_kind": "number",
+                        "worksheet_value_class": "scalar",
+                        "payload": "7"
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "effective_display_text".to_string(),
+                    value: serde_json::Value::String("$6.00".to_string()),
+                },
+            ],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::ComparisonValue
+        );
+        assert_eq!(
+            report.mismatches[0].view_family.as_deref(),
+            Some("comparison_value")
+        );
+        assert_eq!(
+            report.mismatches[0].detail.as_deref(),
+            Some("typed comparison values diverged")
+        );
+    }
+
+    #[test]
+    fn treats_numeric_string_forms_as_equal_for_comparison_value() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "number",
+                    "worksheet_value_class": "scalar",
+                    "payload": "6"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "number",
+                    "worksheet_value_class": "scalar",
+                    "payload": "6.0"
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[test]
+    fn compares_comparison_value_arrays_by_shape_and_recursive_content() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "array",
+                    "rows": 2,
+                    "cols": 2,
+                    "payload": [
+                        [
+                            { "value_kind": "number", "payload": "1" },
+                            { "value_kind": "number", "payload": "2.0" }
+                        ],
+                        [
+                            { "value_kind": "text", "payload": "A" },
+                            { "value_kind": "logical", "payload": true }
+                        ]
+                    ]
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "array",
+                    "shape": { "rows": 2, "cols": 2 },
+                    "values": [
+                        [
+                            { "value_kind": "number", "payload": "1.0" },
+                            { "value_kind": "number", "payload": "2" }
+                        ],
+                        [
+                            { "value_kind": "text", "payload": "A" },
+                            { "value_kind": "logical", "payload": true }
+                        ]
+                    ]
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[test]
+    fn does_not_misclassify_reference_envelopes_as_arrays() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "reference",
+                    "payload": ["Sheet1!A1", "Sheet1!A2"]
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "array",
+                    "payload": ["Sheet1!A1", "Sheet1!A2"]
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].detail.as_deref(),
+            Some("typed comparison values diverged")
+        );
+    }
+
+    #[test]
+    fn rejects_identical_malformed_typed_number_envelopes_as_seam_drift() {
+        let malformed = serde_json::json!({
+            "value_kind": "number",
+            "payload": "not-a-number"
+        });
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: malformed.clone(),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: malformed,
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].detail.as_deref(),
+            Some(
+                "comparison_value envelopes are outside the admitted local seam (left: invalid number payload; right: invalid number payload)"
+            )
+        );
+    }
+
+    #[test]
+    fn surfaces_mixed_parse_comparison_value_seam_drift() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "number",
+                    "payload": "6"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "number",
+                    "payload": "not-a-number"
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].detail.as_deref(),
+            Some(
+                "right comparison_value envelope is outside the admitted local seam: invalid number payload"
+            )
+        );
+    }
+
+    #[test]
+    fn rejects_declared_array_shape_mismatches_as_seam_drift() {
+        let malformed = serde_json::json!({
+            "value_kind": "array",
+            "rows": 2,
+            "cols": 2,
+            "payload": [
+                [
+                    { "value_kind": "number", "payload": "1" }
+                ]
+            ]
+        });
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: malformed.clone(),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: malformed,
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].detail.as_deref(),
+            Some(
+                "comparison_value envelopes are outside the admitted local seam (left: declared array shape does not match payload; right: declared array shape does not match payload)"
+            )
+        );
+    }
+
+    #[test]
     fn classifies_missing_view_family_as_projection_gap() {
         let left = scenario(
             "left",
             vec![ReplayComparisonView {
-                view_family: "visible_value".to_string(),
-                value: serde_json::Value::String("6".to_string()),
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "number",
+                    "worksheet_value_class": "scalar",
+                    "payload": "6"
+                }),
             }],
         );
         let right = scenario(
             "right",
             vec![
                 ReplayComparisonView {
-                    view_family: "visible_value".to_string(),
-                    value: serde_json::Value::String("6".to_string()),
+                    view_family: "comparison_value".to_string(),
+                    value: serde_json::json!({
+                        "value_kind": "number",
+                        "worksheet_value_class": "scalar",
+                        "payload": "6.0"
+                    }),
                 },
                 ReplayComparisonView {
                     view_family: "formatting_view".to_string(),

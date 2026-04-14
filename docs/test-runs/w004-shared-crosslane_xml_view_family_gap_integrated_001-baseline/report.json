@@ -6,9 +6,13 @@
       "right_scenario_id": "xlplay_capture_values_formulae_001",
       "mismatch_kind": "projection_coverage_gap",
       "severity": "coverage",
-      "view_family": "visible_value",
-      "left_value": "3",
-      "detail": "comparison view family `visible_value` is missing on `xlplay_capture_values_formulae_001`"
+      "view_family": "comparison_value",
+      "left_value": {
+        "payload": "3",
+        "value_kind": "number",
+        "worksheet_value_class": "scalar"
+      },
+      "detail": "comparison view family `comparison_value` is missing on `xlplay_capture_values_formulae_001`"
     },
     {
       "left_scenario_id": "oxfml_xml_verification_comparison_views_001",

@@ -10,7 +10,7 @@ The highest-value interface changes for `OxReplay` are:
 1. publish machine-readable replay projection metadata, including source-case-id to shared-scenario alias bindings, instead of leaving that mapping private to `OxReplay`,
 2. expose a narrower replay-projection entry surface as the preferred long-term consumer-facing path,
 3. preserve more of the replay-relevant OxFml metadata that already exists in fixture and runtime artifacts, especially fence and library-context pin information,
-4. publish machine-readable `comparison_views` when OxFml can state `visible_value`, `effective_display_text`, `formatting_view`, or `conditional_formatting_view` without forcing a downstream host to infer them.
+4. publish machine-readable `comparison_views` when OxFml can state `comparison_value`, `effective_display_text`, `formatting_view`, or `conditional_formatting_view` without forcing a downstream host to infer them.
 
 ## Current evidence
 1. retained manifest-validation output: `docs/test-runs/w003-conformance-oxfml-replay-adapter-v1-baseline/`
@@ -31,7 +31,7 @@ The highest-value interface changes for `OxReplay` are:
    - observed fence members when present, including `formula_token`, `snapshot_epoch`, `bind_hash`, `profile_version`, and `capability_view_key`
    - library-context snapshot ref when present
    - registry bindings, capability floor, and lifecycle metadata when applicable
-   - `comparison_views` entries for `visible_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` when those families are available for the emitted scenario
+   - `comparison_views` entries for `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` when those families are available for the emitted scenario
 4. identify the first supported projection families beyond the initial FEC commit family in a machine-readable way; the most useful next family for `OxReplay` is session lifecycle because the OxFml manifest already advertises it
 5. keep the current capability stance honest:
    - `C0` through `C3` remain the accepted local floor,

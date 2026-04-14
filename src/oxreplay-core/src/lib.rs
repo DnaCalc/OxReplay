@@ -498,8 +498,12 @@ mod tests {
             scenario.comparison_views,
             vec![
                 ReplayComparisonView {
-                    view_family: "visible_value".to_string(),
-                    value: serde_json::Value::String("6".to_string()),
+                    view_family: "comparison_value".to_string(),
+                    value: serde_json::json!({
+                        "value_kind": "number",
+                        "worksheet_value_class": "scalar",
+                        "payload": "6"
+                    }),
                 },
                 ReplayComparisonView {
                     view_family: "effective_display_text".to_string(),

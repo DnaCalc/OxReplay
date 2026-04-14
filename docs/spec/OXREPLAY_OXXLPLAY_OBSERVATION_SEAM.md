@@ -102,7 +102,7 @@ Accepted first-pass seam answers:
 3. an empty `registry_refs` list is acceptable for the first intake pass while no registry-dependent capability claim is being made
 4. the direct canonical-manifest path is acceptable without an immediate formal adapter manifest; a formal adapter manifest becomes useful when the projection surface or capability claim surface broadens
 5. encoding observed values into normalized replay-family strings is acceptable only as a bootstrap activation surface, not as the long-term shared diff contract
-6. the SpreadsheetML family may now publish machine-readable `comparison_views` for `visible_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`
+6. the SpreadsheetML family may now publish machine-readable `comparison_views` for `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`
 7. the replay-facing normalized view may now publish `source_metadata` preserving projection status, capture-loss summary, interpretation limits, workbook identity, and family inventory
 
 Still provisional:

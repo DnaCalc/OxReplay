@@ -22,7 +22,7 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 3. `projection_status = lossy` is accepted for the current normalized replay view
 4. an immediate formal adapter manifest is not required for the first accepted intake pass
 5. keep Excel-driving behavior outside `OxReplay`; `OxReplay` should consume declared observation artifacts only
-6. `comparison_views` publication for `visible_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` is now accepted on the SpreadsheetML family
+6. `comparison_views` publication for `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` is now accepted on the SpreadsheetML family
 7. replay-facing `source_metadata` is now accepted on the normalized replay artifact as the local carrier for projection status, capture-loss summary, interpretation limits, workbook identity, and family inventory
 
 ## Minimum invariants

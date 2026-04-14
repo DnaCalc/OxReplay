@@ -51,8 +51,12 @@
   "registry_refs": [],
   "comparison_views": [
     {
-      "view_family": "visible_value",
-      "value": "6"
+      "view_family": "comparison_value",
+      "value": {
+        "value_kind": "number",
+        "worksheet_value_class": "scalar",
+        "payload": "6"
+      }
     },
     {
       "view_family": "effective_display_text",
@@ -103,7 +107,7 @@
     "capture_mode": "excel_black_box_observation",
     "captured_at_utc": "2026-04-06T14:59:57Z",
     "comparison_view_families": [
-      "visible_value",
+      "comparison_value",
       "effective_display_text",
       "formatting_view",
       "conditional_formatting_view"

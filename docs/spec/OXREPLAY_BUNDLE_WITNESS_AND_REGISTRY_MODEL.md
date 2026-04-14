@@ -31,7 +31,7 @@ The shared runtime is expected to handle these artifact families:
 `OxReplay` must be able to:
 1. validate bundle and manifest schema/version compatibility,
 2. preserve source lane, adapter id, schema lineage, capture mode, projection status, capture-loss or downgraded-instrumentation status when present, and registry pinning,
-3. preserve declared comparison-view families such as `visible_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` as machine-readable retained evidence when an upstream adapter or observation seam publishes them,
+3. preserve declared comparison-view families such as `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` as machine-readable retained evidence when an upstream adapter or observation seam publishes them,
 3. resolve sidecars and external artifact refs without silently mutating tracked inputs,
 4. surface lifecycle state, quarantine reason, supersession lineage, and pack-eligibility state explicitly,
 5. use canonical registry ids when a replay-governed registry family exists and snapshot the required registry versions in retained artifacts,

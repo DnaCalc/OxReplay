@@ -17,8 +17,12 @@
   ],
   "comparison_views": [
     {
-      "view_family": "visible_value",
-      "value": "3"
+      "view_family": "comparison_value",
+      "value": {
+        "value_kind": "number",
+        "worksheet_value_class": "scalar",
+        "payload": "3"
+      }
     },
     {
       "view_family": "effective_display_text",
