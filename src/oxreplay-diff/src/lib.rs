@@ -495,8 +495,17 @@ fn extract_text_value(object: &serde_json::Map<String, serde_json::Value>) -> Op
     if let Some(value) = object.get("text").and_then(serde_json::Value::as_str) {
         return Some(value.to_string());
     }
+    if let Some(value) = object
+        .get("utf16_code_units")
+        .and_then(decode_utf16_code_units)
+    {
+        return Some(value);
+    }
     match extract_payload_value(object)? {
         serde_json::Value::String(value) => Some(value.clone()),
+        serde_json::Value::Object(payload) => payload
+            .get("utf16_code_units")
+            .and_then(decode_utf16_code_units),
         _ => None,
     }
 }
@@ -505,10 +514,15 @@ fn extract_error_value(object: &serde_json::Map<String, serde_json::Value>) -> O
     object
         .get("error_kind")
         .and_then(serde_json::Value::as_str)
+        .or_else(|| {
+            object
+                .get("worksheet_error_code")
+                .and_then(serde_json::Value::as_str)
+        })
         .or_else(|| object.get("error_code").and_then(serde_json::Value::as_str))
         .or_else(|| object.get("code").and_then(serde_json::Value::as_str))
         .or_else(|| extract_payload_value(object).and_then(serde_json::Value::as_str))
-        .map(ToString::to_string)
+        .map(normalize_error_code)
 }
 
 fn parse_number_value(value: &serde_json::Value) -> Option<u64> {
@@ -524,6 +538,43 @@ fn parse_number_value(value: &serde_json::Value) -> Option<u64> {
 
 fn parse_json_number(number: &serde_json::Number) -> Option<u64> {
     number.as_f64().map(f64::to_bits)
+}
+
+fn decode_utf16_code_units(value: &serde_json::Value) -> Option<String> {
+    let code_units = value.as_array()?;
+    let mut units = Vec::with_capacity(code_units.len());
+    for code_unit in code_units {
+        let code_unit = code_unit.as_u64()?;
+        let code_unit = u16::try_from(code_unit).ok()?;
+        units.push(code_unit);
+    }
+
+    String::from_utf16(&units).ok()
+}
+
+fn normalize_error_code(value: &str) -> String {
+    let compact = value
+        .chars()
+        .filter(|character| character.is_ascii_alphanumeric())
+        .collect::<String>()
+        .to_ascii_uppercase();
+
+    match compact.as_str() {
+        "NULL" => "Null".to_string(),
+        "DIV0" => "Div0".to_string(),
+        "VALUE" => "Value".to_string(),
+        "REF" => "Ref".to_string(),
+        "NAME" => "Name".to_string(),
+        "NUM" => "Num".to_string(),
+        "NA" => "NA".to_string(),
+        "GETTINGDATA" => "GettingData".to_string(),
+        "SPILL" => "Spill".to_string(),
+        "CALC" => "Calc".to_string(),
+        "FIELD" => "Field".to_string(),
+        "BLOCKED" => "Blocked".to_string(),
+        "UNKNOWN" => "Unknown".to_string(),
+        _ => value.to_string(),
+    }
 }
 
 fn parse_nested_array(
@@ -740,6 +791,64 @@ mod tests {
                     value: serde_json::Value::String("$6.00".to_string()),
                 },
             ],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[test]
+    fn treats_aligned_text_string_and_utf16_payloads_as_equivalent() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "kind": "text",
+                    "text": "c"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "kind": "text",
+                    "utf16_code_units": [99]
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[test]
+    fn treats_aligned_error_code_and_worksheet_error_code_as_equivalent() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "kind": "error",
+                    "code": "NA"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "kind": "error",
+                    "worksheet_error_code": "na"
+                }),
+            }],
         );
 
         let report = diff_summary(&left, &right);
