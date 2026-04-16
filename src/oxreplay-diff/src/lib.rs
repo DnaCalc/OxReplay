@@ -706,6 +706,49 @@ mod tests {
     }
 
     #[test]
+    fn treats_aligned_comparison_value_and_effective_display_text_as_equivalent() {
+        let left = scenario(
+            "left",
+            vec![
+                ReplayComparisonView {
+                    view_family: "comparison_value".to_string(),
+                    value: serde_json::json!({
+                        "value_kind": "number",
+                        "worksheet_value_class": "scalar",
+                        "payload": "6"
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "effective_display_text".to_string(),
+                    value: serde_json::Value::String("$6.00".to_string()),
+                },
+            ],
+        );
+        let right = scenario(
+            "right",
+            vec![
+                ReplayComparisonView {
+                    view_family: "comparison_value".to_string(),
+                    value: serde_json::json!({
+                        "kind": "number",
+                        "worksheet_value_class": "scalar",
+                        "value": "6.0"
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "effective_display_text".to_string(),
+                    value: serde_json::Value::String("$6.00".to_string()),
+                },
+            ],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[test]
     fn treats_numeric_string_forms_as_equal_for_comparison_value() {
         let left = scenario(
             "left",
