@@ -83,13 +83,22 @@ fn summary_for_mismatch(mismatch: &ReplayDiff) -> String {
                 .as_deref()
                 .unwrap_or("unknown_view_family")
         ),
-        MismatchKind::OutcomeValue => format!(
-            "typed outcome diverged on `{}`",
-            mismatch
-                .view_family
-                .as_deref()
-                .unwrap_or("execution_outcome")
-        ),
+        MismatchKind::OutcomeValue => match mismatch.detail.as_deref() {
+            Some(detail) if is_legacy_outcome_seam_drift(detail) => format!(
+                "legacy typed outcome family `{}` is not admitted on the typed execution_outcome comparison path",
+                mismatch
+                    .view_family
+                    .as_deref()
+                    .unwrap_or("unknown_outcome_family")
+            ),
+            _ => format!(
+                "typed outcome diverged on `{}`",
+                mismatch
+                    .view_family
+                    .as_deref()
+                    .unwrap_or("execution_outcome")
+            ),
+        },
         _ => {
             let base = format!(
                 "comparison diverged on `{}`",
@@ -116,6 +125,10 @@ fn classification_label_from_detail(detail: &str) -> Option<&str> {
 
     let (label, _) = detail.split_once(':')?;
     LABELS.contains(&label).then_some(label)
+}
+
+fn is_legacy_outcome_seam_drift(detail: &str) -> bool {
+    detail.starts_with("legacy typed outcome family `")
 }
 
 fn explain_mismatch(index: usize, mismatch: &ReplayDiff) -> ExplainRecord {
@@ -267,5 +280,41 @@ mod tests {
             Some("typed_outcome_class")
         );
         assert_eq!(explain.records[0].required, Some(true));
+    }
+
+    #[test]
+    fn explain_surfaces_legacy_outcome_family_seam_drift() {
+        let report = ReplayDiffReport {
+            equivalent: false,
+            mismatches: vec![ReplayDiff {
+                left_scenario_id: "left".to_string(),
+                right_scenario_id: "right".to_string(),
+                mismatch_kind: MismatchKind::OutcomeValue,
+                severity: SeverityClass::Instrumentation,
+                view_family: Some("authoring_outcome".to_string()),
+                equivalence_policy_id: None,
+                required: Some(true),
+                left_value: Some(serde_json::json!({
+                    "outcome_kind": "rejected",
+                    "outcome_stage": "authoring",
+                    "class_id": "input_rejected"
+                })),
+                right_value: None,
+                detail: Some(
+                    "legacy typed outcome family `authoring_outcome` is not admitted on the typed execution_outcome comparison path; publish `execution_outcome` with explicit `outcome_kind`, `outcome_stage`, `class_id`, and optional `lane_reason_code`".to_string(),
+                ),
+            }],
+        };
+
+        let explain = explain_diff(&report);
+
+        assert!(!explain.equivalent);
+        assert_eq!(explain.records.len(), 1);
+        assert_eq!(
+            explain.records[0].summary,
+            "legacy typed outcome family `authoring_outcome` is not admitted on the typed execution_outcome comparison path"
+        );
+        assert_eq!(explain.records[0].required, Some(true));
+        assert_eq!(explain.records[0].equivalence_policy_id, None);
     }
 }
