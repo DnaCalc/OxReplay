@@ -70,9 +70,27 @@ fn diff_comparison_views(
     families.extend(left_views.keys().cloned());
     families.extend(right_views.keys().cloned());
 
+    let left_has_legacy_outcome_family = left_views
+        .keys()
+        .any(|family| is_legacy_outcome_family(family));
+    let right_has_legacy_outcome_family = right_views
+        .keys()
+        .any(|family| is_legacy_outcome_family(family));
+
     let mut mismatches = Vec::new();
 
     for family in ordered_view_families(&families) {
+        if is_legacy_outcome_family(&family) {
+            mismatches.push(legacy_outcome_family_mismatch(
+                left,
+                right,
+                &family,
+                left_views.get(&family).copied(),
+                right_views.get(&family).copied(),
+            ));
+            continue;
+        }
+
         match (left_views.get(&family), right_views.get(&family)) {
             (Some(left_view), Some(right_view)) => {
                 let left_contract = left_view.comparison_contract();
@@ -115,6 +133,10 @@ fn diff_comparison_views(
                 });
             }
             (Some(left_view), None) => {
+                if family == "execution_outcome" && right_has_legacy_outcome_family {
+                    continue;
+                }
+
                 let contract = left_view.comparison_contract();
                 if !contract.required {
                     continue;
@@ -137,6 +159,10 @@ fn diff_comparison_views(
                 });
             }
             (None, Some(right_view)) => {
+                if family == "execution_outcome" && left_has_legacy_outcome_family {
+                    continue;
+                }
+
                 let contract = right_view.comparison_contract();
                 if !contract.required {
                     continue;
@@ -201,6 +227,36 @@ fn diff_normalized_events(left: &ReplayScenario, right: &ReplayScenario) -> Repl
             right_value: Some(serde_json::json!(right_families)),
             detail: Some("normalized replay event families diverged".to_string()),
         }],
+    }
+}
+
+fn is_legacy_outcome_family(view_family: &str) -> bool {
+    matches!(
+        view_family,
+        "authoring_outcome" | "bind_outcome" | "publication_outcome"
+    )
+}
+
+fn legacy_outcome_family_mismatch(
+    left: &ReplayScenario,
+    right: &ReplayScenario,
+    family: &str,
+    left_view: Option<&ReplayComparisonView>,
+    right_view: Option<&ReplayComparisonView>,
+) -> ReplayDiff {
+    ReplayDiff {
+        left_scenario_id: left.scenario_id.clone(),
+        right_scenario_id: right.scenario_id.clone(),
+        mismatch_kind: MismatchKind::OutcomeValue,
+        severity: SeverityClass::Instrumentation,
+        view_family: Some(family.to_string()),
+        equivalence_policy_id: None,
+        required: Some(true),
+        left_value: left_view.map(|view| view.value.clone()),
+        right_value: right_view.map(|view| view.value.clone()),
+        detail: Some(format!(
+            "legacy typed outcome family `{family}` is not admitted on the typed execution_outcome comparison path; publish `execution_outcome` with explicit `outcome_kind`, `outcome_stage`, `class_id`, and optional `lane_reason_code`"
+        )),
     }
 }
 
@@ -813,7 +869,7 @@ fn flatten_nested_array(
 
 #[cfg(test)]
 mod tests {
-    use oxreplay_abstractions::LaneId;
+    use oxreplay_abstractions::{LaneId, SeverityClass};
     use oxreplay_core::{ReplayComparisonView, ReplayEvent, ReplayScenario};
 
     use super::{MismatchKind, diff_summary};
@@ -1521,6 +1577,59 @@ mod tests {
             report.mismatches[0].detail.as_deref(),
             Some(
                 "left execution_outcome envelope is outside the admitted local seam: missing outcome_stage"
+            )
+        );
+    }
+
+    #[test]
+    fn rejects_legacy_outcome_family_as_typed_outcome_seam_drift() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "authoring_outcome".to_string(),
+                value: serde_json::json!({
+                    "outcome_kind": "rejected",
+                    "outcome_stage": "authoring",
+                    "class_id": "input_rejected",
+                    "lane_reason_code": "legacy_authoring"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "execution_outcome".to_string(),
+                value: serde_json::json!({
+                    "outcome_kind": "rejected",
+                    "outcome_stage": "authoring",
+                    "class_id": "input_rejected",
+                    "lane_reason_code": "normalized_execution"
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::OutcomeValue
+        );
+        assert_eq!(
+            report.mismatches[0].severity,
+            SeverityClass::Instrumentation
+        );
+        assert_eq!(
+            report.mismatches[0].view_family.as_deref(),
+            Some("authoring_outcome")
+        );
+        assert_eq!(report.mismatches[0].equivalence_policy_id, None);
+        assert_eq!(report.mismatches[0].required, Some(true));
+        assert_eq!(
+            report.mismatches[0].detail.as_deref(),
+            Some(
+                "legacy typed outcome family `authoring_outcome` is not admitted on the typed execution_outcome comparison path; publish `execution_outcome` with explicit `outcome_kind`, `outcome_stage`, `class_id`, and optional `lane_reason_code`"
             )
         );
     }
