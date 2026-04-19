@@ -59,8 +59,10 @@ Rules:
    - executes deterministic replay over a canonical bundle
 3. `diff`
    - compares candidate versus baseline replay surfaces using typed mismatch output
+   - exact comparison semantics remain unchanged; when a finite `comparison_value` mismatch is still exact-red but matches a locally recognized numeric shape, `detail` may label it as `near_equal_last_bit` or `near_zero_residue`
 4. `explain`
    - returns causal explanation records for replay, diff, reject, or lifecycle questions
+   - should preserve those exact-red numeric mismatch-shape labels in returned summaries or details when present
 5. `distill`
    - emits predicate-bound reduction manifests and quarantine outcomes without moving distillation into hot-path replay
 6. `validate-adapter`

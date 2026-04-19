@@ -342,13 +342,12 @@ fn run_diff(args: Vec<String>) -> i32 {
         Err(code) => return code,
     };
     if let Some(batch_request) = batch_request {
-        let constant = match load_scenario_by_kind(
-            &batch_request.constant_path,
-            &batch_request.constant_kind,
-        ) {
-            Ok(scenario) => scenario,
-            Err(code) => return code,
-        };
+        let constant =
+            match load_scenario_by_kind(&batch_request.constant_path, &batch_request.constant_kind)
+            {
+                Ok(scenario) => scenario,
+                Err(code) => return code,
+            };
 
         let mut equivalent = true;
         let mut cases = Vec::new();
@@ -432,13 +431,12 @@ fn run_explain(args: Vec<String>) -> i32 {
         Err(code) => return code,
     };
     if let Some(batch_request) = batch_request {
-        let constant = match load_scenario_by_kind(
-            &batch_request.constant_path,
-            &batch_request.constant_kind,
-        ) {
-            Ok(scenario) => scenario,
-            Err(code) => return code,
-        };
+        let constant =
+            match load_scenario_by_kind(&batch_request.constant_path, &batch_request.constant_kind)
+            {
+                Ok(scenario) => scenario,
+                Err(code) => return code,
+            };
 
         let mut equivalent = true;
         let mut cases = Vec::new();
@@ -1015,12 +1013,9 @@ fn parse_batch_comparison_request(
         }));
     }
 
-    if let (None, None, Some(constant_path), Some(constant_kind)) = (
-        left,
-        left_kind,
-        right.clone(),
-        right_kind.clone(),
-    ) {
+    if let (None, None, Some(constant_path), Some(constant_kind)) =
+        (left, left_kind, right.clone(), right_kind.clone())
+    {
         return Ok(Some(BatchComparisonRequest {
             batch_id: batch.batch_id,
             selection,

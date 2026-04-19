@@ -68,8 +68,8 @@ pub fn explain_diff(diff: &ReplayDiffReport) -> ExplainReport {
     }
 }
 
-fn explain_mismatch(index: usize, mismatch: &ReplayDiff) -> ExplainRecord {
-    let summary = match mismatch.mismatch_kind {
+fn summary_for_mismatch(mismatch: &ReplayDiff) -> String {
+    match mismatch.mismatch_kind {
         MismatchKind::ProjectionCoverageGap => format!(
             "comparison view family `{}` is missing on one side",
             mismatch
@@ -77,14 +77,36 @@ fn explain_mismatch(index: usize, mismatch: &ReplayDiff) -> ExplainRecord {
                 .as_deref()
                 .unwrap_or("unknown_view_family")
         ),
-        _ => format!(
-            "comparison diverged on `{}`",
-            mismatch
-                .view_family
+        _ => {
+            let base = format!(
+                "comparison diverged on `{}`",
+                mismatch
+                    .view_family
+                    .as_deref()
+                    .unwrap_or("normalized_replay_events")
+            );
+
+            match mismatch
+                .detail
                 .as_deref()
-                .unwrap_or("normalized_replay_events")
-        ),
-    };
+                .and_then(classification_label_from_detail)
+            {
+                Some(label) => format!("{base} ({label})"),
+                None => base,
+            }
+        }
+    }
+}
+
+fn classification_label_from_detail(detail: &str) -> Option<&str> {
+    const LABELS: [&str; 2] = ["near_equal_last_bit", "near_zero_residue"];
+
+    let (label, _) = detail.split_once(':')?;
+    LABELS.contains(&label).then_some(label)
+}
+
+fn explain_mismatch(index: usize, mismatch: &ReplayDiff) -> ExplainRecord {
+    let summary = summary_for_mismatch(mismatch);
 
     ExplainRecord {
         query_id: format!("explain-{}-{:02}", mismatch.left_scenario_id, index + 1),
@@ -138,6 +160,40 @@ mod tests {
         assert_eq!(
             explain.records[0].mismatch_kind,
             Some(MismatchKind::ProjectionCoverageGap)
+        );
+    }
+
+    #[test]
+    fn explain_surfaces_numeric_mismatch_shape_in_summary() {
+        let report = ReplayDiffReport {
+            equivalent: false,
+            mismatches: vec![ReplayDiff {
+                left_scenario_id: "left".to_string(),
+                right_scenario_id: "right".to_string(),
+                mismatch_kind: MismatchKind::ComparisonValue,
+                severity: SeverityClass::Semantic,
+                view_family: Some("comparison_value".to_string()),
+                left_value: Some(serde_json::json!(14.206699082890463_f64)),
+                right_value: Some(serde_json::json!(14.206699082890465_f64)),
+                detail: Some(
+                    "near_equal_last_bit: finite numeric comparison values differ by 1 ULP (left=14.206699082890463, right=14.206699082890465, abs_delta=1.7763568394002505e-15)".to_string(),
+                ),
+            }],
+        };
+
+        let explain = explain_diff(&report);
+
+        assert!(!explain.equivalent);
+        assert_eq!(explain.records.len(), 1);
+        assert_eq!(
+            explain.records[0].summary,
+            "comparison diverged on `comparison_value` (near_equal_last_bit)"
+        );
+        assert_eq!(
+            explain.records[0].detail.as_deref(),
+            Some(
+                "near_equal_last_bit: finite numeric comparison values differ by 1 ULP (left=14.206699082890463, right=14.206699082890465, abs_delta=1.7763568394002505e-15)"
+            )
         );
     }
 }

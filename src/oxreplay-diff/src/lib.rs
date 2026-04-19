@@ -235,7 +235,7 @@ fn comparison_value_equal(left: &serde_json::Value, right: &serde_json::Value) -
     ) {
         (Ok(left), Ok(right)) => ViewComparison {
             equivalent: left == right,
-            detail: detail_for_view_family("comparison_value"),
+            detail: detail_for_typed_comparison_divergence(&left, &right),
         },
         (Err(left_error), Err(right_error)) => ViewComparison {
             equivalent: false,
@@ -259,6 +259,56 @@ fn comparison_value_equal(left: &serde_json::Value, right: &serde_json::Value) -
                 right_error.as_message()
             ),
         },
+    }
+}
+
+fn detail_for_typed_comparison_divergence(
+    left: &TypedComparisonValue,
+    right: &TypedComparisonValue,
+) -> String {
+    classify_numeric_divergence(left, right)
+        .unwrap_or_else(|| detail_for_view_family("comparison_value"))
+}
+
+fn classify_numeric_divergence(
+    left: &TypedComparisonValue,
+    right: &TypedComparisonValue,
+) -> Option<String> {
+    let (TypedComparisonValue::Number(left_bits), TypedComparisonValue::Number(right_bits)) =
+        (left, right)
+    else {
+        return None;
+    };
+
+    let left = f64::from_bits(*left_bits);
+    let right = f64::from_bits(*right_bits);
+    if !left.is_finite() || !right.is_finite() {
+        return None;
+    }
+
+    let abs_delta = (left - right).abs();
+    if ordered_float_bits(*left_bits).abs_diff(ordered_float_bits(*right_bits)) == 1 {
+        return Some(format!(
+            "near_equal_last_bit: finite numeric comparison values differ by 1 ULP (left={left:?}, right={right:?}, abs_delta={abs_delta:?})"
+        ));
+    }
+
+    if (left == 0.0 && right != 0.0 || right == 0.0 && left != 0.0) && abs_delta <= f64::EPSILON {
+        return Some(format!(
+            "near_zero_residue: one side is exact zero and the other is a tiny finite residue below f64::EPSILON (left={left:?}, right={right:?}, abs_delta={abs_delta:?})"
+        ));
+    }
+
+    None
+}
+
+fn ordered_float_bits(bits: u64) -> u64 {
+    const SIGN_BIT: u64 = 1_u64 << 63;
+
+    if bits & SIGN_BIT == 0 {
+        bits | SIGN_BIT
+    } else {
+        !bits
     }
 }
 
@@ -754,6 +804,86 @@ mod tests {
             report.mismatches[0].detail.as_deref(),
             Some("typed comparison values diverged")
         );
+    }
+
+    #[test]
+    fn classifies_one_ulp_numeric_divergence_without_relaxing_equivalence() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "number",
+                    "payload": "14.206699082890463"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "number",
+                    "payload": "14.206699082890465"
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+        let detail = report.mismatches[0]
+            .detail
+            .as_deref()
+            .expect("comparison_value mismatch detail");
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::ComparisonValue
+        );
+        assert!(detail.starts_with("near_equal_last_bit:"));
+        assert!(detail.contains("left=14.206699082890463"));
+        assert!(detail.contains("right=14.206699082890465"));
+    }
+
+    #[test]
+    fn classifies_tiny_numeric_zero_residue_without_relaxing_equivalence() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "number",
+                    "payload": "5.551115123125783e-17"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "value_kind": "number",
+                    "payload": "0.0"
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+        let detail = report.mismatches[0]
+            .detail
+            .as_deref()
+            .expect("comparison_value mismatch detail");
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::ComparisonValue
+        );
+        assert!(detail.starts_with("near_zero_residue:"));
+        assert!(detail.contains("left=5.551115123125783e-17"));
+        assert!(detail.contains("right=0.0"));
     }
 
     #[test]
