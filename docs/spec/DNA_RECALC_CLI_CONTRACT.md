@@ -60,6 +60,7 @@ Rules:
 3. `diff`
    - compares candidate versus baseline replay surfaces using typed mismatch output
    - owns normalized comparison/equivalence over declared comparison views, including `worksheet_comparison_value`, `effective_display_text`, optional `visible_value_text`, and typed `execution_outcome`
+   - the typed `execution_outcome` path should consume a single replay-facing family with explicit payload fields `outcome_kind`, `outcome_stage`, `class_id`, and optional `lane_reason_code`
    - exact comparison semantics remain unchanged; when a finite `worksheet_comparison_value` mismatch is still exact-red but matches a locally recognized numeric shape, `detail` may label it as `near_equal_last_bit` or `near_zero_residue`
 4. `explain`
    - returns causal explanation records for replay, diff, reject, or lifecycle questions

@@ -86,9 +86,6 @@ impl ReplayScenario {
 pub fn normalized_comparison_view_family(view_family: &str) -> &str {
     match view_family {
         "comparison_value" | "worksheet_comparison_value" => "worksheet_comparison_value",
-        "publication_outcome" | "authoring_outcome" | "bind_outcome" | "execution_outcome" => {
-            "execution_outcome"
-        }
         _ => view_family,
     }
 }
@@ -108,16 +105,6 @@ pub fn comparison_view_required(view_family: &str) -> bool {
         normalized_comparison_view_family(view_family),
         "visible_value_text"
     )
-}
-
-pub fn outcome_stage_for_view_family(view_family: &str) -> Option<&'static str> {
-    match view_family {
-        "authoring_outcome" => Some("authoring"),
-        "bind_outcome" => Some("bind"),
-        "publication_outcome" => Some("publication"),
-        "execution_outcome" => Some("execution"),
-        _ => None,
-    }
 }
 
 pub fn is_replay_ready(scenario: &ReplayScenario) -> bool {
@@ -428,7 +415,6 @@ mod tests {
         ReplayComparisonView, comparison_view_required, default_equivalence_policy_id,
         is_replay_ready, load_oxcalc_tracecalc_projection, load_oxfml_v1_replay_projection,
         load_replay_scenario_from_path, normalized_comparison_view_family,
-        outcome_stage_for_view_family,
     };
     use std::path::PathBuf;
 
@@ -610,12 +596,12 @@ mod tests {
             "execution_outcome"
         );
         assert_eq!(
-            default_equivalence_policy_id("execution_outcome"),
-            "typed_outcome_class"
+            normalized_comparison_view_family("authoring_outcome"),
+            "authoring_outcome"
         );
         assert_eq!(
-            outcome_stage_for_view_family("execution_outcome"),
-            Some("execution")
+            default_equivalence_policy_id("execution_outcome"),
+            "typed_outcome_class"
         );
         assert!(comparison_view_required("execution_outcome"));
         assert!(!comparison_view_required("visible_value_text"));

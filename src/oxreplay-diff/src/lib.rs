@@ -3,9 +3,7 @@
 use std::collections::BTreeSet;
 
 use oxreplay_abstractions::SeverityClass;
-use oxreplay_core::{
-    ReplayComparisonView, ReplayScenario, TypedOutcomeValue, outcome_stage_for_view_family,
-};
+use oxreplay_core::{ReplayComparisonView, ReplayScenario, TypedOutcomeValue};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -423,12 +421,10 @@ fn parse_typed_outcome_value(
     let outcome_stage = object
         .get("outcome_stage")
         .and_then(serde_json::Value::as_str)
-        .map(str::to_string)
-        .or_else(|| outcome_stage_for_view_family(&view.view_family).map(str::to_string))
-        .ok_or("missing outcome_stage")?;
+        .ok_or("missing outcome_stage")?
+        .to_string();
     let class_id = object
         .get("class_id")
-        .or_else(|| object.get("outcome_class_id"))
         .and_then(serde_json::Value::as_str)
         .ok_or("missing class_id")?
         .to_string();
@@ -1484,6 +1480,48 @@ mod tests {
                     && detail.contains("right_stage=`execution`")
                     && detail.contains("left_class_id=`input_rejected`")
                     && detail.contains("right_class_id=`value_published`"))
+        );
+    }
+
+    #[test]
+    fn rejects_execution_outcome_without_explicit_stage() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "execution_outcome".to_string(),
+                value: serde_json::json!({
+                    "outcome_kind": "rejected",
+                    "class_id": "input_rejected",
+                    "lane_reason_code": "excel_programmatic_authoring_rejected"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "execution_outcome".to_string(),
+                value: serde_json::json!({
+                    "outcome_kind": "rejected",
+                    "outcome_stage": "bind",
+                    "class_id": "input_rejected",
+                    "lane_reason_code": "oxfml_bind_boundary_rejected"
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::OutcomeValue
+        );
+        assert_eq!(
+            report.mismatches[0].detail.as_deref(),
+            Some(
+                "left execution_outcome envelope is outside the admitted local seam: missing outcome_stage"
+            )
         );
     }
 

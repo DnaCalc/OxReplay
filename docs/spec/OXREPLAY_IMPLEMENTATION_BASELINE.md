@@ -34,6 +34,7 @@ The initial workspace members are:
 4. `oxreplay-diff`
    - typed mismatch and comparison surfaces
    - normalized comparison/equivalence ownership over declared comparison views, including `worksheet_comparison_value`, `effective_display_text`, optional `visible_value_text`, and typed `execution_outcome` comparison
+   - the typed `execution_outcome` path should require explicit payload `outcome_kind`, `outcome_stage`, and `class_id` rather than repairing legacy outcome-family shapes inside comparison logic
 5. `oxreplay-explain`
    - explanation queries and causal records
    - machine-usable propagation of comparison policy, coverage-gap, outcome-class, and numeric mismatch-shape labeling
