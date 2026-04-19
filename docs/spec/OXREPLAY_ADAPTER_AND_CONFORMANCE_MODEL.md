@@ -49,8 +49,9 @@ That host must still:
 4. gate product modes against the honest capability floor for each active lane,
 5. surface lossy, registry-unpinned, or capture-incomplete inputs visibly when they affect comparison or witness reliability,
 6. prefer declared comparison-view families over raw event-only comparison when an adapter or observation seam publishes those views,
-7. treat a missing comparison-view family as a projection coverage gap rather than silently flattening it into a semantic mismatch,
-8. avoid presenting local product UX as the `DNA ReCalc` host contract.
+7. publish typed outcome comparison through a single normalized `execution_outcome` family with typed payload fields such as `outcome_kind`, `outcome_stage`, `class_id`, and `lane_reason_code` when outcome or rejection equivalence matters,
+8. treat a missing required comparison-view family as a projection coverage gap rather than silently flattening it into a semantic mismatch,
+9. avoid presenting local product UX as the `DNA ReCalc` host contract.
 
 For the full downstream-host consumption model, see `docs/spec/OXREPLAY_DNA_ONECALC_CONSUMPTION_MODEL.md`.
 
@@ -115,7 +116,8 @@ For lane-declared replay projection surfaces, `OxReplay` should also validate th
 3. pinned library-context refs when present,
 4. typed query bundle and replay-capture carriage when present,
 5. registry bindings, capability floor, and lifecycle metadata when applicable,
-6. declared comparison-view families and their machine-readable values when a downstream host relies on those families for diff or explain.
+6. declared comparison-view families and their machine-readable values when a downstream host relies on those families for diff or explain,
+7. typed `execution_outcome` payload carriage when outcome or rejection equivalence is part of the consumed comparison surface.
 
 ## 10. Distillation boundary
 `OxReplay` may execute reduction search, but:

@@ -33,8 +33,10 @@ The initial workspace members are:
    - normalized replay events, views, and orchestration context
 4. `oxreplay-diff`
    - typed mismatch and comparison surfaces
+   - normalized comparison/equivalence ownership over declared comparison views, including `worksheet_comparison_value`, `effective_display_text`, optional `visible_value_text`, and typed `execution_outcome` comparison
 5. `oxreplay-explain`
    - explanation queries and causal records
+   - machine-usable propagation of comparison policy, coverage-gap, outcome-class, and numeric mismatch-shape labeling
 6. `oxreplay-distill`
    - preservation predicates, reduction outcomes, and reduction manifests
 7. `oxreplay-governance`

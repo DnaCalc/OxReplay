@@ -13,8 +13,10 @@ The initial shared-runtime split is:
    - normalized replay runtime types, orchestration context, and source-preserving identity carriers.
 4. `Diff`
    - typed mismatch objects and diff planning over normalized replay state.
+   - normalized comparison and equivalence over declared comparison views, including worksheet comparison values, display-text surfaces, exact numeric mismatch-shape classification, and explicit `execution_outcome` comparison by typed outcome payload rather than worksheet-value equality.
 5. `Explain`
    - causal-query and explanation surfaces over replay and diff outputs.
+   - preserved comparison-policy and mismatch-shape labeling for machine-usable downstream hosts.
 6. `Distill`
    - predicate-bound witness reduction search, reduction manifests, and witness-bundle emission.
 7. `Governance`

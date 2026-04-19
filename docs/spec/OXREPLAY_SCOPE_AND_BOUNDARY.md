@@ -21,10 +21,11 @@ It exists to provide reusable mechanics for:
 2. Bundle parsing, serialization, validation, and indexing.
 3. Replay execution over canonical bundles.
 4. Shared mismatch, explain, and reduction runtime surfaces.
-5. Registry snapshot handling and witness lifecycle mechanics.
-6. Adapter SDK, loader, and conformance harnesses.
-7. Pack-facing export mechanics for replay-governed packs.
-8. Shared runtime surfaces that a non-`DNA ReCalc` host may embed or invoke without taking semantic ownership.
+5. Normalized comparison and equivalence logic over declared comparison views, including worksheet comparison values, display-text surfaces, exact numeric mismatch-shape classification, and typed outcome-class equivalence.
+6. Registry snapshot handling and witness lifecycle mechanics.
+7. Adapter SDK, loader, and conformance harnesses.
+8. Pack-facing export mechanics for replay-governed packs.
+9. Shared runtime surfaces that a non-`DNA ReCalc` host may embed or invoke without taking semantic ownership.
 
 ## 4. Out of scope
 1. Semantic ownership of evaluator, function, coordinator, or VBA behavior.
@@ -32,13 +33,15 @@ It exists to provide reusable mechanics for:
 3. Lane-local reject taxonomy authority.
 4. Lane-local safe-rewrite policy for distillation.
 5. Spreadsheet product-host behavior outside replay-host concerns.
+6. Final host verdict policy such as product-facing `Matched`, `Mismatched`, or `Blocked` assignment.
 
 ## 5. Ownership split
 1. Foundation owns doctrine and governance.
 2. Lane repos own semantic meaning.
-3. `OxReplay` owns shared runtime mechanics.
+3. `OxReplay` owns shared runtime mechanics, including normalized comparison and equivalence over declared comparison views.
 4. `DNA ReCalc` is the generic host surface over those mechanics.
 5. Downstream product hosts may consume those mechanics, but they remain separate hosts with their own UI, persistence, and orchestration policy.
+6. Final host verdict policy remains host-owned even when the host consumes `OxReplay` comparison and explain outputs.
 
 ## 6. Non-`DNA ReCalc` host consumer rule
 A downstream spreadsheet proving host such as `DNA OneCalc` may:

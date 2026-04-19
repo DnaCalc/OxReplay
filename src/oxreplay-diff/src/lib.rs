@@ -3,7 +3,9 @@
 use std::collections::BTreeSet;
 
 use oxreplay_abstractions::SeverityClass;
-use oxreplay_core::ReplayScenario;
+use oxreplay_core::{
+    ReplayComparisonView, ReplayScenario, TypedOutcomeValue, outcome_stage_for_view_family,
+};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -15,6 +17,7 @@ pub enum MismatchKind {
     EffectiveDisplayText,
     FormattingView,
     ConditionalFormattingView,
+    OutcomeValue,
     ViewValue,
     ProjectionCoverageGap,
     RejectKind,
@@ -31,6 +34,10 @@ pub struct ReplayDiff {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub view_family: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub equivalence_policy_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub required: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub left_value: Option<serde_json::Value>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub right_value: Option<serde_json::Value>,
@@ -45,8 +52,8 @@ pub struct ReplayDiffReport {
 }
 
 pub fn diff_summary(left: &ReplayScenario, right: &ReplayScenario) -> ReplayDiffReport {
-    let left_views = left.comparison_view_map();
-    let right_views = right.comparison_view_map();
+    let left_views = left.normalized_comparison_view_map();
+    let right_views = right.normalized_comparison_view_map();
 
     if !left_views.is_empty() || !right_views.is_empty() {
         return diff_comparison_views(left, right, &left_views, &right_views);
@@ -58,22 +65,40 @@ pub fn diff_summary(left: &ReplayScenario, right: &ReplayScenario) -> ReplayDiff
 fn diff_comparison_views(
     left: &ReplayScenario,
     right: &ReplayScenario,
-    left_views: &std::collections::BTreeMap<&str, &serde_json::Value>,
-    right_views: &std::collections::BTreeMap<&str, &serde_json::Value>,
+    left_views: &std::collections::BTreeMap<String, &ReplayComparisonView>,
+    right_views: &std::collections::BTreeMap<String, &ReplayComparisonView>,
 ) -> ReplayDiffReport {
     let mut families = BTreeSet::new();
-    families.extend(left_views.keys().copied());
-    families.extend(right_views.keys().copied());
+    families.extend(left_views.keys().cloned());
+    families.extend(right_views.keys().cloned());
 
     let mut mismatches = Vec::new();
 
     for family in ordered_view_families(&families) {
-        match (
-            left_views.get(family.as_str()),
-            right_views.get(family.as_str()),
-        ) {
-            (Some(left_value), Some(right_value)) => {
-                let comparison = comparison_view_values(&family, left_value, right_value);
+        match (left_views.get(&family), right_views.get(&family)) {
+            (Some(left_view), Some(right_view)) => {
+                let left_contract = left_view.comparison_contract();
+                let right_contract = right_view.comparison_contract();
+                if left_contract.equivalence_policy_id != right_contract.equivalence_policy_id {
+                    mismatches.push(ReplayDiff {
+                        left_scenario_id: left.scenario_id.clone(),
+                        right_scenario_id: right.scenario_id.clone(),
+                        mismatch_kind: mismatch_kind_for_view_family(&family),
+                        severity: SeverityClass::Instrumentation,
+                        view_family: Some(family.clone()),
+                        equivalence_policy_id: None,
+                        required: Some(left_contract.required || right_contract.required),
+                        left_value: Some(left_view.value.clone()),
+                        right_value: Some(right_view.value.clone()),
+                        detail: Some(format!(
+                            "comparison view family `{family}` declared incompatible equivalence policies (left=`{}`, right=`{}`)",
+                            left_contract.equivalence_policy_id, right_contract.equivalence_policy_id
+                        )),
+                    });
+                    continue;
+                }
+
+                let comparison = comparison_view_values(&family, left_view, right_view);
                 if comparison.equivalent {
                     continue;
                 }
@@ -84,37 +109,57 @@ fn diff_comparison_views(
                     mismatch_kind: mismatch_kind_for_view_family(&family),
                     severity: severity_for_view_family(&family),
                     view_family: Some(family.clone()),
-                    left_value: Some((*left_value).clone()),
-                    right_value: Some((*right_value).clone()),
+                    equivalence_policy_id: Some(left_contract.equivalence_policy_id),
+                    required: Some(left_contract.required || right_contract.required),
+                    left_value: Some(left_view.value.clone()),
+                    right_value: Some(right_view.value.clone()),
                     detail: Some(comparison.detail),
                 });
             }
-            (Some(left_value), None) => mismatches.push(ReplayDiff {
-                left_scenario_id: left.scenario_id.clone(),
-                right_scenario_id: right.scenario_id.clone(),
-                mismatch_kind: MismatchKind::ProjectionCoverageGap,
-                severity: SeverityClass::Coverage,
-                view_family: Some(family.clone()),
-                left_value: Some((*left_value).clone()),
-                right_value: None,
-                detail: Some(format!(
-                    "comparison view family `{family}` is missing on `{}`",
-                    right.scenario_id
-                )),
-            }),
-            (None, Some(right_value)) => mismatches.push(ReplayDiff {
-                left_scenario_id: left.scenario_id.clone(),
-                right_scenario_id: right.scenario_id.clone(),
-                mismatch_kind: MismatchKind::ProjectionCoverageGap,
-                severity: SeverityClass::Coverage,
-                view_family: Some(family.clone()),
-                left_value: None,
-                right_value: Some((*right_value).clone()),
-                detail: Some(format!(
-                    "comparison view family `{family}` is missing on `{}`",
-                    left.scenario_id
-                )),
-            }),
+            (Some(left_view), None) => {
+                let contract = left_view.comparison_contract();
+                if !contract.required {
+                    continue;
+                }
+
+                mismatches.push(ReplayDiff {
+                    left_scenario_id: left.scenario_id.clone(),
+                    right_scenario_id: right.scenario_id.clone(),
+                    mismatch_kind: MismatchKind::ProjectionCoverageGap,
+                    severity: SeverityClass::Coverage,
+                    view_family: Some(family.clone()),
+                    equivalence_policy_id: Some(contract.equivalence_policy_id),
+                    required: Some(true),
+                    left_value: Some(left_view.value.clone()),
+                    right_value: None,
+                    detail: Some(format!(
+                        "comparison view family `{family}` is missing on `{}`",
+                        right.scenario_id
+                    )),
+                });
+            }
+            (None, Some(right_view)) => {
+                let contract = right_view.comparison_contract();
+                if !contract.required {
+                    continue;
+                }
+
+                mismatches.push(ReplayDiff {
+                    left_scenario_id: left.scenario_id.clone(),
+                    right_scenario_id: right.scenario_id.clone(),
+                    mismatch_kind: MismatchKind::ProjectionCoverageGap,
+                    severity: SeverityClass::Coverage,
+                    view_family: Some(family.clone()),
+                    equivalence_policy_id: Some(contract.equivalence_policy_id),
+                    required: Some(true),
+                    left_value: None,
+                    right_value: Some(right_view.value.clone()),
+                    detail: Some(format!(
+                        "comparison view family `{family}` is missing on `{}`",
+                        left.scenario_id
+                    )),
+                });
+            }
             _ => {}
         }
     }
@@ -152,6 +197,8 @@ fn diff_normalized_events(left: &ReplayScenario, right: &ReplayScenario) -> Repl
             mismatch_kind: MismatchKind::TraceEvent,
             severity: SeverityClass::Semantic,
             view_family: None,
+            equivalence_policy_id: None,
+            required: None,
             left_value: Some(serde_json::json!(left_families)),
             right_value: Some(serde_json::json!(right_families)),
             detail: Some("normalized replay event families diverged".to_string()),
@@ -159,10 +206,12 @@ fn diff_normalized_events(left: &ReplayScenario, right: &ReplayScenario) -> Repl
     }
 }
 
-fn ordered_view_families(families: &BTreeSet<&str>) -> Vec<String> {
-    const PREFERRED: [&str; 4] = [
-        "comparison_value",
+fn ordered_view_families(families: &BTreeSet<String>) -> Vec<String> {
+    const PREFERRED: [&str; 6] = [
+        "worksheet_comparison_value",
         "effective_display_text",
+        "visible_value_text",
+        "execution_outcome",
         "formatting_view",
         "conditional_formatting_view",
     ];
@@ -175,8 +224,8 @@ fn ordered_view_families(families: &BTreeSet<&str>) -> Vec<String> {
     }
 
     for family in families {
-        if !PREFERRED.contains(family) {
-            ordered.push((*family).to_string());
+        if !PREFERRED.contains(&family.as_str()) {
+            ordered.push(family.clone());
         }
     }
 
@@ -185,8 +234,10 @@ fn ordered_view_families(families: &BTreeSet<&str>) -> Vec<String> {
 
 fn mismatch_kind_for_view_family(view_family: &str) -> MismatchKind {
     match view_family {
-        "comparison_value" => MismatchKind::ComparisonValue,
+        "worksheet_comparison_value" => MismatchKind::ComparisonValue,
         "effective_display_text" => MismatchKind::EffectiveDisplayText,
+        "visible_value_text" => MismatchKind::VisibleValue,
+        "execution_outcome" => MismatchKind::OutcomeValue,
         "formatting_view" => MismatchKind::FormattingView,
         "conditional_formatting_view" => MismatchKind::ConditionalFormattingView,
         _ => MismatchKind::ViewValue,
@@ -195,14 +246,15 @@ fn mismatch_kind_for_view_family(view_family: &str) -> MismatchKind {
 
 fn severity_for_view_family(view_family: &str) -> SeverityClass {
     match view_family {
-        "comparison_value" => SeverityClass::Semantic,
+        "worksheet_comparison_value" | "execution_outcome" => SeverityClass::Semantic,
         _ => SeverityClass::Informational,
     }
 }
 
 fn detail_for_view_family(view_family: &str) -> String {
     match view_family {
-        "comparison_value" => "typed comparison values diverged".to_string(),
+        "worksheet_comparison_value" => "typed comparison values diverged".to_string(),
+        "execution_outcome" => "typed outcome classes diverged".to_string(),
         _ => "comparison view values diverged".to_string(),
     }
 }
@@ -214,13 +266,14 @@ struct ViewComparison {
 
 fn comparison_view_values(
     view_family: &str,
-    left: &serde_json::Value,
-    right: &serde_json::Value,
+    left: &ReplayComparisonView,
+    right: &ReplayComparisonView,
 ) -> ViewComparison {
     match view_family {
-        "comparison_value" => comparison_value_equal(left, right),
+        "worksheet_comparison_value" => comparison_value_equal(&left.value, &right.value),
+        "execution_outcome" => outcome_value_equal(left, right),
         _ => ViewComparison {
-            equivalent: left == right,
+            equivalent: left.value == right.value,
             detail: detail_for_view_family(view_family),
         },
     }
@@ -267,7 +320,7 @@ fn detail_for_typed_comparison_divergence(
     right: &TypedComparisonValue,
 ) -> String {
     classify_numeric_divergence(left, right)
-        .unwrap_or_else(|| detail_for_view_family("comparison_value"))
+        .unwrap_or_else(|| detail_for_view_family("worksheet_comparison_value"))
 }
 
 fn classify_numeric_divergence(
@@ -310,6 +363,90 @@ fn ordered_float_bits(bits: u64) -> u64 {
     } else {
         !bits
     }
+}
+
+fn outcome_value_equal(
+    left: &ReplayComparisonView,
+    right: &ReplayComparisonView,
+) -> ViewComparison {
+    match (
+        parse_typed_outcome_value(left),
+        parse_typed_outcome_value(right),
+    ) {
+        (Ok(left), Ok(right)) => ViewComparison {
+            equivalent: left.outcome_kind == right.outcome_kind && left.class_id == right.class_id,
+            detail: if left.outcome_kind == right.outcome_kind && left.class_id == right.class_id {
+                detail_for_view_family("execution_outcome")
+            } else {
+                format!(
+                    "typed outcome classes diverged (left_stage=`{}`, right_stage=`{}`, left_outcome_kind=`{}`, right_outcome_kind=`{}`, left_class_id=`{}`, right_class_id=`{}`)",
+                    left.outcome_stage,
+                    right.outcome_stage,
+                    left.outcome_kind,
+                    right.outcome_kind,
+                    left.class_id,
+                    right.class_id,
+                )
+            },
+        },
+        (Err(left_error), Err(right_error)) => ViewComparison {
+            equivalent: false,
+            detail: format!(
+                "execution_outcome envelopes are outside the admitted local seam (left: {left_error}; right: {right_error})"
+            ),
+        },
+        (Err(left_error), Ok(_)) => ViewComparison {
+            equivalent: false,
+            detail: format!(
+                "left execution_outcome envelope is outside the admitted local seam: {left_error}"
+            ),
+        },
+        (Ok(_), Err(right_error)) => ViewComparison {
+            equivalent: false,
+            detail: format!(
+                "right execution_outcome envelope is outside the admitted local seam: {right_error}"
+            ),
+        },
+    }
+}
+
+fn parse_typed_outcome_value(
+    view: &ReplayComparisonView,
+) -> Result<TypedOutcomeValue, &'static str> {
+    let object = view.value.as_object().ok_or("expected object payload")?;
+
+    let outcome_kind = object
+        .get("outcome_kind")
+        .and_then(serde_json::Value::as_str)
+        .ok_or("missing outcome_kind")?
+        .to_string();
+    let outcome_stage = object
+        .get("outcome_stage")
+        .and_then(serde_json::Value::as_str)
+        .map(str::to_string)
+        .or_else(|| outcome_stage_for_view_family(&view.view_family).map(str::to_string))
+        .ok_or("missing outcome_stage")?;
+    let class_id = object
+        .get("class_id")
+        .or_else(|| object.get("outcome_class_id"))
+        .and_then(serde_json::Value::as_str)
+        .ok_or("missing class_id")?
+        .to_string();
+
+    Ok(TypedOutcomeValue {
+        outcome_kind,
+        outcome_stage,
+        class_id,
+        lane_reason_code: object
+            .get("lane_reason_code")
+            .and_then(serde_json::Value::as_str)
+            .map(str::to_string),
+        human_summary: object
+            .get("human_summary")
+            .and_then(serde_json::Value::as_str)
+            .map(str::to_string),
+        raw_detail: object.get("raw_detail").cloned(),
+    })
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -798,7 +935,7 @@ mod tests {
         );
         assert_eq!(
             report.mismatches[0].view_family.as_deref(),
-            Some("comparison_value")
+            Some("worksheet_comparison_value")
         );
         assert_eq!(
             report.mismatches[0].detail.as_deref(),
@@ -1205,6 +1342,148 @@ mod tests {
             Some(
                 "comparison_value envelopes are outside the admitted local seam (left: declared array shape does not match payload; right: declared array shape does not match payload)"
             )
+        );
+    }
+
+    #[test]
+    fn ignores_optional_visible_value_text_when_only_one_side_publishes_it() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "visible_value_text".to_string(),
+                value: serde_json::Value::String("preview".to_string()),
+            }],
+        );
+        let right = scenario("right", vec![]);
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[test]
+    fn classifies_visible_value_text_divergence_when_both_sides_publish_it() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "visible_value_text".to_string(),
+                value: serde_json::Value::String("6".to_string()),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "visible_value_text".to_string(),
+                value: serde_json::Value::String("$6.00".to_string()),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::VisibleValue
+        );
+        assert_eq!(
+            report.mismatches[0].view_family.as_deref(),
+            Some("visible_value_text")
+        );
+        assert_eq!(
+            report.mismatches[0].equivalence_policy_id.as_deref(),
+            Some("visible_value_text_exact")
+        );
+        assert_eq!(report.mismatches[0].required, Some(false));
+    }
+
+    #[test]
+    fn treats_typed_outcome_equivalence_as_cross_stage_not_value_equality() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "execution_outcome".to_string(),
+                value: serde_json::json!({
+                    "outcome_kind": "rejected",
+                    "outcome_stage": "authoring",
+                    "class_id": "input_rejected",
+                    "lane_reason_code": "excel_programmatic_authoring_rejected",
+                    "human_summary": "Excel rejected the authored formula"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "execution_outcome".to_string(),
+                value: serde_json::json!({
+                    "outcome_kind": "rejected",
+                    "outcome_stage": "bind",
+                    "class_id": "input_rejected",
+                    "lane_reason_code": "oxfml_bind_boundary_rejected",
+                    "human_summary": "Bind boundary rejected the candidate"
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[test]
+    fn rejects_non_equivalent_typed_outcome_classes() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "execution_outcome".to_string(),
+                value: serde_json::json!({
+                    "outcome_kind": "rejected",
+                    "outcome_stage": "authoring",
+                    "class_id": "input_rejected",
+                    "lane_reason_code": "excel_programmatic_authoring_rejected"
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "execution_outcome".to_string(),
+                value: serde_json::json!({
+                    "outcome_kind": "executed",
+                    "outcome_stage": "execution",
+                    "class_id": "value_published",
+                    "lane_reason_code": "oxfml_execution_succeeded"
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::OutcomeValue
+        );
+        assert_eq!(
+            report.mismatches[0].view_family.as_deref(),
+            Some("execution_outcome")
+        );
+        assert_eq!(
+            report.mismatches[0].equivalence_policy_id.as_deref(),
+            Some("typed_outcome_class")
+        );
+        assert!(
+            report.mismatches[0]
+                .detail
+                .as_deref()
+                .is_some_and(|detail| detail.contains("left_stage=`authoring`")
+                    && detail.contains("right_stage=`execution`")
+                    && detail.contains("left_class_id=`input_rejected`")
+                    && detail.contains("right_class_id=`value_published`"))
         );
     }
 

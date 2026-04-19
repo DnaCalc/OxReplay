@@ -25,6 +25,10 @@ pub struct ExplainRecord {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub view_family: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub equivalence_policy_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub required: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub left_value: Option<serde_json::Value>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub right_value: Option<serde_json::Value>,
@@ -50,6 +54,8 @@ pub fn explain_diff(diff: &ReplayDiffReport) -> ExplainReport {
                 mismatch_kind: None,
                 severity: None,
                 view_family: None,
+                equivalence_policy_id: None,
+                required: None,
                 left_value: None,
                 right_value: None,
                 detail: None,
@@ -76,6 +82,13 @@ fn summary_for_mismatch(mismatch: &ReplayDiff) -> String {
                 .view_family
                 .as_deref()
                 .unwrap_or("unknown_view_family")
+        ),
+        MismatchKind::OutcomeValue => format!(
+            "typed outcome diverged on `{}`",
+            mismatch
+                .view_family
+                .as_deref()
+                .unwrap_or("execution_outcome")
         ),
         _ => {
             let base = format!(
@@ -116,6 +129,8 @@ fn explain_mismatch(index: usize, mismatch: &ReplayDiff) -> ExplainRecord {
         mismatch_kind: Some(mismatch.mismatch_kind.clone()),
         severity: Some(mismatch.severity),
         view_family: mismatch.view_family.clone(),
+        equivalence_policy_id: mismatch.equivalence_policy_id.clone(),
+        required: mismatch.required,
         left_value: mismatch.left_value.clone(),
         right_value: mismatch.right_value.clone(),
         detail: mismatch.detail.clone(),
@@ -139,6 +154,8 @@ mod tests {
                 mismatch_kind: MismatchKind::ProjectionCoverageGap,
                 severity: SeverityClass::Coverage,
                 view_family: Some("formatting_view".to_string()),
+                equivalence_policy_id: Some("view_json_exact".to_string()),
+                required: Some(true),
                 left_value: None,
                 right_value: Some(serde_json::json!({
                     "number_format_code": "$#,##0.00"
@@ -161,6 +178,11 @@ mod tests {
             explain.records[0].mismatch_kind,
             Some(MismatchKind::ProjectionCoverageGap)
         );
+        assert_eq!(
+            explain.records[0].equivalence_policy_id.as_deref(),
+            Some("view_json_exact")
+        );
+        assert_eq!(explain.records[0].required, Some(true));
     }
 
     #[test]
@@ -172,7 +194,9 @@ mod tests {
                 right_scenario_id: "right".to_string(),
                 mismatch_kind: MismatchKind::ComparisonValue,
                 severity: SeverityClass::Semantic,
-                view_family: Some("comparison_value".to_string()),
+                view_family: Some("worksheet_comparison_value".to_string()),
+                equivalence_policy_id: Some("worksheet_value_exact".to_string()),
+                required: Some(true),
                 left_value: Some(serde_json::json!(14.206699082890463_f64)),
                 right_value: Some(serde_json::json!(14.206699082890465_f64)),
                 detail: Some(
@@ -187,13 +211,61 @@ mod tests {
         assert_eq!(explain.records.len(), 1);
         assert_eq!(
             explain.records[0].summary,
-            "comparison diverged on `comparison_value` (near_equal_last_bit)"
+            "comparison diverged on `worksheet_comparison_value` (near_equal_last_bit)"
         );
+        assert_eq!(
+            explain.records[0].equivalence_policy_id.as_deref(),
+            Some("worksheet_value_exact")
+        );
+        assert_eq!(explain.records[0].required, Some(true));
         assert_eq!(
             explain.records[0].detail.as_deref(),
             Some(
                 "near_equal_last_bit: finite numeric comparison values differ by 1 ULP (left=14.206699082890463, right=14.206699082890465, abs_delta=1.7763568394002505e-15)"
             )
         );
+    }
+
+    #[test]
+    fn explain_surfaces_typed_outcome_summary() {
+        let report = ReplayDiffReport {
+            equivalent: false,
+            mismatches: vec![ReplayDiff {
+                left_scenario_id: "left".to_string(),
+                right_scenario_id: "right".to_string(),
+                mismatch_kind: MismatchKind::OutcomeValue,
+                severity: SeverityClass::Semantic,
+                view_family: Some("execution_outcome".to_string()),
+                equivalence_policy_id: Some("typed_outcome_class".to_string()),
+                required: Some(true),
+                left_value: Some(serde_json::json!({
+                    "outcome_kind": "rejected",
+                    "outcome_stage": "authoring",
+                    "class_id": "input_rejected"
+                })),
+                right_value: Some(serde_json::json!({
+                    "outcome_kind": "executed",
+                    "outcome_stage": "execution",
+                    "class_id": "value_published"
+                })),
+                detail: Some(
+                    "typed outcome classes diverged (left_stage=`authoring`, right_stage=`execution`, left_outcome_kind=`rejected`, right_outcome_kind=`executed`, left_class_id=`input_rejected`, right_class_id=`value_published`)".to_string(),
+                ),
+            }],
+        };
+
+        let explain = explain_diff(&report);
+
+        assert!(!explain.equivalent);
+        assert_eq!(explain.records.len(), 1);
+        assert_eq!(
+            explain.records[0].summary,
+            "typed outcome diverged on `execution_outcome`"
+        );
+        assert_eq!(
+            explain.records[0].equivalence_policy_id.as_deref(),
+            Some("typed_outcome_class")
+        );
+        assert_eq!(explain.records[0].required, Some(true));
     }
 }

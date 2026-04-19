@@ -5,6 +5,8 @@ OxReplay defines, implements, and proves the shared Replay appliance runtime for
 
 It owns the reusable replay substrate for bundle validation, replay execution, diff/explain, witness distillation, adapter capability validation, and the `DNA ReCalc` host surface while preserving lane ownership of semantics.
 
+Within that shared-runtime boundary, `OxReplay` owns normalized comparison and equivalence logic over declared comparison views, including worksheet-value, display-surface, exact-numeric, and typed outcome-class comparison. It does not own the final host verdict policy over corpus rows or product-facing `Matched`/`Mismatched`/`Blocked` labels.
+
 ## 2. Precedence
 When guidance conflicts, precedence is:
 1. `../Foundation/CHARTER.md`
@@ -21,6 +23,7 @@ In scope:
 3. Adapter SDK, loader, capability-manifest validation, and conformance harnesses.
 4. Registry and witness-lifecycle runtime support.
 5. `DNA ReCalc` as the replay host over the shared runtime.
+6. Normalized comparison and equivalence logic over declared comparison views, including typed outcome-class equivalence that must not be smuggled through worksheet-value equality.
 
 Out of scope:
 1. Lane-native semantic ownership for `OxFunc`, `OxFml`, `OxCalc`, or `OxVba`.
@@ -28,6 +31,7 @@ Out of scope:
 3. Lane-local reduction rewrite permissions.
 4. Spreadsheet proving-host semantics.
 5. UI/product doctrine outside replay-host concerns.
+6. Final host verdict policy such as corpus-level `Matched`/`Mismatched`/`Blocked` status assignment.
 
 ## 4. Ownership boundary rule
 1. `OxReplay` may normalize and operate on lane artifacts through declared adapter contracts.

@@ -20,6 +20,7 @@ Initial implementation strata are:
    - normalized replay runtime types and orchestration context.
 4. `Diff` and `Explain`
    - typed mismatch and causal-query surfaces.
+   - `OxReplay` owns normalized comparison and equivalence over declared comparison views, including worksheet-value, display-surface, exact-numeric, and typed outcome-class comparison, while leaving final host verdict policy outside the shared runtime.
 5. `Distill`
    - predicate execution, reduction search, reduction-manifest emission.
 6. `Governance` and `Conformance`

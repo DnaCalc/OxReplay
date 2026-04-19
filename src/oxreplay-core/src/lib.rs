@@ -33,12 +33,90 @@ pub struct ReplayComparisonView {
     pub value: serde_json::Value,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ReplayComparisonContract {
+    pub comparison_family: String,
+    pub equivalence_policy_id: String,
+    pub required: bool,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct TypedOutcomeValue {
+    pub outcome_kind: String,
+    pub outcome_stage: String,
+    pub class_id: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub lane_reason_code: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub human_summary: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub raw_detail: Option<serde_json::Value>,
+}
+
+impl ReplayComparisonView {
+    pub fn normalized_family(&self) -> &str {
+        normalized_comparison_view_family(&self.view_family)
+    }
+
+    pub fn comparison_contract(&self) -> ReplayComparisonContract {
+        ReplayComparisonContract {
+            comparison_family: self.normalized_family().to_string(),
+            equivalence_policy_id: default_equivalence_policy_id(&self.view_family).to_string(),
+            required: comparison_view_required(&self.view_family),
+        }
+    }
+}
+
 impl ReplayScenario {
     pub fn comparison_view_map(&self) -> BTreeMap<&str, &serde_json::Value> {
         self.comparison_views
             .iter()
             .map(|view| (view.view_family.as_str(), &view.value))
             .collect()
+    }
+
+    pub fn normalized_comparison_view_map(&self) -> BTreeMap<String, &ReplayComparisonView> {
+        self.comparison_views
+            .iter()
+            .map(|view| (view.normalized_family().to_string(), view))
+            .collect()
+    }
+}
+
+pub fn normalized_comparison_view_family(view_family: &str) -> &str {
+    match view_family {
+        "comparison_value" | "worksheet_comparison_value" => "worksheet_comparison_value",
+        "publication_outcome" | "authoring_outcome" | "bind_outcome" | "execution_outcome" => {
+            "execution_outcome"
+        }
+        _ => view_family,
+    }
+}
+
+pub fn default_equivalence_policy_id(view_family: &str) -> &'static str {
+    match normalized_comparison_view_family(view_family) {
+        "worksheet_comparison_value" => "worksheet_value_exact",
+        "effective_display_text" => "effective_display_text_exact",
+        "visible_value_text" => "visible_value_text_exact",
+        "execution_outcome" => "typed_outcome_class",
+        _ => "view_json_exact",
+    }
+}
+
+pub fn comparison_view_required(view_family: &str) -> bool {
+    !matches!(
+        normalized_comparison_view_family(view_family),
+        "visible_value_text"
+    )
+}
+
+pub fn outcome_stage_for_view_family(view_family: &str) -> Option<&'static str> {
+    match view_family {
+        "authoring_outcome" => Some("authoring"),
+        "bind_outcome" => Some("bind"),
+        "publication_outcome" => Some("publication"),
+        "execution_outcome" => Some("execution"),
+        _ => None,
     }
 }
 
@@ -347,8 +425,10 @@ fn project_comparison_views(
 #[cfg(test)]
 mod tests {
     use super::{
-        ReplayComparisonView, is_replay_ready, load_oxcalc_tracecalc_projection,
-        load_oxfml_v1_replay_projection, load_replay_scenario_from_path,
+        ReplayComparisonView, comparison_view_required, default_equivalence_policy_id,
+        is_replay_ready, load_oxcalc_tracecalc_projection, load_oxfml_v1_replay_projection,
+        load_replay_scenario_from_path, normalized_comparison_view_family,
+        outcome_stage_for_view_family,
     };
     use std::path::PathBuf;
 
@@ -511,6 +591,34 @@ mod tests {
                 },
             ]
         );
+    }
+
+    #[test]
+    fn normalizes_comparison_family_contracts_for_value_and_outcome_views() {
+        assert_eq!(
+            normalized_comparison_view_family("comparison_value"),
+            "worksheet_comparison_value"
+        );
+        assert_eq!(
+            default_equivalence_policy_id("comparison_value"),
+            "worksheet_value_exact"
+        );
+        assert!(comparison_view_required("comparison_value"));
+
+        assert_eq!(
+            normalized_comparison_view_family("execution_outcome"),
+            "execution_outcome"
+        );
+        assert_eq!(
+            default_equivalence_policy_id("execution_outcome"),
+            "typed_outcome_class"
+        );
+        assert_eq!(
+            outcome_stage_for_view_family("execution_outcome"),
+            Some("execution")
+        );
+        assert!(comparison_view_required("execution_outcome"));
+        assert!(!comparison_view_required("visible_value_text"));
     }
 
     #[test]

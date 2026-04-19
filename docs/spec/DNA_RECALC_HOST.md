@@ -27,6 +27,7 @@ A non-`DNA ReCalc` host such as `DNA OneCalc` may:
 3. embed replay, diff, explain, or witness views in its own UI,
 4. retain `OxReplay` outputs as part of its own scenario or handoff model,
 5. use capability validation and conformance outputs to gate its own product modes.
+6. consume `OxReplay` comparison/equivalence outputs without taking final corpus-verdict ownership away from the host.
 
 That does not make it `DNA ReCalc`.
 
@@ -63,7 +64,8 @@ It should consume lane behavior through adapters and canonical bundles rather th
 1. Provide a usable CLI shell over bundle validation.
 2. Exercise initial `OxCalc` and `OxFml` adapters.
 3. Surface typed diffs and causal explanations.
-4. Delay broader UI ambitions until the shared runtime is stable.
+4. Keep final host verdict policy separate from shared comparison/equivalence mechanics.
+5. Delay broader UI ambitions until the shared runtime is stable.
 
 ## 9. Current OxFml seam read
 For `OxFml`, `DNA ReCalc` should consume the landed `OxFml_V1` replay projection seam as the host-facing replay intake.
