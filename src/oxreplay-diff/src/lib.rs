@@ -3,7 +3,10 @@
 use std::collections::BTreeSet;
 
 use oxreplay_abstractions::SeverityClass;
-use oxreplay_core::{ReplayComparisonView, ReplayScenario, TypedOutcomeValue};
+use oxreplay_core::{
+    RenderContextResolution, ReplayComparisonView, ReplayRenderContext, ReplayScenario,
+    TypedOutcomeValue,
+};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -52,12 +55,112 @@ pub struct ReplayDiffReport {
 pub fn diff_summary(left: &ReplayScenario, right: &ReplayScenario) -> ReplayDiffReport {
     let left_views = left.normalized_comparison_view_map();
     let right_views = right.normalized_comparison_view_map();
+    let left_render_context = left.resolve_render_context();
+    let right_render_context = right.resolve_render_context();
 
     if !left_views.is_empty() || !right_views.is_empty() {
-        return diff_comparison_views(left, right, &left_views, &right_views);
+        return diff_comparison_views(
+            left,
+            right,
+            &left_views,
+            &right_views,
+            &left_render_context,
+            &right_render_context,
+        );
     }
 
     diff_normalized_events(left, right)
+}
+
+fn is_display_text_family(view_family: &str) -> bool {
+    matches!(view_family, "effective_display_text" | "visible_value_text")
+}
+
+fn append_render_context_detail(
+    detail: String,
+    left_render_context: &RenderContextResolution,
+    right_render_context: &RenderContextResolution,
+) -> String {
+    format!(
+        "{detail} ({})",
+        render_context_comparison_detail(left_render_context, right_render_context)
+    )
+}
+
+fn render_context_comparison_detail(
+    left_render_context: &RenderContextResolution,
+    right_render_context: &RenderContextResolution,
+) -> String {
+    match (left_render_context, right_render_context) {
+        (RenderContextResolution::Resolved(left), RenderContextResolution::Resolved(right))
+            if left.context == right.context =>
+        {
+            format!(
+                "{}; {}",
+                left_render_context.status_summary(),
+                right_render_context.status_summary()
+            )
+        }
+        (RenderContextResolution::Resolved(left), RenderContextResolution::Resolved(right)) => {
+            format!(
+                "render_context_diverged({}); {}; {}",
+                render_context_field_differences(&left.context, &right.context),
+                left_render_context.status_summary(),
+                right_render_context.status_summary()
+            )
+        }
+        _ => format!(
+            "{}; {}",
+            left_render_context.status_summary(),
+            right_render_context.status_summary()
+        ),
+    }
+}
+
+fn render_context_field_differences(
+    left: &ReplayRenderContext,
+    right: &ReplayRenderContext,
+) -> String {
+    let mut differences = Vec::new();
+
+    if left.locale_tag != right.locale_tag {
+        differences.push(format!(
+            "locale_tag left=`{}` right=`{}`",
+            left.locale_tag, right.locale_tag
+        ));
+    }
+    if left.decimal_separator != right.decimal_separator {
+        differences.push(format!(
+            "decimal_separator left=`{}` right=`{}`",
+            left.decimal_separator, right.decimal_separator
+        ));
+    }
+    if left.thousands_separator != right.thousands_separator {
+        differences.push(format!(
+            "thousands_separator left=`{}` right=`{}`",
+            left.thousands_separator, right.thousands_separator
+        ));
+    }
+    if left.list_separator != right.list_separator {
+        differences.push(format!(
+            "list_separator left=`{}` right=`{}`",
+            left.list_separator.as_deref().unwrap_or("<none>"),
+            right.list_separator.as_deref().unwrap_or("<none>")
+        ));
+    }
+    if left.trust_class != right.trust_class {
+        differences.push(format!(
+            "trust_class left=`{}` right=`{}`",
+            left.trust_class.as_deref().unwrap_or("unknown"),
+            right.trust_class.as_deref().unwrap_or("unknown")
+        ));
+    }
+
+    if differences.is_empty() {
+        "no material field differences".to_string()
+    } else {
+        differences.join(", ")
+    }
 }
 
 fn diff_comparison_views(
@@ -65,6 +168,8 @@ fn diff_comparison_views(
     right: &ReplayScenario,
     left_views: &std::collections::BTreeMap<String, &ReplayComparisonView>,
     right_views: &std::collections::BTreeMap<String, &ReplayComparisonView>,
+    left_render_context: &RenderContextResolution,
+    right_render_context: &RenderContextResolution,
 ) -> ReplayDiffReport {
     let mut families = BTreeSet::new();
     families.extend(left_views.keys().cloned());
@@ -114,7 +219,13 @@ fn diff_comparison_views(
                     continue;
                 }
 
-                let comparison = comparison_view_values(&family, left_view, right_view);
+                let comparison = comparison_view_values(
+                    &family,
+                    left_view,
+                    right_view,
+                    left_render_context,
+                    right_render_context,
+                );
                 if comparison.equivalent {
                     continue;
                 }
@@ -142,6 +253,10 @@ fn diff_comparison_views(
                     continue;
                 }
 
+                let detail = format!(
+                    "comparison view family `{family}` is missing on `{}`",
+                    right.scenario_id
+                );
                 mismatches.push(ReplayDiff {
                     left_scenario_id: left.scenario_id.clone(),
                     right_scenario_id: right.scenario_id.clone(),
@@ -152,10 +267,15 @@ fn diff_comparison_views(
                     required: Some(true),
                     left_value: Some(left_view.value.clone()),
                     right_value: None,
-                    detail: Some(format!(
-                        "comparison view family `{family}` is missing on `{}`",
-                        right.scenario_id
-                    )),
+                    detail: Some(if is_display_text_family(&family) {
+                        append_render_context_detail(
+                            detail,
+                            left_render_context,
+                            right_render_context,
+                        )
+                    } else {
+                        detail
+                    }),
                 });
             }
             (None, Some(right_view)) => {
@@ -168,6 +288,10 @@ fn diff_comparison_views(
                     continue;
                 }
 
+                let detail = format!(
+                    "comparison view family `{family}` is missing on `{}`",
+                    left.scenario_id
+                );
                 mismatches.push(ReplayDiff {
                     left_scenario_id: left.scenario_id.clone(),
                     right_scenario_id: right.scenario_id.clone(),
@@ -178,10 +302,15 @@ fn diff_comparison_views(
                     required: Some(true),
                     left_value: None,
                     right_value: Some(right_view.value.clone()),
-                    detail: Some(format!(
-                        "comparison view family `{family}` is missing on `{}`",
-                        left.scenario_id
-                    )),
+                    detail: Some(if is_display_text_family(&family) {
+                        append_render_context_detail(
+                            detail,
+                            left_render_context,
+                            right_render_context,
+                        )
+                    } else {
+                        detail
+                    }),
                 });
             }
             _ => {}
@@ -322,13 +451,43 @@ fn comparison_view_values(
     view_family: &str,
     left: &ReplayComparisonView,
     right: &ReplayComparisonView,
+    left_render_context: &RenderContextResolution,
+    right_render_context: &RenderContextResolution,
 ) -> ViewComparison {
     match view_family {
         "worksheet_comparison_value" => comparison_value_equal(&left.value, &right.value),
         "execution_outcome" => outcome_value_equal(left, right),
+        "effective_display_text" | "visible_value_text" => display_text_equal(
+            view_family,
+            left,
+            right,
+            left_render_context,
+            right_render_context,
+        ),
         _ => ViewComparison {
             equivalent: left.value == right.value,
             detail: detail_for_view_family(view_family),
+        },
+    }
+}
+
+fn display_text_equal(
+    view_family: &str,
+    left: &ReplayComparisonView,
+    right: &ReplayComparisonView,
+    left_render_context: &RenderContextResolution,
+    right_render_context: &RenderContextResolution,
+) -> ViewComparison {
+    ViewComparison {
+        equivalent: left.value == right.value,
+        detail: if left.value == right.value {
+            detail_for_view_family(view_family)
+        } else {
+            append_render_context_detail(
+                detail_for_view_family(view_family),
+                left_render_context,
+                right_render_context,
+            )
         },
     }
 }
@@ -875,6 +1034,14 @@ mod tests {
     use super::{MismatchKind, diff_summary};
 
     fn scenario(scenario_id: &str, comparison_views: Vec<ReplayComparisonView>) -> ReplayScenario {
+        scenario_with_source_metadata(scenario_id, comparison_views, None)
+    }
+
+    fn scenario_with_source_metadata(
+        scenario_id: &str,
+        comparison_views: Vec<ReplayComparisonView>,
+        source_metadata: Option<serde_json::Value>,
+    ) -> ReplayScenario {
         ReplayScenario {
             scenario_id: scenario_id.to_string(),
             lane_id: LaneId("test".to_string()),
@@ -885,7 +1052,7 @@ mod tests {
             }],
             registry_refs: vec![],
             comparison_views,
-            source_metadata: None,
+            source_metadata,
         }
     }
 
@@ -938,6 +1105,130 @@ mod tests {
             report.mismatches[0].view_family.as_deref(),
             Some("effective_display_text")
         );
+    }
+
+    #[test]
+    fn carries_resolved_render_context_detail_for_display_divergence() {
+        let render_context = serde_json::json!({
+            "render_context": {
+                "context_id": "ctx-inline",
+                "context_kind": "excel_render_context",
+                "locale_tag": "nl-NL",
+                "decimal_separator": ",",
+                "thousands_separator": ".",
+                "trust_class": "unpinned"
+            }
+        });
+        let left = scenario_with_source_metadata(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "effective_display_text".to_string(),
+                value: serde_json::Value::String("1,23".to_string()),
+            }],
+            Some(render_context.clone()),
+        );
+        let right = scenario_with_source_metadata(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "effective_display_text".to_string(),
+                value: serde_json::Value::String("1.23".to_string()),
+            }],
+            Some(render_context),
+        );
+
+        let report = diff_summary(&left, &right);
+        let detail = report.mismatches[0].detail.as_deref().expect("detail");
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::EffectiveDisplayText
+        );
+        assert!(detail.contains("render_context=resolved(inline, locale_tag=`nl-NL`"));
+    }
+
+    #[test]
+    fn carries_untrusted_render_context_detail_for_display_divergence() {
+        let left = scenario_with_source_metadata(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "effective_display_text".to_string(),
+                value: serde_json::Value::String("1,23".to_string()),
+            }],
+            Some(serde_json::json!({
+                "render_context_ref": "ctx-missing",
+                "render_contexts": {}
+            })),
+        );
+        let right = scenario_with_source_metadata(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "effective_display_text".to_string(),
+                value: serde_json::Value::String("1.23".to_string()),
+            }],
+            Some(serde_json::json!({
+                "render_context": {
+                    "context_id": "ctx-inline",
+                    "context_kind": "excel_render_context",
+                    "locale_tag": "en-US",
+                    "decimal_separator": ".",
+                    "thousands_separator": ",",
+                    "trust_class": "direct"
+                }
+            })),
+        );
+
+        let report = diff_summary(&left, &right);
+        let detail = report.mismatches[0].detail.as_deref().expect("detail");
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::EffectiveDisplayText
+        );
+        assert!(detail.contains(
+            "render_context=untrusted(`render_context_ref` `ctx-missing` did not resolve)"
+        ));
+        assert!(detail.contains("render_context=resolved(inline, locale_tag=`en-US`"));
+    }
+
+    #[test]
+    fn keeps_exact_equal_display_text_equivalent_even_with_untrusted_render_context() {
+        let left = scenario_with_source_metadata(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "effective_display_text".to_string(),
+                value: serde_json::Value::String("1,23".to_string()),
+            }],
+            Some(serde_json::json!({
+                "render_context_ref": "ctx-missing",
+                "render_contexts": {}
+            })),
+        );
+        let right = scenario_with_source_metadata(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "effective_display_text".to_string(),
+                value: serde_json::Value::String("1,23".to_string()),
+            }],
+            Some(serde_json::json!({
+                "render_context": {
+                    "context_id": "ctx-inline",
+                    "context_kind": "excel_render_context",
+                    "locale_tag": "en-US",
+                    "decimal_separator": ".",
+                    "thousands_separator": ",",
+                    "trust_class": "direct"
+                }
+            })),
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
     }
 
     #[test]

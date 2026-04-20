@@ -199,6 +199,41 @@ mod tests {
     }
 
     #[test]
+    fn explain_preserves_render_context_detail_for_display_divergence() {
+        let report = ReplayDiffReport {
+            equivalent: false,
+            mismatches: vec![ReplayDiff {
+                left_scenario_id: "left".to_string(),
+                right_scenario_id: "right".to_string(),
+                mismatch_kind: MismatchKind::EffectiveDisplayText,
+                severity: SeverityClass::Informational,
+                view_family: Some("effective_display_text".to_string()),
+                equivalence_policy_id: Some("effective_display_text_exact".to_string()),
+                required: Some(true),
+                left_value: Some(serde_json::json!("1,23")),
+                right_value: Some(serde_json::json!("1.23")),
+                detail: Some(
+                    "comparison view values diverged (render_context_diverged(locale_tag left=`nl-NL` right=`en-US`); render_context=resolved(inline, locale_tag=`nl-NL`, decimal_separator=`,`, thousands_separator=`.`, trust_class=`unpinned`); render_context=resolved(inline, locale_tag=`en-US`, decimal_separator=`.`, thousands_separator=`,`, trust_class=`direct`))".to_string(),
+                ),
+            }],
+        };
+
+        let explain = explain_diff(&report);
+
+        assert!(!explain.equivalent);
+        assert_eq!(explain.records.len(), 1);
+        assert_eq!(
+            explain.records[0].summary,
+            "comparison diverged on `effective_display_text`"
+        );
+        assert!(explain.records[0].detail.as_deref().is_some_and(|detail| {
+            detail.contains("render_context_diverged(locale_tag left=`nl-NL` right=`en-US`)")
+                && detail.contains("render_context=resolved(inline, locale_tag=`nl-NL`")
+                && detail.contains("render_context=resolved(inline, locale_tag=`en-US`")
+        }));
+    }
+
+    #[test]
     fn explain_surfaces_numeric_mismatch_shape_in_summary() {
         let report = ReplayDiffReport {
             equivalent: false,

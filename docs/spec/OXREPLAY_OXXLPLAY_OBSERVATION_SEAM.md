@@ -103,7 +103,7 @@ Accepted first-pass seam answers:
 4. the direct canonical-manifest path is acceptable without an immediate formal adapter manifest; a formal adapter manifest becomes useful when the projection surface or capability claim surface broadens
 5. encoding observed values into normalized replay-family strings is acceptable only as a bootstrap activation surface, not as the long-term shared diff contract
 6. the SpreadsheetML family may now publish machine-readable `comparison_views` for `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`
-7. the replay-facing normalized view may now publish `source_metadata` preserving projection status, capture-loss summary, interpretation limits, workbook identity, and family inventory
+7. the replay-facing normalized view may now publish `source_metadata` preserving projection status, capture-loss summary, interpretation limits, workbook identity, family inventory, and retained render-context metadata through inline `render_context` or one-hop `render_context_ref`
 
 Still provisional:
 1. a retained Excel-vs-DNA comparison-ready scenario now exists inside `OxReplay`, but it remains a lossy observation-versus-projection comparison surface rather than broad Excel parity truth
@@ -122,7 +122,8 @@ Still provisional:
 1. `DNA OneCalc` should treat the current `OxXlPlay` replay-facing normalized view as a first-pass observation projection,
 2. it should not treat that projection as broad semantic equivalence truth,
 3. it must keep source observation identity, projection status, and capture-loss visible when those affect interpretation,
-4. `DNA OneCalc` should consume published `comparison_views` and replay-facing `source_metadata` directly through `OxReplay` rather than inferring them from raw normalized event strings.
+4. `DNA OneCalc` should consume published `comparison_views` and replay-facing `source_metadata` directly through `OxReplay` rather than inferring them from raw normalized event strings,
+5. when locale-sensitive text comparison depends on render context, the retained replay-facing surface should prefer explicit inline `render_context` or one-hop `render_context_ref` rather than implicit host-local inference.
 
 ### 10.2 Labeling rule
 When `DNA OneCalc` retains or displays `OxXlPlay`-originated artifacts consumed through `OxReplay`:

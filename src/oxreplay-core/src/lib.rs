@@ -53,6 +53,57 @@ pub struct TypedOutcomeValue {
     pub raw_detail: Option<serde_json::Value>,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct ReplayRenderContext {
+    pub context_id: String,
+    pub context_kind: String,
+    pub locale_tag: String,
+    pub decimal_separator: String,
+    pub thousands_separator: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub list_separator: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub trust_class: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ResolvedRenderContext {
+    pub ref_id: Option<String>,
+    pub context: ReplayRenderContext,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum RenderContextResolution {
+    Absent,
+    Resolved(ResolvedRenderContext),
+    Untrusted { reason: String },
+}
+
+impl RenderContextResolution {
+    pub fn status_summary(&self) -> String {
+        match self {
+            Self::Absent => "render_context=absent".to_string(),
+            Self::Resolved(resolved) => {
+                let source = match resolved.ref_id.as_deref() {
+                    Some(ref_id) => format!("ref=`{ref_id}`"),
+                    None => "inline".to_string(),
+                };
+                let trust_class = resolved.context.trust_class.as_deref().unwrap_or("unknown");
+                format!(
+                    "render_context=resolved({source}, locale_tag=`{}`, decimal_separator=`{}`, thousands_separator=`{}`, trust_class=`{}`)",
+                    resolved.context.locale_tag,
+                    resolved.context.decimal_separator,
+                    resolved.context.thousands_separator,
+                    trust_class,
+                )
+            }
+            Self::Untrusted { reason } => {
+                format!("render_context=untrusted({reason})")
+            }
+        }
+    }
+}
+
 impl ReplayComparisonView {
     pub fn normalized_family(&self) -> &str {
         normalized_comparison_view_family(&self.view_family)
@@ -81,6 +132,35 @@ impl ReplayScenario {
             .map(|view| (view.normalized_family().to_string(), view))
             .collect()
     }
+
+    pub fn resolve_render_context(&self) -> RenderContextResolution {
+        let Some(source_metadata) = self
+            .source_metadata
+            .as_ref()
+            .and_then(serde_json::Value::as_object)
+        else {
+            return RenderContextResolution::Absent;
+        };
+
+        let inline_context = source_metadata.get("render_context");
+        let context_ref = source_metadata.get("render_context_ref");
+        match (inline_context, context_ref) {
+            (Some(_), Some(_)) => RenderContextResolution::Untrusted {
+                reason: "both inline `render_context` and `render_context_ref` are present"
+                    .to_string(),
+            },
+            (Some(inline_context), None) => parse_render_context(inline_context)
+                .map(|context| {
+                    RenderContextResolution::Resolved(ResolvedRenderContext {
+                        ref_id: None,
+                        context,
+                    })
+                })
+                .unwrap_or_else(|reason| RenderContextResolution::Untrusted { reason }),
+            (None, Some(context_ref)) => resolve_render_context_ref(source_metadata, context_ref),
+            (None, None) => RenderContextResolution::Absent,
+        }
+    }
 }
 
 pub fn normalized_comparison_view_family(view_family: &str) -> &str {
@@ -105,6 +185,68 @@ pub fn comparison_view_required(view_family: &str) -> bool {
         normalized_comparison_view_family(view_family),
         "visible_value_text"
     )
+}
+
+fn resolve_render_context_ref(
+    source_metadata: &serde_json::Map<String, serde_json::Value>,
+    context_ref: &serde_json::Value,
+) -> RenderContextResolution {
+    let Some(ref_id) = context_ref.as_str() else {
+        return RenderContextResolution::Untrusted {
+            reason: "`render_context_ref` must be a string".to_string(),
+        };
+    };
+
+    let Some(render_contexts) = source_metadata
+        .get("render_contexts")
+        .and_then(serde_json::Value::as_object)
+    else {
+        return RenderContextResolution::Untrusted {
+            reason: format!(
+                "`render_context_ref` `{ref_id}` did not resolve because `render_contexts` is missing"
+            ),
+        };
+    };
+
+    let Some(target) = render_contexts.get(ref_id) else {
+        return RenderContextResolution::Untrusted {
+            reason: format!("`render_context_ref` `{ref_id}` did not resolve"),
+        };
+    };
+
+    if target
+        .as_object()
+        .is_some_and(|target| target.contains_key("render_context_ref"))
+    {
+        return RenderContextResolution::Untrusted {
+            reason: format!(
+                "`render_context_ref` `{ref_id}` points to another `render_context_ref`; one-hop resolution only"
+            ),
+        };
+    }
+
+    parse_render_context(target)
+        .map(|context| {
+            RenderContextResolution::Resolved(ResolvedRenderContext {
+                ref_id: Some(ref_id.to_string()),
+                context,
+            })
+        })
+        .unwrap_or_else(|reason| RenderContextResolution::Untrusted { reason })
+}
+
+fn parse_render_context(value: &serde_json::Value) -> Result<ReplayRenderContext, String> {
+    let context: ReplayRenderContext = serde_json::from_value(value.clone())
+        .map_err(|error| format!("render_context is outside the admitted local seam: {error}"))?;
+
+    if context.context_kind != "excel_render_context" {
+        return Err(format!(
+            "render_context declares unsupported context_kind `{}`",
+            context.context_kind
+        ));
+    }
+
+    Ok(context)
 }
 
 pub fn is_replay_ready(scenario: &ReplayScenario) -> bool {
@@ -412,11 +554,28 @@ fn project_comparison_views(
 #[cfg(test)]
 mod tests {
     use super::{
-        ReplayComparisonView, comparison_view_required, default_equivalence_policy_id,
-        is_replay_ready, load_oxcalc_tracecalc_projection, load_oxfml_v1_replay_projection,
+        RenderContextResolution, ReplayComparisonView, ReplayEvent, ReplayScenario,
+        comparison_view_required, default_equivalence_policy_id, is_replay_ready,
+        load_oxcalc_tracecalc_projection, load_oxfml_v1_replay_projection,
         load_replay_scenario_from_path, normalized_comparison_view_family,
     };
+    use oxreplay_abstractions::LaneId;
     use std::path::PathBuf;
+
+    fn scenario_with_source_metadata(source_metadata: serde_json::Value) -> ReplayScenario {
+        ReplayScenario {
+            scenario_id: "scenario".to_string(),
+            lane_id: LaneId("test".to_string()),
+            events: vec![ReplayEvent {
+                event_id: "scenario-01".to_string(),
+                source_label: "event".to_string(),
+                normalized_family: "candidate.built".to_string(),
+            }],
+            registry_refs: vec![],
+            comparison_views: vec![],
+            source_metadata: Some(source_metadata),
+        }
+    }
 
     #[test]
     fn projects_real_oxcalc_tracecalc_case() {
@@ -605,6 +764,103 @@ mod tests {
         );
         assert!(comparison_view_required("execution_outcome"));
         assert!(!comparison_view_required("visible_value_text"));
+    }
+
+    #[test]
+    fn resolves_inline_render_context() {
+        let scenario = scenario_with_source_metadata(serde_json::json!({
+            "render_context": {
+                "context_id": "ctx-inline",
+                "context_kind": "excel_render_context",
+                "locale_tag": "nl-NL",
+                "decimal_separator": ",",
+                "thousands_separator": ".",
+                "trust_class": "unpinned"
+            }
+        }));
+
+        let resolution = scenario.resolve_render_context();
+
+        match resolution {
+            RenderContextResolution::Resolved(resolved) => {
+                assert_eq!(resolved.ref_id, None);
+                assert_eq!(resolved.context.context_id, "ctx-inline");
+                assert_eq!(resolved.context.locale_tag, "nl-NL");
+            }
+            other => panic!("expected resolved inline render context, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn resolves_one_hop_render_context_ref() {
+        let scenario = scenario_with_source_metadata(serde_json::json!({
+            "render_context_ref": "ctx-shared",
+            "render_contexts": {
+                "ctx-shared": {
+                    "context_id": "ctx-shared",
+                    "context_kind": "excel_render_context",
+                    "locale_tag": "en-US",
+                    "decimal_separator": ".",
+                    "thousands_separator": ",",
+                    "trust_class": "direct"
+                }
+            }
+        }));
+
+        let resolution = scenario.resolve_render_context();
+
+        match resolution {
+            RenderContextResolution::Resolved(resolved) => {
+                assert_eq!(resolved.ref_id.as_deref(), Some("ctx-shared"));
+                assert_eq!(resolved.context.locale_tag, "en-US");
+            }
+            other => panic!("expected resolved ref render context, got {other:?}"),
+        }
+    }
+
+    #[test]
+    fn marks_missing_render_context_ref_as_untrusted() {
+        let scenario = scenario_with_source_metadata(serde_json::json!({
+            "render_context_ref": "ctx-missing",
+            "render_contexts": {}
+        }));
+
+        let resolution = scenario.resolve_render_context();
+
+        assert_eq!(
+            resolution,
+            RenderContextResolution::Untrusted {
+                reason: "`render_context_ref` `ctx-missing` did not resolve".to_string()
+            }
+        );
+    }
+
+    #[test]
+    fn rejects_render_context_ref_to_ref_as_untrusted() {
+        let scenario = scenario_with_source_metadata(serde_json::json!({
+            "render_context_ref": "ctx-a",
+            "render_contexts": {
+                "ctx-a": {
+                    "render_context_ref": "ctx-b"
+                },
+                "ctx-b": {
+                    "context_id": "ctx-b",
+                    "context_kind": "excel_render_context",
+                    "locale_tag": "en-US",
+                    "decimal_separator": ".",
+                    "thousands_separator": ","
+                }
+            }
+        }));
+
+        let resolution = scenario.resolve_render_context();
+
+        assert_eq!(
+            resolution,
+            RenderContextResolution::Untrusted {
+                reason: "`render_context_ref` `ctx-a` points to another `render_context_ref`; one-hop resolution only".to_string()
+            }
+        );
     }
 
     #[test]

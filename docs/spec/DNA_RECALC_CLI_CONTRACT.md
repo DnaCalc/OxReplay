@@ -61,10 +61,11 @@ Rules:
    - compares candidate versus baseline replay surfaces using typed mismatch output
    - owns normalized comparison/equivalence over declared comparison views, including `worksheet_comparison_value`, `effective_display_text`, optional `visible_value_text`, and typed `execution_outcome`
    - the typed `execution_outcome` path should consume a single replay-facing family with explicit payload fields `outcome_kind`, `outcome_stage`, `class_id`, and optional `lane_reason_code`
+   - display-text comparison may consume replay-facing inline `render_context` metadata or a one-hop `render_context_ref`; missing refs or ref-to-ref shapes should be surfaced as untrusted context rather than recursively resolved
    - exact comparison semantics remain unchanged; when a finite `worksheet_comparison_value` mismatch is still exact-red but matches a locally recognized numeric shape, `detail` may label it as `near_equal_last_bit` or `near_zero_residue`
 4. `explain`
    - returns causal explanation records for replay, diff, reject, or lifecycle questions
-   - should preserve comparison-policy labels, typed `execution_outcome` mismatch labeling, and exact-red numeric mismatch-shape labels in returned summaries or details when present
+   - should preserve comparison-policy labels, typed `execution_outcome` mismatch labeling, exact-red numeric mismatch-shape labels, and display-surface render-context status in returned summaries or details when present
 5. `distill`
    - emits predicate-bound reduction manifests and quarantine outcomes without moving distillation into hot-path replay
 6. `validate-adapter`
