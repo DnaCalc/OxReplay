@@ -739,6 +739,38 @@ mod tests {
     }
 
     #[test]
+    fn loads_xlplay_vba_udf_addthem_oracle_fixture() {
+        let scenario =
+            load_replay_scenario_from_path(PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
+                "../../docs/test-corpus/bundles/xlplay_vba_udf_addthem_001/scenario.replay.json",
+            ))
+            .expect("xlplay vba udf fixture should load");
+
+        assert_eq!(scenario.scenario_id, "xlplay_vba_udf_addthem_001");
+        assert_eq!(scenario.lane_id.0, "oxxlplay");
+        assert!(is_replay_ready(&scenario));
+        assert_eq!(
+            scenario
+                .normalized_comparison_view_map()
+                .get("worksheet_comparison_value")
+                .expect("comparison value")
+                .value,
+            serde_json::json!({
+                "kind": "number",
+                "value": 5.0
+            })
+        );
+        assert_eq!(
+            scenario
+                .source_metadata
+                .as_ref()
+                .and_then(|metadata| metadata.get("udf_admission"))
+                .and_then(|admission| admission.get("return_type")),
+            Some(&serde_json::json!("Double"))
+        );
+    }
+
+    #[test]
     fn normalizes_comparison_family_contracts_for_value_and_outcome_views() {
         assert_eq!(
             normalized_comparison_view_family("comparison_value"),

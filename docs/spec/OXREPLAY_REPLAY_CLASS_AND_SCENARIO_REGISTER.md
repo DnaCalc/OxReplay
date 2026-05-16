@@ -60,6 +60,7 @@ The ids below are planning commitments until the retained artifacts exist.
 | `xlplay_manifest_shape_valid` | `xlplay_manifest_minimal_valid_001` | reserved until `OxXlPlay` emits a retained manifest fixture |
 | `xlplay_observation_bundle_valid` | `xlplay_capture_values_formulae_001` | acknowledged emitted scenario from `../OxXlPlay/states/excel/xlplay_capture_values_formulae_001/` |
 | `xlplay_comparison_view_observation_ready` | `xlplay_capture_spreadsheetml_formatting_001` | acknowledged emitted scenario from `../OxXlPlay/states/excel/xlplay_capture_spreadsheetml_formatting_001/` plus local retained seam baseline |
+| `xlplay_vba_udf_oracle_first_slice` | `xlplay_vba_udf_addthem_001` | local retained first-slice scenario for `AddThem(Double, Double) As Double` Excel-oracle intake; live OxXlPlay capture will replace the planned-capture metadata when available |
 | `xlplay_capture_loss_declared` | `xlplay_capture_loss_formula_unavailable_001` | acknowledged proposed first capture-loss scenario from `OxXlPlay` |
 | `xlplay_diff_ready_against_dna` | `xlplay_diff_ready_against_dna_001` | reserved until `OxXlPlay` proposes the first Excel-vs-DNA comparison-ready scenario |
 

@@ -1,0 +1,77 @@
+{
+  "scenario_id": "xlplay_vba_udf_addthem_001",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "xlplay-vba-udf-addthem-001-01",
+      "source_label": "excel_workbook_opened",
+      "normalized_family": "scenario.loaded"
+    },
+    {
+      "event_id": "xlplay-vba-udf-addthem-001-02",
+      "source_label": "vba_project_imported",
+      "normalized_family": "adapter.input.accepted"
+    },
+    {
+      "event_id": "xlplay-vba-udf-addthem-001-03",
+      "source_label": "formula_calculated",
+      "normalized_family": "publication.committed"
+    }
+  ],
+  "registry_refs": [
+    {
+      "family": "oxxlplay_vba_udf_oracle",
+      "version": "first-slice"
+    }
+  ],
+  "comparison_views": [
+    {
+      "view_family": "comparison_value",
+      "value": {
+        "kind": "number",
+        "value": 5.0
+      }
+    },
+    {
+      "view_family": "effective_display_text",
+      "value": "5"
+    },
+    {
+      "view_family": "execution_outcome",
+      "value": {
+        "outcome_kind": "ExecutedResult",
+        "outcome_stage": "Executed",
+        "class_id": "executed_result"
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_schema_id": "oxxlplay.excel_observation.vba_udf.v1",
+    "observation_source": "Excel desktop via OxXlPlay",
+    "scenario_family": "vba_udf_first_slice",
+    "formula_text": "=AddThem(2,3)",
+    "module_text": "Public Function AddThem(val1 As Double, val2 As Double) As Double\n  AddThem = val1 + val2\nEnd Function",
+    "udf_admission": {
+      "project_ref": "vba:addthem:first-slice",
+      "module_name": "Module1",
+      "procedure_name": "AddThem",
+      "type_map_evidence": "excel_observed",
+      "arguments": [
+        {
+          "name": "val1",
+          "vba_type": "Double"
+        },
+        {
+          "name": "val2",
+          "vba_type": "Double"
+        }
+      ],
+      "return_type": "Double"
+    },
+    "capture_class": "retained_oracle_planned",
+    "capture_loss": [
+      "excel_build_unpinned_until_oxxlplay_live_capture_lands"
+    ],
+    "comparison_policy": "worksheet_value_exact"
+  }
+}
