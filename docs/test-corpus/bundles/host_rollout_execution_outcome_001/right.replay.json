@@ -1,0 +1,29 @@
+{
+  "scenario_id": "host_rollout_execution_outcome_001_excel",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "outcome-right-01",
+      "source_label": "retained_excel_execution_outcome",
+      "normalized_family": "host_rollout.execution_outcome"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "execution_outcome",
+      "value": {
+        "outcome_kind": "rejected",
+        "outcome_stage": "execution",
+        "class_id": "input_rejected",
+        "lane_reason_code": "excel_formula_rejected"
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_host": "oxxlplay",
+    "source_schema_id": "oxxlplay.outcome_view.v1",
+    "projection_status": "direct",
+    "capture_mode": "excel_black_box_observation"
+  }
+}

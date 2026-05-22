@@ -44,3 +44,4 @@ If any link in that chain is missing, the capability or pack reference remains p
 2. Planned comparison surfaces must arrive as typed replay evidence families, not as TreeCalc-private or OneCalc-private helper objects.
 3. Planned families include `per_node_value`, `table_slice`, `effective_display_text`, `execution_outcome`, `dependency_evidence`, `invalidation_evidence`, and retained host artifact refs.
 4. Final product verdict policy remains host-owned even when `OxReplay` compares the declared typed surfaces.
+5. Current local W007 fixtures exercise shared comparison mechanics for those families, but they do not upgrade any producer capability floor until real upstream retained artifacts are emitted and replayed.

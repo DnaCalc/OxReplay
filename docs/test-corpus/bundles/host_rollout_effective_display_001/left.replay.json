@@ -1,0 +1,32 @@
+{
+  "scenario_id": "host_rollout_effective_display_001_treecalc",
+  "lane_id": "dna_treecalc",
+  "events": [
+    {
+      "event_id": "display-left-01",
+      "source_label": "retained_treecalc_effective_display",
+      "normalized_family": "host_rollout.effective_display_text"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "effective_display_text",
+      "value": "$6.00"
+    }
+  ],
+  "source_metadata": {
+    "source_host": "dna_treecalc",
+    "source_schema_id": "dna_treecalc.display_view.v1",
+    "projection_status": "direct",
+    "capture_mode": "model_projection",
+    "render_context": {
+      "context_id": "ctx-en-us",
+      "context_kind": "excel_render_context",
+      "locale_tag": "en-US",
+      "decimal_separator": ".",
+      "thousands_separator": ",",
+      "trust_class": "direct"
+    }
+  }
+}

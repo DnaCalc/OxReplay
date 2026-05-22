@@ -1,0 +1,35 @@
+{
+  "scenario_id": "host_rollout_effective_display_001_excel",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "display-right-01",
+      "source_label": "retained_excel_effective_display",
+      "normalized_family": "host_rollout.effective_display_text"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "effective_display_text",
+      "value": "$7.00"
+    }
+  ],
+  "source_metadata": {
+    "source_host": "oxxlplay",
+    "source_schema_id": "oxxlplay.normalized_replay.v1",
+    "projection_status": "direct",
+    "capture_mode": "excel_black_box_observation",
+    "render_context_ref": "ctx-en-us",
+    "render_contexts": {
+      "ctx-en-us": {
+        "context_id": "ctx-en-us",
+        "context_kind": "excel_render_context",
+        "locale_tag": "en-US",
+        "decimal_separator": ".",
+        "thousands_separator": ",",
+        "trust_class": "direct"
+      }
+    }
+  }
+}

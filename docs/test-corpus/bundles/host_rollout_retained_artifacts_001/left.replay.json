@@ -1,0 +1,42 @@
+{
+  "scenario_id": "host_rollout_retained_artifacts_001_onecalc_no_host",
+  "lane_id": "dna_onecalc",
+  "events": [
+    {
+      "event_id": "retained-left-01",
+      "source_label": "retained_onecalc_no_host_runtime_artifacts",
+      "normalized_family": "host_rollout.retained_artifact_ref"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "retained_host_artifact_ref",
+      "value": {
+        "host_id": "dna_onecalc",
+        "artifact_kind": "no_host_runtime",
+        "capability_context": {
+          "host_function_provider": false,
+          "registered_external_provider": false,
+          "rtd_provider": false
+        },
+        "artifact_refs": [
+          {
+            "kind": "scenario_input",
+            "path": "docs/test-corpus/bundles/host_rollout_retained_artifacts_001/left.replay.json"
+          },
+          {
+            "kind": "run_result",
+            "path": "docs/test-runs/w007-host-rollout-host_rollout_retained_artifacts_001-baseline/diff.json"
+          }
+        ]
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_host": "dna_onecalc",
+    "source_schema_id": "dna_onecalc.no_host_artifacts.v1",
+    "projection_status": "direct",
+    "capture_mode": "host_retained_artifact"
+  }
+}

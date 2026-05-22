@@ -1,0 +1,53 @@
+{
+  "equivalent": false,
+  "records": [
+    {
+      "query_id": "explain-host_rollout_table_slice_001_treecalc-01",
+      "summary": "comparison diverged on `table_slice`",
+      "left_scenario_id": "host_rollout_table_slice_001_treecalc",
+      "right_scenario_id": "host_rollout_table_slice_001_excel",
+      "mismatch_kind": "table_slice",
+      "severity": "semantic",
+      "view_family": "table_slice",
+      "equivalence_policy_id": "table_slice_json_exact",
+      "required": true,
+      "left_value": {
+        "canonical_locator": "table:RevenueByRegion",
+        "columns": [
+          "Region",
+          "Revenue"
+        ],
+        "rows": [
+          [
+            "EMEA",
+            {
+              "payload": "6",
+              "value_kind": "number"
+            }
+          ]
+        ],
+        "source_status": "direct",
+        "table_id": "table:RevenueByRegion"
+      },
+      "right_value": {
+        "canonical_locator": "table:RevenueByRegion",
+        "columns": [
+          "Region",
+          "Revenue"
+        ],
+        "rows": [
+          [
+            "EMEA",
+            {
+              "payload": "7",
+              "value_kind": "number"
+            }
+          ]
+        ],
+        "source_status": "direct",
+        "table_id": "table:RevenueByRegion"
+      },
+      "detail": "table-slice evidence diverged"
+    }
+  ]
+}

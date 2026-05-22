@@ -1,0 +1,43 @@
+{
+  "equivalent": false,
+  "mismatches": [
+    {
+      "left_scenario_id": "host_rollout_per_node_values_001_treecalc",
+      "right_scenario_id": "host_rollout_per_node_values_001_excel",
+      "mismatch_kind": "per_node_value",
+      "severity": "semantic",
+      "view_family": "per_node_value",
+      "equivalence_policy_id": "per_node_value_json_exact",
+      "required": true,
+      "left_value": {
+        "nodes": [
+          {
+            "canonical_locator": "name:workbook:Revenue",
+            "comparison_value": {
+              "payload": "6",
+              "value_kind": "number",
+              "worksheet_value_class": "scalar"
+            },
+            "node_id": "node:Revenue"
+          }
+        ],
+        "source_status": "direct"
+      },
+      "right_value": {
+        "nodes": [
+          {
+            "canonical_locator": "name:workbook:Revenue",
+            "comparison_value": {
+              "payload": "7",
+              "value_kind": "number",
+              "worksheet_value_class": "scalar"
+            },
+            "node_id": "node:Revenue"
+          }
+        ],
+        "source_status": "direct"
+      },
+      "detail": "per-node value evidence diverged"
+    }
+  ]
+}

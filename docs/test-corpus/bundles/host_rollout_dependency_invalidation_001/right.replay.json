@@ -1,0 +1,39 @@
+{
+  "scenario_id": "host_rollout_dependency_invalidation_001_treecalc_refreshed",
+  "lane_id": "dna_treecalc",
+  "events": [
+    {
+      "event_id": "dependency-right-01",
+      "source_label": "retained_treecalc_dependency_and_invalidation",
+      "normalized_family": "host_rollout.dependency_invalidation"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "dependency_evidence",
+      "value": {
+        "source_status": "direct",
+        "edges": [
+          { "from": "node:Price", "to": "node:Revenue", "edge_kind": "formula_reference" },
+          { "from": "node:TaxRate", "to": "node:Revenue", "edge_kind": "formula_reference" }
+        ]
+      }
+    },
+    {
+      "view_family": "invalidation_evidence",
+      "value": {
+        "source_status": "direct",
+        "cause": "input_edit",
+        "affected_nodes": ["node:Revenue", "node:TaxRate"],
+        "stale_nodes": ["node:TaxRate"]
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_host": "dna_treecalc",
+    "source_schema_id": "dna_treecalc.dependency_invalidation.v1",
+    "projection_status": "direct",
+    "capture_mode": "model_projection"
+  }
+}

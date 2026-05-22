@@ -352,4 +352,46 @@ mod tests {
         assert_eq!(explain.records[0].required, Some(true));
         assert_eq!(explain.records[0].equivalence_policy_id, None);
     }
+
+    #[test]
+    fn explain_preserves_host_rollout_family_labels() {
+        let report = ReplayDiffReport {
+            equivalent: false,
+            mismatches: vec![ReplayDiff {
+                left_scenario_id: "treecalc-left".to_string(),
+                right_scenario_id: "treecalc-right".to_string(),
+                mismatch_kind: MismatchKind::TableSlice,
+                severity: SeverityClass::Semantic,
+                view_family: Some("table_slice".to_string()),
+                equivalence_policy_id: Some("table_slice_json_exact".to_string()),
+                required: Some(true),
+                left_value: Some(serde_json::json!({
+                    "table_id": "table:RevenueByRegion",
+                    "rows": [["EMEA", 6]]
+                })),
+                right_value: Some(serde_json::json!({
+                    "table_id": "table:RevenueByRegion",
+                    "rows": [["EMEA", 7]]
+                })),
+                detail: Some("table-slice evidence diverged".to_string()),
+            }],
+        };
+
+        let explain = explain_diff(&report);
+
+        assert!(!explain.equivalent);
+        assert_eq!(explain.records.len(), 1);
+        assert_eq!(
+            explain.records[0].summary,
+            "comparison diverged on `table_slice`"
+        );
+        assert_eq!(
+            explain.records[0].mismatch_kind,
+            Some(MismatchKind::TableSlice)
+        );
+        assert_eq!(
+            explain.records[0].equivalence_policy_id.as_deref(),
+            Some("table_slice_json_exact")
+        );
+    }
 }

@@ -1,0 +1,19 @@
+{
+  "equivalent": false,
+  "records": [
+    {
+      "query_id": "explain-host_rollout_effective_display_001_treecalc-01",
+      "summary": "comparison diverged on `effective_display_text`",
+      "left_scenario_id": "host_rollout_effective_display_001_treecalc",
+      "right_scenario_id": "host_rollout_effective_display_001_excel",
+      "mismatch_kind": "effective_display_text",
+      "severity": "informational",
+      "view_family": "effective_display_text",
+      "equivalence_policy_id": "effective_display_text_exact",
+      "required": true,
+      "left_value": "$6.00",
+      "right_value": "$7.00",
+      "detail": "comparison view values diverged (render_context=resolved(inline, locale_tag=`en-US`, decimal_separator=`.`, thousands_separator=`,`, trust_class=`direct`); render_context=resolved(ref=`ctx-en-us`, locale_tag=`en-US`, decimal_separator=`.`, thousands_separator=`,`, trust_class=`direct`))"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "scenario_id": "host_rollout_table_slice_001_excel",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "table-right-01",
+      "source_label": "retained_excel_table_slice",
+      "normalized_family": "host_rollout.table_slice"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "table_slice",
+      "value": {
+        "source_status": "direct",
+        "table_id": "table:RevenueByRegion",
+        "canonical_locator": "table:RevenueByRegion",
+        "columns": ["Region", "Revenue"],
+        "rows": [
+          ["EMEA", { "value_kind": "number", "payload": "7" }]
+        ]
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_host": "oxxlplay",
+    "source_schema_id": "oxxlplay.table_slice.v1",
+    "projection_status": "direct",
+    "capture_mode": "excel_black_box_observation"
+  }
+}

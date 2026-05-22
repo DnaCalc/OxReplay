@@ -1,0 +1,69 @@
+{
+  "equivalent": false,
+  "mismatches": [
+    {
+      "left_scenario_id": "host_rollout_dependency_invalidation_001_treecalc",
+      "right_scenario_id": "host_rollout_dependency_invalidation_001_treecalc_refreshed",
+      "mismatch_kind": "dependency_evidence",
+      "severity": "semantic",
+      "view_family": "dependency_evidence",
+      "equivalence_policy_id": "dependency_evidence_json_exact",
+      "required": true,
+      "left_value": {
+        "edges": [
+          {
+            "edge_kind": "formula_reference",
+            "from": "node:Price",
+            "to": "node:Revenue"
+          }
+        ],
+        "source_status": "direct"
+      },
+      "right_value": {
+        "edges": [
+          {
+            "edge_kind": "formula_reference",
+            "from": "node:Price",
+            "to": "node:Revenue"
+          },
+          {
+            "edge_kind": "formula_reference",
+            "from": "node:TaxRate",
+            "to": "node:Revenue"
+          }
+        ],
+        "source_status": "direct"
+      },
+      "detail": "dependency evidence diverged"
+    },
+    {
+      "left_scenario_id": "host_rollout_dependency_invalidation_001_treecalc",
+      "right_scenario_id": "host_rollout_dependency_invalidation_001_treecalc_refreshed",
+      "mismatch_kind": "invalidation_evidence",
+      "severity": "semantic",
+      "view_family": "invalidation_evidence",
+      "equivalence_policy_id": "invalidation_evidence_json_exact",
+      "required": true,
+      "left_value": {
+        "affected_nodes": [
+          "node:Revenue"
+        ],
+        "cause": "input_edit",
+        "source_status": "direct",
+        "stale_nodes": []
+      },
+      "right_value": {
+        "affected_nodes": [
+          "node:Revenue",
+          "node:TaxRate"
+        ],
+        "cause": "input_edit",
+        "source_status": "direct",
+        "stale_nodes": [
+          "node:TaxRate"
+        ]
+      },
+      "detail": "invalidation evidence diverged"
+    }
+  ]
+}

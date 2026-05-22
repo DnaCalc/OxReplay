@@ -1,0 +1,53 @@
+{
+  "equivalent": false,
+  "mismatches": [
+    {
+      "left_scenario_id": "host_rollout_retained_artifacts_001_onecalc_no_host",
+      "right_scenario_id": "host_rollout_retained_artifacts_001_onecalc_no_host_refreshed",
+      "mismatch_kind": "retained_artifact_ref",
+      "severity": "instrumentation",
+      "view_family": "retained_artifact_ref",
+      "equivalence_policy_id": "retained_artifact_ref_json_exact",
+      "required": true,
+      "left_value": {
+        "artifact_kind": "no_host_runtime",
+        "artifact_refs": [
+          {
+            "kind": "scenario_input",
+            "path": "docs/test-corpus/bundles/host_rollout_retained_artifacts_001/left.replay.json"
+          },
+          {
+            "kind": "run_result",
+            "path": "docs/test-runs/w007-host-rollout-host_rollout_retained_artifacts_001-baseline/diff.json"
+          }
+        ],
+        "capability_context": {
+          "host_function_provider": false,
+          "registered_external_provider": false,
+          "rtd_provider": false
+        },
+        "host_id": "dna_onecalc"
+      },
+      "right_value": {
+        "artifact_kind": "no_host_runtime",
+        "artifact_refs": [
+          {
+            "kind": "scenario_input",
+            "path": "docs/test-corpus/bundles/host_rollout_retained_artifacts_001/right.replay.json"
+          },
+          {
+            "kind": "run_result",
+            "path": "docs/test-runs/w007-host-rollout-host_rollout_retained_artifacts_001-baseline/explain.json"
+          }
+        ],
+        "capability_context": {
+          "host_function_provider": false,
+          "registered_external_provider": false,
+          "rtd_provider": false
+        },
+        "host_id": "dna_onecalc"
+      },
+      "detail": "retained artifact refs diverged"
+    }
+  ]
+}

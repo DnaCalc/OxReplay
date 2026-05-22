@@ -22,12 +22,14 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
 1. the local spec set names the planned comparison families and scenario ids,
 2. the downstream-host consumption model states that host artifacts must come through typed replay evidence surfaces,
 3. the `OxXlPlay` outbound note records the required emitted observation families,
-4. no document authorizes direct linkage to TreeCalc-private or OneCalc-private helper types.
+4. no document authorizes direct linkage to TreeCalc-private or OneCalc-private helper types,
+5. the local runtime has retained normalized-replay fixtures proving comparison and explain output over the declared families.
 
 ## Expected capability impact
 1. plans a `C2`/`C3` comparison and explain widening over typed host-rollout evidence,
 2. does not claim a new adapter capability level for `OxXlPlay`, `DNA OneCalc`, or `DNA TreeCalc`,
 3. does not change current `C4` or `C5` floors.
+4. the executable fixture slice is local OxReplay comparison support only; producer-side capability remains blocked until upstream repos emit retained artifacts.
 
 ## Expected pack impact
 1. planned support for `PACK.replay.appliance` through retained host-rollout replay inputs,
@@ -51,9 +53,31 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
    - `docs/test-corpus/bundles/host_rollout_retained_artifacts_001/`
 2. planned retained run roots:
    - `docs/test-runs/w007-host-rollout-<scenario-id>-baseline/`
-3. checked-in versus ephemeral policy:
+3. current retained local fixture roots:
+   - `docs/test-corpus/bundles/host_rollout_per_node_values_001/`
+   - `docs/test-corpus/bundles/host_rollout_table_slice_001/`
+   - `docs/test-corpus/bundles/host_rollout_effective_display_001/`
+   - `docs/test-corpus/bundles/host_rollout_execution_outcome_001/`
+   - `docs/test-corpus/bundles/host_rollout_dependency_invalidation_001/`
+   - `docs/test-corpus/bundles/host_rollout_retained_artifacts_001/`
+4. current retained run roots:
+   - `docs/test-runs/w007-host-rollout-host_rollout_per_node_values_001-baseline/`
+   - `docs/test-runs/w007-host-rollout-host_rollout_table_slice_001-baseline/`
+   - `docs/test-runs/w007-host-rollout-host_rollout_effective_display_001-baseline/`
+   - `docs/test-runs/w007-host-rollout-host_rollout_execution_outcome_001-baseline/`
+   - `docs/test-runs/w007-host-rollout-host_rollout_dependency_invalidation_001-baseline/`
+   - `docs/test-runs/w007-host-rollout-host_rollout_retained_artifacts_001-baseline/`
+5. checked-in versus ephemeral policy:
    - promoted host-rollout fixtures and baseline reports are checked in,
    - exploratory host exports remain ephemeral until they satisfy source-preservation and typed-surface requirements.
+
+## Current Executable Slice
+1. `OxReplay` compares the declared W007 families as retained comparison views from normalized replay artifacts.
+2. `per_node_value`, `table_slice`, `dependency_evidence`, `invalidation_evidence`, and `retained_artifact_ref` currently use exact JSON comparison with family-specific policy ids and mismatch labels.
+3. `effective_display_text` keeps render-context trust detail.
+4. `execution_outcome` keeps typed outcome-class comparison and rejects legacy outcome-family shims.
+5. This slice does not infer TreeCalc reference semantics, table semantics, invalidation semantics, or OneCalc host policy; it compares retained payloads only.
+6. Real upstream integration remains blocked until producing repos emit retained artifacts in these families; local evidence is a mechanics fixture, not a producer capability claim.
 
 ## Replay-Corpus Readiness
 1. planned replay classes:

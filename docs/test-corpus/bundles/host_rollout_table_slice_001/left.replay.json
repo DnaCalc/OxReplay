@@ -1,0 +1,32 @@
+{
+  "scenario_id": "host_rollout_table_slice_001_treecalc",
+  "lane_id": "dna_treecalc",
+  "events": [
+    {
+      "event_id": "table-left-01",
+      "source_label": "retained_treecalc_table_slice",
+      "normalized_family": "host_rollout.table_slice"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "table_slice",
+      "value": {
+        "source_status": "direct",
+        "table_id": "table:RevenueByRegion",
+        "canonical_locator": "table:RevenueByRegion",
+        "columns": ["Region", "Revenue"],
+        "rows": [
+          ["EMEA", { "value_kind": "number", "payload": "6" }]
+        ]
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_host": "dna_treecalc",
+    "source_schema_id": "dna_treecalc.table_slice.v1",
+    "projection_status": "direct",
+    "capture_mode": "model_projection"
+  }
+}

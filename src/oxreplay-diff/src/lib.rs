@@ -14,11 +14,16 @@ use serde::{Deserialize, Serialize};
 pub enum MismatchKind {
     ScenarioPresence,
     ComparisonValue,
+    PerNodeValue,
     VisibleValue,
     EffectiveDisplayText,
+    TableSlice,
     FormattingView,
     ConditionalFormattingView,
     OutcomeValue,
+    DependencyEvidence,
+    InvalidationEvidence,
+    RetainedArtifactRef,
     ViewValue,
     ProjectionCoverageGap,
     RejectKind,
@@ -390,11 +395,18 @@ fn legacy_outcome_family_mismatch(
 }
 
 fn ordered_view_families(families: &BTreeSet<String>) -> Vec<String> {
-    const PREFERRED: [&str; 6] = [
+    const PREFERRED: [&str; 13] = [
         "worksheet_comparison_value",
+        "per_node_value",
+        "table_slice",
         "effective_display_text",
         "visible_value_text",
         "execution_outcome",
+        "dependency_evidence",
+        "invalidation_evidence",
+        "retained_artifact_ref",
+        "retained_host_artifact_ref",
+        "host_artifact_ref",
         "formatting_view",
         "conditional_formatting_view",
     ];
@@ -418,9 +430,14 @@ fn ordered_view_families(families: &BTreeSet<String>) -> Vec<String> {
 fn mismatch_kind_for_view_family(view_family: &str) -> MismatchKind {
     match view_family {
         "worksheet_comparison_value" => MismatchKind::ComparisonValue,
+        "per_node_value" => MismatchKind::PerNodeValue,
         "effective_display_text" => MismatchKind::EffectiveDisplayText,
         "visible_value_text" => MismatchKind::VisibleValue,
         "execution_outcome" => MismatchKind::OutcomeValue,
+        "table_slice" => MismatchKind::TableSlice,
+        "dependency_evidence" => MismatchKind::DependencyEvidence,
+        "invalidation_evidence" => MismatchKind::InvalidationEvidence,
+        "retained_artifact_ref" => MismatchKind::RetainedArtifactRef,
         "formatting_view" => MismatchKind::FormattingView,
         "conditional_formatting_view" => MismatchKind::ConditionalFormattingView,
         _ => MismatchKind::ViewValue,
@@ -429,7 +446,13 @@ fn mismatch_kind_for_view_family(view_family: &str) -> MismatchKind {
 
 fn severity_for_view_family(view_family: &str) -> SeverityClass {
     match view_family {
-        "worksheet_comparison_value" | "execution_outcome" => SeverityClass::Semantic,
+        "worksheet_comparison_value"
+        | "per_node_value"
+        | "table_slice"
+        | "execution_outcome"
+        | "dependency_evidence"
+        | "invalidation_evidence" => SeverityClass::Semantic,
+        "retained_artifact_ref" => SeverityClass::Instrumentation,
         _ => SeverityClass::Informational,
     }
 }
@@ -437,7 +460,12 @@ fn severity_for_view_family(view_family: &str) -> SeverityClass {
 fn detail_for_view_family(view_family: &str) -> String {
     match view_family {
         "worksheet_comparison_value" => "typed comparison values diverged".to_string(),
+        "per_node_value" => "per-node value evidence diverged".to_string(),
+        "table_slice" => "table-slice evidence diverged".to_string(),
         "execution_outcome" => "typed outcome classes diverged".to_string(),
+        "dependency_evidence" => "dependency evidence diverged".to_string(),
+        "invalidation_evidence" => "invalidation evidence diverged".to_string(),
+        "retained_artifact_ref" => "retained artifact refs diverged".to_string(),
         _ => "comparison view values diverged".to_string(),
     }
 }
@@ -1969,6 +1997,135 @@ mod tests {
         assert_eq!(
             report.mismatches[0].view_family.as_deref(),
             Some("formatting_view")
+        );
+    }
+
+    #[test]
+    fn classifies_host_rollout_comparison_families_explicitly() {
+        let left = scenario(
+            "left",
+            vec![
+                ReplayComparisonView {
+                    view_family: "per_node_value".to_string(),
+                    value: serde_json::json!({
+                        "node_id": "node:revenue",
+                        "canonical_locator": "name:workbook:Revenue",
+                        "comparison_value": { "value_kind": "number", "payload": "6" }
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "table_slice".to_string(),
+                    value: serde_json::json!({
+                        "table_id": "table:RevenueByRegion",
+                        "columns": ["Region", "Revenue"],
+                        "rows": [["EMEA", { "value_kind": "number", "payload": "6" }]]
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "dependency_evidence".to_string(),
+                    value: serde_json::json!({
+                        "edges": [
+                            { "from": "node:price", "to": "node:revenue", "status": "direct" }
+                        ]
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "invalidation_evidence".to_string(),
+                    value: serde_json::json!({
+                        "cause": "input_edit",
+                        "affected_nodes": ["node:revenue"],
+                        "stale_nodes": []
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "retained_host_artifact_ref".to_string(),
+                    value: serde_json::json!({
+                        "host_id": "dna_onecalc",
+                        "artifact_kind": "no_host_runtime",
+                        "path": "docs/test-corpus/bundles/host_rollout_retained_artifacts_001/left.replay.json"
+                    }),
+                },
+            ],
+        );
+        let right = scenario(
+            "right",
+            vec![
+                ReplayComparisonView {
+                    view_family: "per_node_value".to_string(),
+                    value: serde_json::json!({
+                        "node_id": "node:revenue",
+                        "canonical_locator": "name:workbook:Revenue",
+                        "comparison_value": { "value_kind": "number", "payload": "7" }
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "table_slice".to_string(),
+                    value: serde_json::json!({
+                        "table_id": "table:RevenueByRegion",
+                        "columns": ["Region", "Revenue"],
+                        "rows": [["EMEA", { "value_kind": "number", "payload": "7" }]]
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "dependency_evidence".to_string(),
+                    value: serde_json::json!({
+                        "edges": [
+                            { "from": "node:price", "to": "node:revenue", "status": "direct" },
+                            { "from": "node:tax", "to": "node:revenue", "status": "direct" }
+                        ]
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "invalidation_evidence".to_string(),
+                    value: serde_json::json!({
+                        "cause": "input_edit",
+                        "affected_nodes": ["node:revenue", "node:tax"],
+                        "stale_nodes": ["node:tax"]
+                    }),
+                },
+                ReplayComparisonView {
+                    view_family: "retained_artifact_ref".to_string(),
+                    value: serde_json::json!({
+                        "host_id": "dna_onecalc",
+                        "artifact_kind": "no_host_runtime",
+                        "path": "docs/test-corpus/bundles/host_rollout_retained_artifacts_001/right.replay.json"
+                    }),
+                },
+            ],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(
+            report
+                .mismatches
+                .iter()
+                .map(|mismatch| &mismatch.mismatch_kind)
+                .collect::<Vec<_>>(),
+            vec![
+                &MismatchKind::PerNodeValue,
+                &MismatchKind::TableSlice,
+                &MismatchKind::DependencyEvidence,
+                &MismatchKind::InvalidationEvidence,
+                &MismatchKind::RetainedArtifactRef,
+            ]
+        );
+        assert_eq!(
+            report.mismatches[0].equivalence_policy_id.as_deref(),
+            Some("per_node_value_json_exact")
+        );
+        assert_eq!(
+            report.mismatches[1].equivalence_policy_id.as_deref(),
+            Some("table_slice_json_exact")
+        );
+        assert_eq!(
+            report.mismatches[4].view_family.as_deref(),
+            Some("retained_artifact_ref")
+        );
+        assert_eq!(
+            report.mismatches[4].severity,
+            SeverityClass::Instrumentation
         );
     }
 }

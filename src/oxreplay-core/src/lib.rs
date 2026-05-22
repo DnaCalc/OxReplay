@@ -166,6 +166,7 @@ impl ReplayScenario {
 pub fn normalized_comparison_view_family(view_family: &str) -> &str {
     match view_family {
         "comparison_value" | "worksheet_comparison_value" => "worksheet_comparison_value",
+        "retained_host_artifact_ref" | "host_artifact_ref" => "retained_artifact_ref",
         _ => view_family,
     }
 }
@@ -173,9 +174,14 @@ pub fn normalized_comparison_view_family(view_family: &str) -> &str {
 pub fn default_equivalence_policy_id(view_family: &str) -> &'static str {
     match normalized_comparison_view_family(view_family) {
         "worksheet_comparison_value" => "worksheet_value_exact",
+        "per_node_value" => "per_node_value_json_exact",
+        "table_slice" => "table_slice_json_exact",
         "effective_display_text" => "effective_display_text_exact",
         "visible_value_text" => "visible_value_text_exact",
         "execution_outcome" => "typed_outcome_class",
+        "dependency_evidence" => "dependency_evidence_json_exact",
+        "invalidation_evidence" => "invalidation_evidence_json_exact",
+        "retained_artifact_ref" => "retained_artifact_ref_json_exact",
         _ => "view_json_exact",
     }
 }
@@ -787,8 +793,32 @@ mod tests {
             "execution_outcome"
         );
         assert_eq!(
+            normalized_comparison_view_family("retained_host_artifact_ref"),
+            "retained_artifact_ref"
+        );
+        assert_eq!(
             normalized_comparison_view_family("authoring_outcome"),
             "authoring_outcome"
+        );
+        assert_eq!(
+            default_equivalence_policy_id("per_node_value"),
+            "per_node_value_json_exact"
+        );
+        assert_eq!(
+            default_equivalence_policy_id("table_slice"),
+            "table_slice_json_exact"
+        );
+        assert_eq!(
+            default_equivalence_policy_id("dependency_evidence"),
+            "dependency_evidence_json_exact"
+        );
+        assert_eq!(
+            default_equivalence_policy_id("invalidation_evidence"),
+            "invalidation_evidence_json_exact"
+        );
+        assert_eq!(
+            default_equivalence_policy_id("retained_host_artifact_ref"),
+            "retained_artifact_ref_json_exact"
         );
         assert_eq!(
             default_equivalence_policy_id("execution_outcome"),

@@ -1,0 +1,37 @@
+{
+  "scenario_id": "host_rollout_per_node_values_001_treecalc",
+  "lane_id": "dna_treecalc",
+  "events": [
+    {
+      "event_id": "per-node-left-01",
+      "source_label": "retained_treecalc_node_values",
+      "normalized_family": "host_rollout.per_node_value"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "per_node_value",
+      "value": {
+        "source_status": "direct",
+        "nodes": [
+          {
+            "node_id": "node:Revenue",
+            "canonical_locator": "name:workbook:Revenue",
+            "comparison_value": {
+              "value_kind": "number",
+              "worksheet_value_class": "scalar",
+              "payload": "6"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_host": "dna_treecalc",
+    "source_schema_id": "dna_treecalc.replay_view.v1",
+    "projection_status": "direct",
+    "capture_mode": "model_projection"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "equivalent": false,
+  "mismatches": [
+    {
+      "left_scenario_id": "host_rollout_execution_outcome_001_treecalc",
+      "right_scenario_id": "host_rollout_execution_outcome_001_excel",
+      "mismatch_kind": "outcome_value",
+      "severity": "semantic",
+      "view_family": "execution_outcome",
+      "equivalence_policy_id": "typed_outcome_class",
+      "required": true,
+      "left_value": {
+        "class_id": "value_published",
+        "lane_reason_code": "treecalc_value_published",
+        "outcome_kind": "executed",
+        "outcome_stage": "execution"
+      },
+      "right_value": {
+        "class_id": "input_rejected",
+        "lane_reason_code": "excel_formula_rejected",
+        "outcome_kind": "rejected",
+        "outcome_stage": "execution"
+      },
+      "detail": "typed outcome classes diverged (left_stage=`execution`, right_stage=`execution`, left_outcome_kind=`executed`, right_outcome_kind=`rejected`, left_class_id=`value_published`, right_class_id=`input_rejected`)"
+    }
+  ]
+}

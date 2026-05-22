@@ -74,7 +74,7 @@ The ids below are planning commitments until the retained artifacts exist.
 | `host_rollout_dependency_invalidation` | `host_rollout_dependency_invalidation_001` | `docs/test-corpus/bundles/host_rollout_dependency_invalidation_001/` |
 | `host_rollout_retained_artifacts` | `host_rollout_retained_artifacts_001` | `docs/test-corpus/bundles/host_rollout_retained_artifacts_001/` |
 
-These are planned roots only until retained replay, diff, and explain artifacts exist.
+These roots now contain local OxReplay normalized-replay fixtures and retained diff/explain baselines for shared comparison mechanics. They remain producer-integration partial until `DNA TreeCalc`, `DNA OneCalc`, and `OxXlPlay` publish real retained artifacts in the same typed families.
 
 ## 9. Naming rule
 Scenario ids must remain stable once a retained artifact root is created.

@@ -272,7 +272,8 @@ The following limits remain explicit:
 6. broad lane `C4` or `C5` claims remain later evidence lanes unless retained conformance says otherwise,
 7. `DNA OneCalc` currently consumes replay as shared infrastructure rather than through a dedicated app-facing host contract; that gap is acknowledged upstream documentation debt,
 8. the shared runtime can now carry typed comparison-view families and both the OxFml and OxXlPlay XML verification lanes now publish them, but the current cross-lane XML comparison still remains partial because the retained family payloads diverge and the OxXlPlay side remains explicitly lossy.
-9. per-node value, table-slice, dependency, invalidation, and retained host artifact comparison surfaces are planned under `W007`; no retained runtime evidence exists for those families yet.
+9. per-node value, table-slice, dependency, invalidation, and retained host artifact comparison surfaces are planned under `W007`; no real upstream producer-integration evidence exists for those families yet.
+10. W007 now has OxReplay-local retained normalized-replay fixtures for those families. This is shared comparison mechanics evidence only; real `DNA OneCalc`/`DNA TreeCalc`/`OxXlPlay` producer integration remains open until upstream retained artifacts are published in the declared families.
 
 ## 12. Resulting rule
 `DNA OneCalc` should use `OxReplay` as shared replay infrastructure, not as a substitute product host, lane semantics owner, or replacement for `DNA ReCalc`.
