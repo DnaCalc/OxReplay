@@ -63,6 +63,7 @@ The ids below are planning commitments until the retained artifacts exist.
 | `xlplay_vba_udf_oracle_first_slice` | `xlplay_vba_udf_addthem_001` | local retained first-slice scenario for `AddThem(Double, Double) As Double` Excel-oracle intake; live OxXlPlay capture will replace the planned-capture metadata when available |
 | `xlplay_capture_loss_declared` | `xlplay_capture_loss_formula_unavailable_001` | acknowledged proposed first capture-loss scenario from `OxXlPlay` |
 | `xlplay_diff_ready_against_dna` | `xlplay_diff_ready_against_dna_001` | reserved until `OxXlPlay` proposes the first Excel-vs-DNA comparison-ready scenario |
+| `xlplay_structured_table_slice_observation_ready` | `xlplay_structured_reference_workbook_001` | acknowledged emitted scenario from `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/` plus local retained seam baseline |
 
 ## 8. W007 host-rollout evidence planning
 | Replay class | Scenario id | Planned retained root |
@@ -74,7 +75,7 @@ The ids below are planning commitments until the retained artifacts exist.
 | `host_rollout_dependency_invalidation` | `host_rollout_dependency_invalidation_001` | `docs/test-corpus/bundles/host_rollout_dependency_invalidation_001/` |
 | `host_rollout_retained_artifacts` | `host_rollout_retained_artifacts_001` | `docs/test-corpus/bundles/host_rollout_retained_artifacts_001/` |
 
-These roots now contain local OxReplay normalized-replay fixtures and retained diff/explain baselines for shared comparison mechanics. They remain producer-integration partial until `DNA TreeCalc`, `DNA OneCalc`, and `OxXlPlay` publish real retained artifacts in the same typed families.
+These roots now contain local OxReplay normalized-replay fixtures and retained diff/explain baselines for shared comparison mechanics. They remain producer-integration partial. `OxXlPlay` has published the first real retained `table_slice` artifact for `xlplay_structured_reference_workbook_001`; `DNA TreeCalc`, `DNA OneCalc`, dependency, invalidation, and retained-artifact-ref producer artifacts remain open.
 
 ## 9. Naming rule
 Scenario ids must remain stable once a retained artifact root is created.

@@ -38,7 +38,7 @@
    - current note: the current honest integrated XML comparison-view result over real OxFml and OxXlPlay publications is now typed per-family divergence across `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`, while the OxXlPlay side remains explicitly `lossy` and provenance-rich through `source_metadata`.
 6. `W006` is now active over retained distillation and lifecycle-governance examples; broad adapter `C4` and `C5` claims remain later evidence lanes.
 7. `W007` is now active as a planning lane for host-rollout evidence comparison. It does not authorize TreeCalc-private shims or upgrade any adapter capability claim.
-   - current note: OxReplay-local retained normalized-replay fixtures now exercise exact comparison and explain labeling for `per_node_value`, `table_slice`, `effective_display_text`, `execution_outcome`, `dependency_evidence`, `invalidation_evidence`, and `retained_artifact_ref`; integration against real producer artifacts remains blocked on upstream retained artifact emission.
+   - current note: OxReplay-local retained normalized-replay fixtures now exercise exact comparison and explain labeling for `per_node_value`, `table_slice`, `effective_display_text`, `execution_outcome`, `dependency_evidence`, `invalidation_evidence`, and `retained_artifact_ref`; the first real `OxXlPlay` retained structured-table `table_slice` artifact has now been consumed for validation/replay intake, while broader producer integration remains blocked for TreeCalc/OneCalc artifacts and for dependency, invalidation, and retained-artifact-ref families.
 
 ## Reserved follow-on lane entry
 1. `OxCalc` remains the first lane expected to drive toward `C5.pack_valid`.

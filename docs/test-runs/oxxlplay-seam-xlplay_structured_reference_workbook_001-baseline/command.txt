@@ -1,0 +1,4 @@
+dna-recalc validate-bundle --bundle ..\OxXlPlay\states\excel\xlplay_structured_reference_workbook_001\oxreplay-manifest.json --format json
+dna-recalc replay --bundle ..\OxXlPlay\states\excel\xlplay_structured_reference_workbook_001\views\normalized-replay.json --kind normalized-replay
+dna-recalc diff --left ..\OxXlPlay\states\excel\xlplay_structured_reference_workbook_001\views\normalized-replay.json --left-kind normalized-replay --right ..\OxXlPlay\states\excel\xlplay_structured_reference_workbook_001\views\normalized-replay.json --right-kind normalized-replay
+dna-recalc explain --left ..\OxXlPlay\states\excel\xlplay_structured_reference_workbook_001\views\normalized-replay.json --left-kind normalized-replay --right ..\OxXlPlay\states\excel\xlplay_structured_reference_workbook_001\views\normalized-replay.json --right-kind normalized-replay

@@ -67,6 +67,7 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
    - `docs/test-runs/w007-host-rollout-host_rollout_execution_outcome_001-baseline/`
    - `docs/test-runs/w007-host-rollout-host_rollout_dependency_invalidation_001-baseline/`
    - `docs/test-runs/w007-host-rollout-host_rollout_retained_artifacts_001-baseline/`
+   - `docs/test-runs/oxxlplay-seam-xlplay_structured_reference_workbook_001-baseline/`
 5. checked-in versus ephemeral policy:
    - promoted host-rollout fixtures and baseline reports are checked in,
    - exploratory host exports remain ephemeral until they satisfy source-preservation and typed-surface requirements.
@@ -77,7 +78,8 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
 3. `effective_display_text` keeps render-context trust detail.
 4. `execution_outcome` keeps typed outcome-class comparison and rejects legacy outcome-family shims.
 5. This slice does not infer TreeCalc reference semantics, table semantics, invalidation semantics, or OneCalc host policy; it compares retained payloads only.
-6. Real upstream integration remains blocked until producing repos emit retained artifacts in these families; local evidence is a mechanics fixture, not a producer capability claim.
+6. The `OxXlPlay` structured-reference workbook scenario now provides the first real retained upstream `table_slice` artifact that validates and replays through the local normalized-replay intake path.
+7. Real upstream integration remains partial until producing repos emit retained artifacts for TreeCalc/OneCalc table counterparts plus dependency, invalidation, and retained-artifact-ref families; local evidence is a mechanics fixture plus one accepted `OxXlPlay` observation intake, not a producer capability claim.
 
 ## Replay-Corpus Readiness
 1. planned replay classes:

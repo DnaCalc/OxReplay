@@ -95,6 +95,10 @@ These are reserved planning classes only until retained artifacts exist.
 3. widened SpreadsheetML canonical manifest: `../OxXlPlay/states/excel/xlplay_capture_spreadsheetml_formatting_001/oxreplay-manifest.json`
 4. widened SpreadsheetML normalized replay view: `../OxXlPlay/states/excel/xlplay_capture_spreadsheetml_formatting_001/views/normalized-replay.json`
 5. local retained widened seam baseline: `docs/test-runs/oxxlplay-seam-xlplay_capture_spreadsheetml_formatting_001-baseline/`
+6. structured-reference workbook canonical manifest: `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/oxreplay-manifest.json`
+7. structured-reference workbook normalized replay view: `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/views/normalized-replay.json`
+8. structured-reference workbook typed table view: `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/views/table-slice.json`
+9. local retained structured-table seam baseline: `docs/test-runs/oxxlplay-seam-xlplay_structured_reference_workbook_001-baseline/`
 
 Accepted first-pass seam answers:
 1. `lane_id = oxxlplay` is acceptable as an observation-source intake id and does not imply semantic ownership of Excel behavior
@@ -104,6 +108,8 @@ Accepted first-pass seam answers:
 5. encoding observed values into normalized replay-family strings is acceptable only as a bootstrap activation surface, not as the long-term shared diff contract
 6. the SpreadsheetML family may now publish machine-readable `comparison_views` for `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`
 7. the replay-facing normalized view may now publish `source_metadata` preserving projection status, capture-loss summary, interpretation limits, workbook identity, family inventory, and retained render-context metadata through inline `render_context` or one-hop `render_context_ref`
+8. the structured-reference workbook family may now publish machine-readable `comparison_views` for `comparison_value`, `effective_display_text`, `table_slice`, and `execution_outcome`
+9. the first structured-table `table_slice` payload is consumable by `OxReplay` as retained JSON evidence for exact comparison; this is not a claim that `OxReplay` understands or proves Excel table semantics
 
 Still provisional:
 1. a retained Excel-vs-DNA comparison-ready scenario now exists inside `OxReplay`, but it remains a lossy observation-versus-projection comparison surface rather than broad Excel parity truth
@@ -128,7 +134,8 @@ Rules:
 1. `WorkbookConstructionSpec` is construction input and provenance, not semantic authority.
 2. Table and structured-reference observations must remain source-preserved with direct-versus-derived status and capture-loss markers.
 3. `OxReplay` should consume typed evidence surfaces and must not require TreeCalc-private or OneCalc-private shims.
-4. Dependency and invalidation evidence stays unavailable until directly observed or explicitly labeled as derived by the producing artifact.
+4. The first retained `table_slice` family is accepted for normalized-replay intake from `xlplay_structured_reference_workbook_001`.
+5. Dependency and invalidation evidence stays unavailable until directly observed or explicitly labeled as derived by the producing artifact.
 
 ## 10. `DNA OneCalc` comparison use
 `DNA OneCalc` may consume retained `OxXlPlay` artifacts through `OxReplay` for:

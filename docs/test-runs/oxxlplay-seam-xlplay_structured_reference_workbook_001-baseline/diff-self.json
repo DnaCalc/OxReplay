@@ -1,0 +1,63 @@
+{
+  "equivalent": false,
+  "mismatches": [
+    {
+      "left_scenario_id": "xlplay_structured_reference_workbook_001",
+      "right_scenario_id": "xlplay_structured_reference_workbook_001",
+      "mismatch_kind": "comparison_value",
+      "severity": "semantic",
+      "view_family": "worksheet_comparison_value",
+      "equivalence_policy_id": "worksheet_value_exact",
+      "required": true,
+      "left_value": {
+        "boundary": "published_formula_result",
+        "value": {
+          "kind": "number",
+          "number": 6.0
+        },
+        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+      },
+      "right_value": {
+        "boundary": "published_formula_result",
+        "value": {
+          "kind": "number",
+          "number": 6.0
+        },
+        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+      },
+      "detail": "comparison_value envelopes are outside the admitted local seam (left: missing declared comparison_value kind; right: missing declared comparison_value kind)"
+    },
+    {
+      "left_scenario_id": "xlplay_structured_reference_workbook_001",
+      "right_scenario_id": "xlplay_structured_reference_workbook_001",
+      "mismatch_kind": "outcome_value",
+      "severity": "semantic",
+      "view_family": "execution_outcome",
+      "equivalence_policy_id": "typed_outcome_class",
+      "required": true,
+      "left_value": {
+        "capture_artifacts_emitted": true,
+        "outcome_kind": "accepted_execution",
+        "outcome_schema": "oxxlplay.execution_outcome.v1",
+        "outcome_stage": "capture_pipeline",
+        "replay_artifacts_emitted": true,
+        "replay_view_ready": true,
+        "scenario_id": "xlplay_structured_reference_workbook_001",
+        "workbook_kind": "programmatic-structured-table",
+        "workbook_ref": "programmatic/structured-table/xlplay_structured_reference_workbook_001"
+      },
+      "right_value": {
+        "capture_artifacts_emitted": true,
+        "outcome_kind": "accepted_execution",
+        "outcome_schema": "oxxlplay.execution_outcome.v1",
+        "outcome_stage": "capture_pipeline",
+        "replay_artifacts_emitted": true,
+        "replay_view_ready": true,
+        "scenario_id": "xlplay_structured_reference_workbook_001",
+        "workbook_kind": "programmatic-structured-table",
+        "workbook_ref": "programmatic/structured-table/xlplay_structured_reference_workbook_001"
+      },
+      "detail": "execution_outcome envelopes are outside the admitted local seam (left: missing class_id; right: missing class_id)"
+    }
+  ]
+}

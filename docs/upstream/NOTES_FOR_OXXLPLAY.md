@@ -13,6 +13,10 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 4. sibling-emitted canonical manifest: `../OxXlPlay/states/excel/xlplay_capture_spreadsheetml_formatting_001/oxreplay-manifest.json`
 5. sibling-emitted normalized replay view: `../OxXlPlay/states/excel/xlplay_capture_spreadsheetml_formatting_001/views/normalized-replay.json`
 6. sibling handoff response: `../OxXlPlay/docs/handoffs/HANDOFF_SPREADSHEETML_VERIFICATION_UPDATE_001.md`
+7. structured-reference workbook canonical manifest: `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/oxreplay-manifest.json`
+8. structured-reference workbook normalized replay view: `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/views/normalized-replay.json`
+9. structured-reference workbook typed table view: `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/views/table-slice.json`
+10. local retained structured-table seam validation run: `docs/test-runs/oxxlplay-seam-xlplay_structured_reference_workbook_001-baseline/`
 
 ## Interface implications
 1. the accepted first-pass model is dual-artifact:
@@ -26,6 +30,8 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 7. replay-facing `source_metadata` is now accepted on the normalized replay artifact as the local carrier for projection status, capture-loss summary, interpretation limits, workbook identity, and family inventory
 8. the next support tranche should emit typed workbook/table/oracle evidence surfaces rather than host-private fixture payloads
 9. `WorkbookConstructionSpec` should remain construction input and provenance; `OxReplay` will not treat it as semantic authority
+10. the `xlplay_structured_reference_workbook_001` table-slice payload is accepted as a first retained `OxReplay`-consumable `table_slice` envelope for normalized-replay intake and exact JSON comparison
+11. the same artifact still exposes local non-table family gaps for full-family diff/explain: current `comparison_value` uses the newer OxFunc aligned JSON envelope outside the admitted local comparator seam, and current `execution_outcome` omits the local `class_id` expected by typed outcome comparison
 
 ## Minimum invariants
 1. `OxReplay` must not become the owner of Excel-driving logic
@@ -42,5 +48,5 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 1. when should a formal `OxXlPlay` adapter manifest be added on top of the accepted canonical-manifest path
 2. which registry families should be pinned first once Excel-origin diff or explain outputs become retained
 3. should any per-family payload-harmonization contract be declared for `formatting_view` or `conditional_formatting_view` so cross-lane diffs can distinguish structural envelope mismatch from true semantic divergence more precisely
-4. what exact `table_slice` payload fields should be frozen first for table construction and structured-reference workbook observations
+4. whether `table_slice` payload fields from `xlplay_structured_reference_workbook_001` should become a stable cross-producer payload contract or remain an OxXlPlay-owned observation envelope compared exactly as retained JSON
 5. when should dependency and invalidation evidence graduate from planned family names to retained comparison-view payloads

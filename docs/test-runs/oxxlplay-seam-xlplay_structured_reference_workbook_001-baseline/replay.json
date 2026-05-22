@@ -1,0 +1,636 @@
+{
+  "scenario_id": "xlplay_structured_reference_workbook_001",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "sales_table_slice",
+      "source_label": "table_slice:SalesTbl:direct",
+      "normalized_family": "excel.surface.table_slice.direct:SalesTbl=SalesTbl"
+    },
+    {
+      "event_id": "sales_line_total_row1_value",
+      "source_label": "cell_value:Sales!D2:direct",
+      "normalized_family": "excel.surface.cell_value.direct:Sales!D2:comparison_value"
+    },
+    {
+      "event_id": "sales_line_total_row1_formula",
+      "source_label": "formula_text:Sales!D2:direct",
+      "normalized_family": "excel.surface.formula_text.direct:Sales!D2==[@Qty]*[@Price]"
+    },
+    {
+      "event_id": "sales_column_ref_value",
+      "source_label": "cell_value:Sales!F2:direct",
+      "normalized_family": "excel.surface.cell_value.direct:Sales!F2:comparison_value"
+    },
+    {
+      "event_id": "sales_column_ref_formula",
+      "source_label": "formula_text:Sales!F2:direct",
+      "normalized_family": "excel.surface.formula_text.direct:Sales!F2==SUM(SalesTbl[Qty])"
+    },
+    {
+      "event_id": "sales_composite_ref_value",
+      "source_label": "cell_value:Sales!F3:direct",
+      "normalized_family": "excel.surface.cell_value.direct:Sales!F3:comparison_value"
+    },
+    {
+      "event_id": "sales_composite_ref_formula",
+      "source_label": "formula_text:Sales!F3:direct",
+      "normalized_family": "excel.surface.formula_text.direct:Sales!F3==SUM(SalesTbl[[#Data],[Qty]:[Price]])"
+    },
+    {
+      "event_id": "sales_totals_ref_value",
+      "source_label": "cell_value:Sales!F4:direct",
+      "normalized_family": "excel.surface.cell_value.direct:Sales!F4:comparison_value"
+    },
+    {
+      "event_id": "sales_totals_ref_formula",
+      "source_label": "formula_text:Sales!F4:direct",
+      "normalized_family": "excel.surface.formula_text.direct:Sales!F4==SUM(SalesTbl[[#Totals],[LineTotal]])"
+    },
+    {
+      "event_id": "sales_totals_ref_display",
+      "source_label": "effective_display_text:Sales!F4:direct",
+      "normalized_family": "excel.surface.effective_display_text.direct:Sales!F4=33"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "comparison_value",
+      "value": {
+        "boundary": "published_formula_result",
+        "value": {
+          "kind": "number",
+          "number": 6.0
+        },
+        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+      }
+    },
+    {
+      "view_family": "effective_display_text",
+      "value": "33"
+    },
+    {
+      "view_family": "table_slice",
+      "value": {
+        "columns": [
+          {
+            "column_index": 1,
+            "column_name": "Region",
+            "data_body_range": "A2:A4"
+          },
+          {
+            "column_index": 2,
+            "column_name": "Qty",
+            "data_body_range": "B2:B4"
+          },
+          {
+            "column_index": 3,
+            "column_name": "Price",
+            "data_body_range": "C2:C4"
+          },
+          {
+            "column_index": 4,
+            "column_name": "LineTotal",
+            "data_body_range": "D2:D4"
+          }
+        ],
+        "data_body_range": "A2:D4",
+        "header_row_range": "A1:D1",
+        "headers": [
+          {
+            "address": "A1",
+            "column_index": 1,
+            "column_name": "Region",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  82,
+                  101,
+                  103,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "Region",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "Region"
+          },
+          {
+            "address": "B1",
+            "column_index": 2,
+            "column_name": "Qty",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  81,
+                  116,
+                  121
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "Qty",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "Qty"
+          },
+          {
+            "address": "C1",
+            "column_index": 3,
+            "column_name": "Price",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  80,
+                  114,
+                  105,
+                  99,
+                  101
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "Price",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "Price"
+          },
+          {
+            "address": "D1",
+            "column_index": 4,
+            "column_name": "LineTotal",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  76,
+                  105,
+                  110,
+                  101,
+                  84,
+                  111,
+                  116,
+                  97,
+                  108
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "LineTotal",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "LineTotal"
+          }
+        ],
+        "rows": [
+          {
+            "cells": [
+              {
+                "address": "A2",
+                "column_index": 1,
+                "column_name": "Region",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "text",
+                    "utf16_code_units": [
+                      69,
+                      97,
+                      115,
+                      116
+                    ]
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "East",
+                "formula_text": null,
+                "row_index": 1,
+                "value_repr": "East"
+              },
+              {
+                "address": "B2",
+                "column_index": 2,
+                "column_name": "Qty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 2.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "2",
+                "formula_text": null,
+                "row_index": 1,
+                "value_repr": "2"
+              },
+              {
+                "address": "C2",
+                "column_index": 3,
+                "column_name": "Price",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 3.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "3",
+                "formula_text": null,
+                "row_index": 1,
+                "value_repr": "3"
+              },
+              {
+                "address": "D2",
+                "column_index": 4,
+                "column_name": "LineTotal",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 6.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "6",
+                "formula_text": "=[@Qty]*[@Price]",
+                "row_index": 1,
+                "value_repr": "6"
+              }
+            ],
+            "row_index": 1
+          },
+          {
+            "cells": [
+              {
+                "address": "A3",
+                "column_index": 1,
+                "column_name": "Region",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "text",
+                    "utf16_code_units": [
+                      87,
+                      101,
+                      115,
+                      116
+                    ]
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "West",
+                "formula_text": null,
+                "row_index": 2,
+                "value_repr": "West"
+              },
+              {
+                "address": "B3",
+                "column_index": 2,
+                "column_name": "Qty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 4.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "4",
+                "formula_text": null,
+                "row_index": 2,
+                "value_repr": "4"
+              },
+              {
+                "address": "C3",
+                "column_index": 3,
+                "column_name": "Price",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 5.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "5",
+                "formula_text": null,
+                "row_index": 2,
+                "value_repr": "5"
+              },
+              {
+                "address": "D3",
+                "column_index": 4,
+                "column_name": "LineTotal",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 20.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "20",
+                "formula_text": "=[@Qty]*[@Price]",
+                "row_index": 2,
+                "value_repr": "20"
+              }
+            ],
+            "row_index": 2
+          },
+          {
+            "cells": [
+              {
+                "address": "A4",
+                "column_index": 1,
+                "column_name": "Region",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "text",
+                    "utf16_code_units": [
+                      78,
+                      111,
+                      114,
+                      116,
+                      104
+                    ]
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "North",
+                "formula_text": null,
+                "row_index": 3,
+                "value_repr": "North"
+              },
+              {
+                "address": "B4",
+                "column_index": 2,
+                "column_name": "Qty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 1.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "1",
+                "formula_text": null,
+                "row_index": 3,
+                "value_repr": "1"
+              },
+              {
+                "address": "C4",
+                "column_index": 3,
+                "column_name": "Price",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 7.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "7",
+                "formula_text": null,
+                "row_index": 3,
+                "value_repr": "7"
+              },
+              {
+                "address": "D4",
+                "column_index": 4,
+                "column_name": "LineTotal",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 7.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "7",
+                "formula_text": "=[@Qty]*[@Price]",
+                "row_index": 3,
+                "value_repr": "7"
+              }
+            ],
+            "row_index": 3
+          }
+        ],
+        "show_totals": true,
+        "source_range": "A1:D5",
+        "structured_reference_formulas": [
+          {
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "number",
+                "number": 7.0
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "7",
+            "expected_formula_input": "=SUM(SalesTbl[Qty])",
+            "formula_text": "=SUM(SalesTbl[Qty])",
+            "locator": "Sales!F2",
+            "role": "column_reference",
+            "value_repr": "7"
+          },
+          {
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "number",
+                "number": 22.0
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "22",
+            "expected_formula_input": "=SUM(SalesTbl[[#Data],[Qty]:[Price]])",
+            "formula_text": "=SUM(SalesTbl[[#Data],[Qty]:[Price]])",
+            "locator": "Sales!F3",
+            "role": "composite_data_range",
+            "value_repr": "22"
+          },
+          {
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "number",
+                "number": 33.0
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "33",
+            "expected_formula_input": "=SUM(SalesTbl[[#Totals],[LineTotal]])",
+            "formula_text": "=SUM(SalesTbl[[#Totals],[LineTotal]])",
+            "locator": "Sales!F4",
+            "role": "totals_reference",
+            "value_repr": "33"
+          }
+        ],
+        "table_name": "SalesTbl",
+        "table_slice_schema": "oxxlplay.table_slice.v1",
+        "totals_row": {
+          "cells": [
+            {
+              "address": "A5",
+              "column_index": 1,
+              "column_name": "Region",
+              "comparison_value": {
+                "boundary": "published_formula_result",
+                "value": {
+                  "kind": "text",
+                  "utf16_code_units": [
+                    84,
+                    111,
+                    116,
+                    97,
+                    108
+                  ]
+                },
+                "wire_schema": "oxfunc_value_types.aligned_json.v1"
+              },
+              "effective_display_text": "Total",
+              "formula_text": null,
+              "row_index": 0,
+              "value_repr": "Total"
+            },
+            {
+              "address": "B5",
+              "column_index": 2,
+              "column_name": "Qty",
+              "comparison_value": {
+                "boundary": "published_formula_result",
+                "value": {
+                  "kind": "number",
+                  "number": 7.0
+                },
+                "wire_schema": "oxfunc_value_types.aligned_json.v1"
+              },
+              "effective_display_text": "7",
+              "formula_text": "=SUBTOTAL(109,[Qty])",
+              "row_index": 0,
+              "value_repr": "7"
+            },
+            {
+              "address": "C5",
+              "column_index": 3,
+              "column_name": "Price",
+              "effective_display_text": "",
+              "formula_text": null,
+              "row_index": 0,
+              "value_repr": null
+            },
+            {
+              "address": "D5",
+              "column_index": 4,
+              "column_name": "LineTotal",
+              "comparison_value": {
+                "boundary": "published_formula_result",
+                "value": {
+                  "kind": "number",
+                  "number": 33.0
+                },
+                "wire_schema": "oxfunc_value_types.aligned_json.v1"
+              },
+              "effective_display_text": "33",
+              "formula_text": "=SUBTOTAL(109,[LineTotal])",
+              "row_index": 0,
+              "value_repr": "33"
+            }
+          ],
+          "range": "A5:D5"
+        },
+        "totals_row_range": "A5:D5",
+        "worksheet_name": "Sales"
+      }
+    },
+    {
+      "view_family": "execution_outcome",
+      "value": {
+        "capture_artifacts_emitted": true,
+        "outcome_kind": "accepted_execution",
+        "outcome_schema": "oxxlplay.execution_outcome.v1",
+        "outcome_stage": "capture_pipeline",
+        "replay_artifacts_emitted": true,
+        "replay_view_ready": true,
+        "scenario_id": "xlplay_structured_reference_workbook_001",
+        "workbook_kind": "programmatic-structured-table",
+        "workbook_ref": "programmatic/structured-table/xlplay_structured_reference_workbook_001"
+      }
+    }
+  ],
+  "source_metadata": {
+    "automation_policy": "clean_room_declared",
+    "bridge_influenced": true,
+    "capture_loss": "downgraded_instrumentation",
+    "capture_loss_summary": [
+      "environment_partial"
+    ],
+    "capture_mode": "excel_black_box_observation",
+    "captured_at_utc": "2026-05-22T13:24:36Z",
+    "comparison_value_wire_schema": "oxfunc_value_types.aligned_json.v1",
+    "comparison_view_families": [
+      "comparison_value",
+      "effective_display_text",
+      "table_slice",
+      "execution_outcome"
+    ],
+    "excel": {
+      "build": "20026",
+      "channel": "http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60",
+      "version": "16.0"
+    },
+    "execution_outcome": {
+      "capture_artifacts_emitted": true,
+      "outcome_kind": "accepted_execution",
+      "outcome_schema": "oxxlplay.execution_outcome.v1",
+      "outcome_stage": "capture_pipeline",
+      "replay_artifacts_emitted": true,
+      "replay_view_ready": true,
+      "scenario_id": "xlplay_structured_reference_workbook_001",
+      "workbook_kind": "programmatic-structured-table",
+      "workbook_ref": "programmatic/structured-table/xlplay_structured_reference_workbook_001"
+    },
+    "host": {
+      "architecture": "x64",
+      "os": "Microsoft Windows 11 Pro",
+      "timezone": "South Africa Standard Time"
+    },
+    "interpretation_limits": [
+      {
+        "detail": "effective_display_text reflects host-rendered Excel text on the observation machine.",
+        "kind": "effective_display_host_rendered"
+      },
+      {
+        "detail": "workbook_ref could not be hashed on disk for this case; provenance retains a partial workbook fingerprint marker.",
+        "kind": "workbook_fingerprint_partial"
+      }
+    ],
+    "macro_mode": "force_disable_requested",
+    "projection_status": "lossy",
+    "run_id": "run_xlplay_structured_reference_workbook_001_20260522_152444",
+    "source_schema_id": "oxxlplay.normalized_replay.v2",
+    "trigger": "open_then_recalc",
+    "unavailable_surfaces": [],
+    "uncertainty_summary": [],
+    "workbook_fingerprint": "partial:programmatic-structured-table:workbook_ref_unavailable",
+    "workbook_kind": "programmatic-structured-table",
+    "workbook_ref": "programmatic/structured-table/xlplay_structured_reference_workbook_001"
+  }
+}
