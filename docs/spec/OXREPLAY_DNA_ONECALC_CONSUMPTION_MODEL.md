@@ -148,6 +148,23 @@ Interpretation rule:
 4. when both sides publish a family but their JSON envelopes differ, `DNA OneCalc` must preserve the typed mismatch instead of collapsing it into a missing-family story.
 5. for current `comparison_value` intake, the shared value-types crate already exists in `OxFunc`, but `OxReplay` may keep the comparison seam local until an OxFunc-owned serde or replay-wire helper surface is admitted for direct reuse; that temporary seam must not treat legacy `visible_value` behavior as the steady-state path.
 
+### 7.5 Host-Rollout Evidence Surface Rule
+For planned `DNA OneCalc` and `DNA TreeCalc` support evidence, retained artifacts should publish typed replay evidence surfaces rather than private host helper shapes.
+
+Planned families are:
+1. `per_node_value` for node-identified typed values,
+2. `table_slice` for table identity, row/column coordinates, headers, and observed cell payloads,
+3. `effective_display_text` for rendered display with render-context trust status,
+4. `execution_outcome` for accepted execution or explicit rejection by stage and class,
+5. `dependency_evidence` for declared dependency edges or dependency facts,
+6. `invalidation_evidence` for invalidation cause, affected node set, and stale/pending result facts,
+7. retained host artifact refs for TreeCalc and OneCalc evidence that must remain source-preserved.
+
+Rule:
+1. `OxReplay` may compare and explain those declared surfaces,
+2. `OxReplay` must not import TreeCalc-private or OneCalc-private helper types to make the comparison work,
+3. missing typed families remain projection coverage gaps until the producing repo emits them.
+
 ## 8. `OxXlPlay` input labeling and interpretation
 When `DNA OneCalc` consumes `OxXlPlay`-originated artifacts through `OxReplay`:
 
@@ -255,6 +272,7 @@ The following limits remain explicit:
 6. broad lane `C4` or `C5` claims remain later evidence lanes unless retained conformance says otherwise,
 7. `DNA OneCalc` currently consumes replay as shared infrastructure rather than through a dedicated app-facing host contract; that gap is acknowledged upstream documentation debt,
 8. the shared runtime can now carry typed comparison-view families and both the OxFml and OxXlPlay XML verification lanes now publish them, but the current cross-lane XML comparison still remains partial because the retained family payloads diverge and the OxXlPlay side remains explicitly lossy.
+9. per-node value, table-slice, dependency, invalidation, and retained host artifact comparison surfaces are planned under `W007`; no retained runtime evidence exists for those families yet.
 
 ## 12. Resulting rule
 `DNA OneCalc` should use `OxReplay` as shared replay infrastructure, not as a substitute product host, lane semantics owner, or replacement for `DNA ReCalc`.

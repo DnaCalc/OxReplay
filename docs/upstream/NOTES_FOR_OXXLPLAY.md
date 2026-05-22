@@ -24,6 +24,8 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 5. keep Excel-driving behavior outside `OxReplay`; `OxReplay` should consume declared observation artifacts only
 6. `comparison_views` publication for `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view` is now accepted on the SpreadsheetML family
 7. replay-facing `source_metadata` is now accepted on the normalized replay artifact as the local carrier for projection status, capture-loss summary, interpretation limits, workbook identity, and family inventory
+8. the next support tranche should emit typed workbook/table/oracle evidence surfaces rather than host-private fixture payloads
+9. `WorkbookConstructionSpec` should remain construction input and provenance; `OxReplay` will not treat it as semantic authority
 
 ## Minimum invariants
 1. `OxReplay` must not become the owner of Excel-driving logic
@@ -32,8 +34,13 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 4. scenario ids and source observation ids must stay traceable through any local aliasing
 5. value-sensitive observations preserved only inside string-encoded normalized families are bootstrap-only and must not become the long-term shared diff contract
 6. comparison-view families must remain declared observation facts tied to captured surfaces, not synthetic downstream summaries
+7. no TreeCalc-private or OneCalc-private shim should be required to compare workbook/table/oracle evidence
+8. table and structured-reference evidence should use typed families such as `table_slice`, `comparison_value`, `effective_display_text`, and `execution_outcome`
+9. dependency and invalidation evidence should be omitted or marked unavailable until direct or explicitly derived evidence exists
 
 ## Open questions
 1. when should a formal `OxXlPlay` adapter manifest be added on top of the accepted canonical-manifest path
 2. which registry families should be pinned first once Excel-origin diff or explain outputs become retained
 3. should any per-family payload-harmonization contract be declared for `formatting_view` or `conditional_formatting_view` so cross-lane diffs can distinguish structural envelope mismatch from true semantic divergence more precisely
+4. what exact `table_slice` payload fields should be frozen first for table construction and structured-reference workbook observations
+5. when should dependency and invalidation evidence graduate from planned family names to retained comparison-view payloads

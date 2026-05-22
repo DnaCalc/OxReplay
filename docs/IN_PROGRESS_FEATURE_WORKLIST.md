@@ -20,6 +20,10 @@
 6. `W006_WITNESS_DISTILLATION_AND_LIFECYCLE_GOVERNANCE_BASELINE`
    - status: in_progress
    - objective: stand up predicate-driven witness reduction and lifecycle/quarantine handling.
+7. `W007_HOST_ROLLOUT_EVIDENCE_COMPARISON_PLANNING`
+   - status: in_progress
+   - objective: plan typed retained evidence surfaces for host rollout comparisons across per-node values, table slices, effective display, execution outcome, dependency/invalidation evidence, and retained TreeCalc/OneCalc artifacts.
+   - current baseline: planning text now reserves host-rollout replay classes and scenario ids; runtime comparison evidence remains open until typed artifacts and retained diff/explain baselines exist.
 
 ## Activation note
 1. The Rust-first stack is now declared for the repo.
@@ -33,6 +37,7 @@
    - current note: retained `DNA ReCalc` explain output now emits machine-readable per-view-family records when the compared artifacts publish `comparison_views`.
    - current note: the current honest integrated XML comparison-view result over real OxFml and OxXlPlay publications is now typed per-family divergence across `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`, while the OxXlPlay side remains explicitly `lossy` and provenance-rich through `source_metadata`.
 6. `W006` is now active over retained distillation and lifecycle-governance examples; broad adapter `C4` and `C5` claims remain later evidence lanes.
+7. `W007` is now active as a planning lane for host-rollout evidence comparison. It does not authorize TreeCalc-private shims or upgrade any adapter capability claim.
 
 ## Reserved follow-on lane entry
 1. `OxCalc` remains the first lane expected to drive toward `C5.pack_valid`.
@@ -43,6 +48,7 @@
 1. `DNA OneCalc` consumes current `OxReplay` surfaces as shared infrastructure, not as a second replay-host contract.
 2. The current honest floor for that consumer is accepted `OxFml` `C0` through `C3` plus the first accepted `OxXlPlay` observation-source seam.
 3. Direct `OxFunc` and `OxVba` replay intake remain later narrower lanes.
+4. Host rollout evidence for `DNA OneCalc` and `DNA TreeCalc` must enter through typed replay evidence surfaces with source lineage, not through private host helper types.
 
 ## Activation rule
 Move a workset to `in_progress` only when:

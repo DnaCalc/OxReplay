@@ -64,10 +64,22 @@ The ids below are planning commitments until the retained artifacts exist.
 | `xlplay_capture_loss_declared` | `xlplay_capture_loss_formula_unavailable_001` | acknowledged proposed first capture-loss scenario from `OxXlPlay` |
 | `xlplay_diff_ready_against_dna` | `xlplay_diff_ready_against_dna_001` | reserved until `OxXlPlay` proposes the first Excel-vs-DNA comparison-ready scenario |
 
-## 8. Naming rule
+## 8. W007 host-rollout evidence planning
+| Replay class | Scenario id | Planned retained root |
+|---|---|---|
+| `host_rollout_per_node_values` | `host_rollout_per_node_values_001` | `docs/test-corpus/bundles/host_rollout_per_node_values_001/` |
+| `host_rollout_table_slice` | `host_rollout_table_slice_001` | `docs/test-corpus/bundles/host_rollout_table_slice_001/` |
+| `host_rollout_effective_display` | `host_rollout_effective_display_001` | `docs/test-corpus/bundles/host_rollout_effective_display_001/` |
+| `host_rollout_execution_outcome` | `host_rollout_execution_outcome_001` | `docs/test-corpus/bundles/host_rollout_execution_outcome_001/` |
+| `host_rollout_dependency_invalidation` | `host_rollout_dependency_invalidation_001` | `docs/test-corpus/bundles/host_rollout_dependency_invalidation_001/` |
+| `host_rollout_retained_artifacts` | `host_rollout_retained_artifacts_001` | `docs/test-corpus/bundles/host_rollout_retained_artifacts_001/` |
+
+These are planned roots only until retained replay, diff, and explain artifacts exist.
+
+## 9. Naming rule
 Scenario ids must remain stable once a retained artifact root is created.
 
-## 9. Widening rule
+## 10. Widening rule
 Later scenario families should:
 1. add new ids rather than mutate existing ids silently,
 2. record supersession explicitly if a scenario family is replaced,

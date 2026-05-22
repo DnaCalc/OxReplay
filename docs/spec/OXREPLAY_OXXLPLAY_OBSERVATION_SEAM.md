@@ -111,6 +111,25 @@ Still provisional:
 3. registry pinning should be added once emitted outputs depend on canonical mismatch, severity, capability, or lifecycle families
 4. the current widened SpreadsheetML formatting and conditional-formatting surfaces remain `derived` and explicitly `lossy`, not direct Excel parity truth
 
+## 9.1 Planned Workbook/Table/Oracle Support Tranche
+`OxReplay` expects the next `OxXlPlay` support tranche to keep the same observation-source boundary while adding typed evidence families.
+
+Planned `OxXlPlay`-emitted families:
+1. `comparison_value`
+2. `effective_display_text`
+3. `execution_outcome`
+4. `table_slice`
+
+Planned later families:
+1. `dependency_evidence`
+2. `invalidation_evidence`
+
+Rules:
+1. `WorkbookConstructionSpec` is construction input and provenance, not semantic authority.
+2. Table and structured-reference observations must remain source-preserved with direct-versus-derived status and capture-loss markers.
+3. `OxReplay` should consume typed evidence surfaces and must not require TreeCalc-private or OneCalc-private shims.
+4. Dependency and invalidation evidence stays unavailable until directly observed or explicitly labeled as derived by the producing artifact.
+
 ## 10. `DNA OneCalc` comparison use
 `DNA OneCalc` may consume retained `OxXlPlay` artifacts through `OxReplay` for:
 1. replay against retained Excel observation artifacts,

@@ -9,6 +9,7 @@ Worksets are the execution units for `OxReplay`.
 4. `W004_OXCALC_OXFML_ADAPTER_INTAKE_AND_REPLAY_PATH.md`
 5. `W005_DNA_RECALC_CLI_SHELL_AND_PACK_EXPORT_BASELINE.md`
 6. `W006_WITNESS_DISTILLATION_AND_LIFECYCLE_GOVERNANCE_BASELINE.md`
+7. `W007_HOST_ROLLOUT_EVIDENCE_COMPARISON_PLANNING.md`
 
 ## Workset rule
 Workset files in this directory are the execution packets for `OxReplay`.
