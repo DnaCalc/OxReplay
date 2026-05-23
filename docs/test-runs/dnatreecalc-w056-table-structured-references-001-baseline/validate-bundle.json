@@ -1,0 +1,19 @@
+{
+  "status": "valid",
+  "manifest_path": "..\\DnaTreeCalc\\docs\\test-runs\\w056-table-structured-references-001\\oxreplay-manifest.json",
+  "bundle_id": "dnatreecalc-w056-table-structured-references-001",
+  "scenario_id": "w056_treecalc_table_structured_references_001",
+  "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
+  "capability_impact": "shared validate/ingest surface only; no adapter capability claim",
+  "errors": [],
+  "warnings": [],
+  "index": {
+    "registry_families": [],
+    "sidecar_artifacts": [],
+    "view_artifacts": [
+      {
+        "path": "views/normalized-replay.json"
+      }
+    ]
+  }
+}

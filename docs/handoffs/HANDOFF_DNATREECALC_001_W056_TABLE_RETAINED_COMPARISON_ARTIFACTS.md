@@ -10,7 +10,7 @@
 ## Purpose
 Record the retained producer artifacts needed before `OxReplay` can close the TreeCalc side of W056 table comparison evidence.
 
-`OxReplay` already accepts declared comparison views and can compare retained JSON payloads without parsing structured-reference text or reimplementing table semantics. The current blocker is the absence of retained `DnaTreeCalc` normalized-replay artifacts for the W056 table scenarios.
+`OxReplay` already accepts declared comparison views and can compare retained JSON payloads without parsing structured-reference text or reimplementing table semantics. Update after `DnaTreeCalc` commit `8eba3cb`: the first W056 retained TreeCalc table producer artifact now exists and validates/replays through OxReplay at `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/`. This handoff remains useful as the original request and as the scope record for later full cross-producer table comparison closure.
 
 ## Proposed change
 `DnaTreeCalc` should emit retained replay-facing artifacts for W056 table comparison scenarios with:
@@ -61,19 +61,20 @@ For cross-producer comparison against Excel-observed fixtures, publish a shared 
    - `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/views/normalized-replay.json`
    - `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/views/table-slice.json`
    - `docs/test-runs/oxxlplay-seam-xlplay_structured_reference_workbook_001-baseline/`
-4. Current DnaTreeCalc inspected table inputs are planning/workspace fixtures, not replay-facing producer artifacts:
-   - `../DnaTreeCalc/docs/test-corpus/workspaces/tables.json`
-   - `../DnaTreeCalc/docs/test-corpus/tables/structured-references.json`
-   - `../DnaTreeCalc/docs/handovers/HANDOVER_OXCALC_table_node_model.md`
+4. Accepted DnaTreeCalc W056 retained producer intake:
+   - `../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/oxreplay-manifest.json`
+   - `../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/views/normalized-replay.json`
+   - `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/validate-bundle.json`
+   - `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/replay.json`
+   - `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/self-diff.json`
 
 ## Impact
-1. capability impact: no new OxReplay adapter capability claim; this handoff defines the producer artifact requirements needed before W007/W056 TreeCalc intake can move beyond blocked.
-2. pack impact: candidate evidence for `PACK.replay.appliance`, `PACK.diff.cross_engine.continuous`, and `PACK.trace.forensic_plane` once retained producer artifacts exist.
-3. migration or fallback impact: until these artifacts exist, OxReplay can only report local mechanics fixtures plus the accepted OxXlPlay table-slice intake.
+1. capability impact: no new OxReplay adapter capability claim; the first TreeCalc producer artifact intake is accepted, but full cross-producer table comparison remains a later evidence gate.
+2. pack impact: candidate intake evidence for `PACK.replay.appliance`; `PACK.diff.cross_engine.continuous` and `PACK.trace.forensic_plane` remain pending matched comparison/update evidence.
+3. migration or fallback impact: OxReplay can now report local mechanics fixtures, accepted OxXlPlay table-slice intake, and accepted DnaTreeCalc W056 table producer intake.
 4. affected repos or hosts: `DnaTreeCalc`, `OxCalc`, `OxReplay`, `OxXlPlay`, `DNA ReCalc`, downstream `DNA OneCalc` comparison consumers.
 
 ## Requested response
-1. emit retained W056 TreeCalc normalized-replay artifacts for the comparison-view families listed above, or state which families are intentionally unavailable,
-2. preserve source lineage and capture/projection limits in machine-readable metadata,
-3. provide a scenario alias/mapping to the corresponding Excel-observed fixture when cross-producer comparison is intended,
-4. do not require OxReplay to parse private structured-reference strings, infer table semantics, or import host-private helper types.
+1. remaining request for later closure: keep source lineage and capture/projection limits in machine-readable metadata as additional W056 artifacts appear,
+2. provide scenario aliases/mappings to corresponding Excel-observed fixtures when cross-producer comparison is intended,
+3. do not require OxReplay to parse private structured-reference strings, infer table semantics, or import host-private helper types.

@@ -79,7 +79,8 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
 4. `execution_outcome` keeps typed outcome-class comparison and rejects legacy outcome-family shims.
 5. This slice does not infer TreeCalc reference semantics, table semantics, invalidation semantics, or OneCalc host policy; it compares retained payloads only.
 6. The `OxXlPlay` structured-reference workbook scenario now provides the first real retained upstream `table_slice` artifact that validates and replays through the local normalized-replay intake path.
-7. Real upstream integration remains partial until producing repos emit retained artifacts for TreeCalc/OneCalc table counterparts plus dependency, invalidation, and retained-artifact-ref families; local evidence is a mechanics fixture plus one accepted `OxXlPlay` observation intake, not a producer capability claim.
+7. The `DnaTreeCalc` W056 table producer scenario now provides the first retained TreeCalc table artifact accepted by OxReplay validation/replay intake: `../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/` plus retained OxReplay intake output at `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/`.
+8. Real upstream integration remains partial until matched cross-producer diff/explain evidence exists for TreeCalc and Excel-observed table/update artifacts, and until shared value/outcome envelope gaps are resolved or explicitly typed as exclusions. Current evidence is accepted intake, not a broad adapter capability claim.
 
 ## Replay-Corpus Readiness
 1. planned replay classes:
