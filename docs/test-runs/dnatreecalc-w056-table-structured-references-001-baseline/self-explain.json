@@ -1,0 +1,9 @@
+{
+  "equivalent": true,
+  "records": [
+    {
+      "query_id": "explain-equivalent",
+      "summary": "scenarios are equivalent on the current comparison surface"
+    }
+  ]
+}
