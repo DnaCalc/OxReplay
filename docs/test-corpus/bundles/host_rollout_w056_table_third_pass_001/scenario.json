@@ -74,8 +74,8 @@
   "blocked_or_unavailable_expectations": [
     {
       "surface": "empty_body_table_full_cross_producer_pair",
-      "state": "blocked",
-      "reason": "no retained DnaTreeCalc/OxXlPlay paired artifact for an empty-body table is currently landed"
+      "state": "partial",
+      "reason": "OxXlPlay retains empty data-body observations and DnaTreeCalc activates empty-body tables through LiveOxCalc, but no retained DnaTreeCalc empty-body replay artifact is landed for a paired comparison"
     },
     {
       "surface": "lifecycle_callback_artifacts",
@@ -85,7 +85,7 @@
     {
       "surface": "first_row_last_row_transitions",
       "state": "partial",
-      "reason": "xlplay_table_update_oracle_001 retains row insert/delete/reorder cases, but no explicit paired first-row/last-row transition artifact is currently landed"
+      "reason": "xlplay_table_update_oracle_001 retains explicit first-row insert and last-row delete observations, and DnaTreeCalc activates the corresponding endpoints through LiveOxCalc; retained DnaTreeCalc transition replay is still needed for a paired comparison"
     },
     {
       "surface": "namespace_anchor_workspace_full_pair",
