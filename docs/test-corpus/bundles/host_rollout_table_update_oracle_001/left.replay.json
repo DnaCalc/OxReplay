@@ -1,0 +1,39 @@
+{
+  "scenario_id": "host_rollout_table_update_oracle_001_treecalc",
+  "lane_id": "dna_treecalc",
+  "events": [
+    {
+      "event_id": "table-update-left-01",
+      "source_label": "retained_treecalc_table_update_oracle",
+      "normalized_family": "host_rollout.table_update_oracle"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "table_update_oracle",
+      "value": {
+        "source_status": "direct",
+        "table_id": "table:RevenueByRegion",
+        "oracle_schema": "host_rollout.table_update_oracle.v1",
+        "cases": [
+          {
+            "case_id": "row_insert",
+            "capture_status": "observed",
+            "structured_reference_formula": "=SUM(RevenueByRegion[Revenue])",
+            "after_value": {
+              "value_kind": "number",
+              "payload": "12"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_host": "dna_treecalc",
+    "source_schema_id": "dna_treecalc.table_update_oracle.v1",
+    "projection_status": "direct",
+    "capture_mode": "model_projection"
+  }
+}

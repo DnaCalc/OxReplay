@@ -1,0 +1,39 @@
+{
+  "scenario_id": "host_rollout_table_update_oracle_001_excel",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "table-update-right-01",
+      "source_label": "retained_excel_table_update_oracle",
+      "normalized_family": "host_rollout.table_update_oracle"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "table_update_oracle",
+      "value": {
+        "source_status": "direct",
+        "table_id": "table:RevenueByRegion",
+        "oracle_schema": "host_rollout.table_update_oracle.v1",
+        "cases": [
+          {
+            "case_id": "row_insert",
+            "capture_status": "observed",
+            "structured_reference_formula": "=SUM(RevenueByRegion[Revenue])",
+            "after_value": {
+              "value_kind": "number",
+              "payload": "13"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_host": "oxxlplay",
+    "source_schema_id": "oxxlplay.table_update_oracle.v1",
+    "projection_status": "direct",
+    "capture_mode": "excel_black_box_observation"
+  }
+}

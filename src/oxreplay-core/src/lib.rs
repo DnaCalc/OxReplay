@@ -176,6 +176,7 @@ pub fn default_equivalence_policy_id(view_family: &str) -> &'static str {
         "worksheet_comparison_value" => "worksheet_value_exact",
         "per_node_value" => "per_node_value_json_exact",
         "table_slice" => "table_slice_json_exact",
+        "table_update_oracle" => "table_update_oracle_json_exact",
         "effective_display_text" => "effective_display_text_exact",
         "visible_value_text" => "visible_value_text_exact",
         "execution_outcome" => "typed_outcome_class",
@@ -807,6 +808,10 @@ mod tests {
         assert_eq!(
             default_equivalence_policy_id("table_slice"),
             "table_slice_json_exact"
+        );
+        assert_eq!(
+            default_equivalence_policy_id("table_update_oracle"),
+            "table_update_oracle_json_exact"
         );
         assert_eq!(
             default_equivalence_policy_id("dependency_evidence"),

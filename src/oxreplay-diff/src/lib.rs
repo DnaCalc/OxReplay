@@ -18,6 +18,7 @@ pub enum MismatchKind {
     VisibleValue,
     EffectiveDisplayText,
     TableSlice,
+    TableUpdateOracle,
     FormattingView,
     ConditionalFormattingView,
     OutcomeValue,
@@ -395,10 +396,11 @@ fn legacy_outcome_family_mismatch(
 }
 
 fn ordered_view_families(families: &BTreeSet<String>) -> Vec<String> {
-    const PREFERRED: [&str; 13] = [
+    const PREFERRED: [&str; 14] = [
         "worksheet_comparison_value",
         "per_node_value",
         "table_slice",
+        "table_update_oracle",
         "effective_display_text",
         "visible_value_text",
         "execution_outcome",
@@ -435,6 +437,7 @@ fn mismatch_kind_for_view_family(view_family: &str) -> MismatchKind {
         "visible_value_text" => MismatchKind::VisibleValue,
         "execution_outcome" => MismatchKind::OutcomeValue,
         "table_slice" => MismatchKind::TableSlice,
+        "table_update_oracle" => MismatchKind::TableUpdateOracle,
         "dependency_evidence" => MismatchKind::DependencyEvidence,
         "invalidation_evidence" => MismatchKind::InvalidationEvidence,
         "retained_artifact_ref" => MismatchKind::RetainedArtifactRef,
@@ -449,6 +452,7 @@ fn severity_for_view_family(view_family: &str) -> SeverityClass {
         "worksheet_comparison_value"
         | "per_node_value"
         | "table_slice"
+        | "table_update_oracle"
         | "execution_outcome"
         | "dependency_evidence"
         | "invalidation_evidence" => SeverityClass::Semantic,
@@ -462,6 +466,7 @@ fn detail_for_view_family(view_family: &str) -> String {
         "worksheet_comparison_value" => "typed comparison values diverged".to_string(),
         "per_node_value" => "per-node value evidence diverged".to_string(),
         "table_slice" => "table-slice evidence diverged".to_string(),
+        "table_update_oracle" => "table-update oracle evidence diverged".to_string(),
         "execution_outcome" => "typed outcome classes diverged".to_string(),
         "dependency_evidence" => "dependency evidence diverged".to_string(),
         "invalidation_evidence" => "invalidation evidence diverged".to_string(),
@@ -1132,6 +1137,63 @@ mod tests {
         assert_eq!(
             report.mismatches[0].view_family.as_deref(),
             Some("effective_display_text")
+        );
+    }
+
+    #[test]
+    fn classifies_table_update_oracle_divergence_explicitly() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "table_update_oracle".to_string(),
+                value: serde_json::json!({
+                    "scenario_id": "xlplay_table_update_oracle_001",
+                    "cases": [
+                        {
+                            "case_id": "row_insert",
+                            "capture_status": "observed",
+                            "formula_result": "18"
+                        }
+                    ]
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "table_update_oracle".to_string(),
+                value: serde_json::json!({
+                    "scenario_id": "xlplay_table_update_oracle_001",
+                    "cases": [
+                        {
+                            "case_id": "row_insert",
+                            "capture_status": "observed",
+                            "formula_result": "19"
+                        }
+                    ]
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(!report.equivalent);
+        assert_eq!(report.mismatches.len(), 1);
+        assert_eq!(
+            report.mismatches[0].mismatch_kind,
+            MismatchKind::TableUpdateOracle
+        );
+        assert_eq!(
+            report.mismatches[0].view_family.as_deref(),
+            Some("table_update_oracle")
+        );
+        assert_eq!(
+            report.mismatches[0].equivalence_policy_id.as_deref(),
+            Some("table_update_oracle_json_exact")
+        );
+        assert_eq!(
+            report.mismatches[0].detail.as_deref(),
+            Some("table-update oracle evidence diverged")
         );
     }
 

@@ -1,0 +1,49 @@
+{
+  "equivalent": false,
+  "records": [
+    {
+      "query_id": "explain-host_rollout_table_update_oracle_001_treecalc-01",
+      "summary": "comparison diverged on `table_update_oracle`",
+      "left_scenario_id": "host_rollout_table_update_oracle_001_treecalc",
+      "right_scenario_id": "host_rollout_table_update_oracle_001_excel",
+      "mismatch_kind": "table_update_oracle",
+      "severity": "semantic",
+      "view_family": "table_update_oracle",
+      "equivalence_policy_id": "table_update_oracle_json_exact",
+      "required": true,
+      "left_value": {
+        "cases": [
+          {
+            "after_value": {
+              "payload": "12",
+              "value_kind": "number"
+            },
+            "capture_status": "observed",
+            "case_id": "row_insert",
+            "structured_reference_formula": "=SUM(RevenueByRegion[Revenue])"
+          }
+        ],
+        "oracle_schema": "host_rollout.table_update_oracle.v1",
+        "source_status": "direct",
+        "table_id": "table:RevenueByRegion"
+      },
+      "right_value": {
+        "cases": [
+          {
+            "after_value": {
+              "payload": "13",
+              "value_kind": "number"
+            },
+            "capture_status": "observed",
+            "case_id": "row_insert",
+            "structured_reference_formula": "=SUM(RevenueByRegion[Revenue])"
+          }
+        ],
+        "oracle_schema": "host_rollout.table_update_oracle.v1",
+        "source_status": "direct",
+        "table_id": "table:RevenueByRegion"
+      },
+      "detail": "table-update oracle evidence diverged"
+    }
+  ]
+}
