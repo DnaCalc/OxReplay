@@ -38,7 +38,7 @@
    - current note: the current honest integrated XML comparison-view result over real OxFml and OxXlPlay publications is now typed per-family divergence across `comparison_value`, `effective_display_text`, `formatting_view`, and `conditional_formatting_view`, while the OxXlPlay side remains explicitly `lossy` and provenance-rich through `source_metadata`.
 6. `W006` is now active over retained distillation and lifecycle-governance examples; broad adapter `C4` and `C5` claims remain later evidence lanes.
 7. `W007` is now active as a planning lane for host-rollout evidence comparison. It does not authorize TreeCalc-private shims or upgrade any adapter capability claim.
-   - current note: OxReplay-local retained normalized-replay fixtures now exercise exact comparison and explain labeling for `per_node_value`, `table_slice`, `table_update_oracle`, `effective_display_text`, `execution_outcome`, `dependency_evidence`, `invalidation_evidence`, and `retained_artifact_ref`; real upstream validation/replay intake now accepts the first `OxXlPlay` retained structured-table `table_slice` artifact, the refreshed `OxXlPlay` table-update-oracle artifact with `table_delete`, typed `save_reopen` capture rejection, and `execution_outcome.class_id`, and the first `DnaTreeCalc` W056 retained table producer artifact with table-slice/value/display/outcome/dependency/invalidation/artifact-ref views. Full cross-producer diff/explain closure remains blocked on matched TreeCalc/Excel scenario mapping and the shared value envelope decision.
+   - current note: OxReplay-local retained normalized-replay fixtures now exercise exact comparison and explain labeling for `per_node_value`, `table_slice`, `table_update_oracle`, `effective_display_text`, `execution_outcome`, `dependency_evidence`, `invalidation_evidence`, and `retained_artifact_ref`; real upstream validation/replay intake now accepts the first `OxXlPlay` retained structured-table `table_slice` artifact, the refreshed `OxXlPlay` table-update-oracle artifact with `table_delete`, typed `save_reopen` capture rejection, and `execution_outcome.class_id`, and the first `DnaTreeCalc` W056 retained table producer artifact with table-slice/value/display/outcome/dependency/invalidation/artifact-ref views. Matched TreeCalc/Excel table diff/explain mechanics are now retained at `docs/test-corpus/bundles/host_rollout_matched_table_001/` and `docs/test-runs/w007-host-rollout-host_rollout_matched_table_001-baseline/`; `BLK-REPLAY-003` remains active for replacing the local `comparison_value` comparator seam with an OxFunc-owned replay-wire helper.
 
 ## Reserved follow-on lane entry
 1. `OxCalc` remains the first lane expected to drive toward `C5.pack_valid`.
@@ -50,7 +50,7 @@
 2. The current honest floor for that consumer is accepted `OxFml` `C0` through `C3` plus the first accepted `OxXlPlay` observation-source seam.
 3. Direct `OxFunc` and `OxVba` replay intake remain later narrower lanes.
 4. Host rollout evidence for `DNA OneCalc` and `DNA TreeCalc` must enter through typed replay evidence surfaces with source lineage, not through private host helper types.
-5. Current local W007 evidence compares OxReplay-owned retained normalized-replay artifacts only; it is not a capability claim for `DNA OneCalc`, `DNA TreeCalc`, or `OxXlPlay`.
+5. Current W007 comparison evidence includes local normalized-replay mechanics and the matched retained table fixture; it is not a capability claim for `DNA OneCalc`, `DNA TreeCalc`, or `OxXlPlay`.
 
 ## Activation rule
 Move a workset to `in_progress` only when:

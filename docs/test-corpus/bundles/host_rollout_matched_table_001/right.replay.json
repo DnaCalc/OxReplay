@@ -1,0 +1,115 @@
+{
+  "scenario_id": "host_rollout_matched_table_001_excel",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "matched-table-right-01",
+      "source_label": "retained_excel_table_matched",
+      "normalized_family": "host_rollout.matched_table"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "comparison_value",
+      "value": {
+        "kind": "number",
+        "worksheet_value_class": "scalar",
+        "value": "6.0"
+      }
+    },
+    {
+      "view_family": "effective_display_text",
+      "value": "$6.00"
+    },
+    {
+      "view_family": "execution_outcome",
+      "value": {
+        "outcome_kind": "accepted",
+        "outcome_stage": "evaluation",
+        "class_id": "accepted:value",
+        "lane_reason_code": null,
+        "human_summary": "Excel-observed table formula evaluated to the expected scalar value."
+      }
+    },
+    {
+      "view_family": "table_slice",
+      "value": {
+        "source_status": "direct",
+        "table_id": "tree-table:sales",
+        "canonical_locator": "Root/SalesTable",
+        "columns": ["Region", "Amount"],
+        "rows": [
+          ["West", { "value_kind": "number", "payload": "6" }]
+        ]
+      }
+    },
+    {
+      "view_family": "table_update_oracle",
+      "value": {
+        "oracle_schema": "host_rollout.table_update_oracle.v1",
+        "scenario_id": "host_rollout_matched_table_001",
+        "case_id": "body_value_edit_recalc",
+        "status": "accepted",
+        "execution_outcome": {
+          "class_id": "accepted:value"
+        }
+      }
+    },
+    {
+      "view_family": "retained_artifact_ref",
+      "value": {
+        "artifact_set_id": "host_rollout_matched_table_001",
+        "artifact_kind": "matched_table_evidence",
+        "artifact_refs": [
+          {
+            "producer": "dna_treecalc",
+            "kind": "table_producer_run",
+            "path": "../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/"
+          },
+          {
+            "producer": "oxreplay",
+            "kind": "treecalc_intake_baseline",
+            "path": "docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/"
+          },
+          {
+            "producer": "oxxlplay",
+            "kind": "excel_table_update_oracle",
+            "path": "../OxXlPlay/states/excel/xlplay_table_update_oracle_001/"
+          },
+          {
+            "producer": "oxreplay",
+            "kind": "excel_intake_baseline",
+            "path": "docs/test-runs/oxxlplay-seam-xlplay_table_update_oracle_001-baseline/"
+          }
+        ]
+      }
+    },
+    {
+      "view_family": "dependency_evidence",
+      "value": {
+        "source_status": "observation_limit",
+        "classification": "typed_non_comparable_lane",
+        "reason": "Excel COM does not publish dependency graph internals; TreeCalc dependency facts remain lane-owned."
+      }
+    },
+    {
+      "view_family": "invalidation_evidence",
+      "value": {
+        "source_status": "observation_limit",
+        "classification": "typed_non_comparable_lane",
+        "reason": "Excel COM does not publish invalidation event order; TreeCalc invalidation facts remain lane-owned."
+      }
+    }
+  ],
+  "source_metadata": {
+    "source_host": "oxxlplay",
+    "source_schema_id": "oxxlplay.w056.matched_table.v1",
+    "projection_status": "direct",
+    "capture_mode": "excel_black_box_observation",
+    "retained_artifact_refs": [
+      "../OxXlPlay/states/excel/xlplay_table_update_oracle_001/",
+      "docs/test-runs/oxxlplay-seam-xlplay_table_update_oracle_001-baseline/"
+    ]
+  }
+}

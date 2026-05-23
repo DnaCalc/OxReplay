@@ -2,7 +2,7 @@
 
 Status: active blockers present.
 
-Last reviewed: 2026-04-14.
+Last reviewed: 2026-05-23.
 
 ---
 
@@ -12,10 +12,11 @@ Last reviewed: 2026-04-14.
 
 - **Status**: active
 - **Impact**: final switch from the local `comparison_value` wire comparator seam to direct shared OxFunc-owned type reuse across `W004` and `W005`
-- **Current state**: `../OxFunc` now includes `crates/oxfunc_value_types`, but there is not yet an admitted serde or replay-wire helper surface that `OxReplay` can consume directly for the `comparison_value` family; `OxReplay` has isolated its comparator seam locally and is still normalizing replay JSON into typed comparisons inside `src/oxreplay-diff/src/lib.rs`
+- **Current state**: `../OxFunc` now includes `crates/oxfunc_value_types`, but there is not yet an admitted serde or replay-wire helper surface that `OxReplay` can consume directly for the `comparison_value` family; `OxReplay` has isolated its comparator seam locally and is still normalizing replay JSON into typed comparisons inside `src/oxreplay-diff/src/lib.rs`. The local seam is now sufficient for W007 matched table comparison evidence, including `docs/test-corpus/bundles/host_rollout_matched_table_001/`, but it remains a workaround rather than the final shared-value implementation.
 - **Exact unblock steps**: admit the OxFunc-owned serde or replay-wire helper surface for published-formula-result comparison values, add the narrow dependency in `OxReplay`, and replace the local JSON-to-typed normalization helper in `src/oxreplay-diff/src/lib.rs` with direct shared-type comparison
 - **Recommendation**: workaround
 - **Opened**: 2026-04-14
+- **Last reviewed**: 2026-05-23
 
 ### BLK-REPLAY-002: OxCalc manifest C4 lifecycle gap
 

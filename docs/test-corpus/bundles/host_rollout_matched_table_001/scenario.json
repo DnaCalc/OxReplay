@@ -1,0 +1,17 @@
+{
+  "scenario_id": "host_rollout_matched_table_001",
+  "description": "Matched retained TreeCalc/OxCalc and Excel/OxXlPlay table evidence over admitted shared replay view families.",
+  "left": "left.replay.json",
+  "right": "right.replay.json",
+  "scope": [
+    "comparison_value",
+    "effective_display_text",
+    "execution_outcome",
+    "table_slice",
+    "table_update_oracle",
+    "dependency_evidence",
+    "invalidation_evidence",
+    "retained_artifact_ref"
+  ],
+  "closure_note": "This fixture proves shared replay mechanics over declared normalized payloads. It does not infer Excel dependency internals and does not replace the future OxFunc-owned comparison_value wire helper."
+}
