@@ -110,6 +110,9 @@ Accepted first-pass seam answers:
 7. the replay-facing normalized view may now publish `source_metadata` preserving projection status, capture-loss summary, interpretation limits, workbook identity, family inventory, and retained render-context metadata through inline `render_context` or one-hop `render_context_ref`
 8. the structured-reference workbook family may now publish machine-readable `comparison_views` for `comparison_value`, `effective_display_text`, `table_slice`, and `execution_outcome`
 9. the first structured-table `table_slice` payload is consumable by `OxReplay` as retained JSON evidence for exact comparison; this is not a claim that `OxReplay` understands or proves Excel table semantics
+10. the WorkbookConstructionSpec table-node, standalone table-construction, and table-update-oracle families may be admitted as retained W056 table intake artifacts when they publish normalized replay views with declared comparison families
+11. the table-update-oracle family may publish `table_update_oracle` as an opaque exact-JSON comparison family; `OxReplay` compares the retained observation payload only and does not infer Excel or TreeCalc update semantics
+12. `execution_outcome.class_id` is required for clean typed outcome comparison; current `xlplay_table_update_oracle_001` satisfies this, while `xlplay_structured_reference_workbook_001`, `xlplay_workbook_construction_spec_001`, and `xlplay_table_construction_basic_001` remain typed outcome seam-drift examples until producer artifacts add `class_id`
 
 Still provisional:
 1. a retained Excel-vs-DNA comparison-ready scenario now exists inside `OxReplay`, but it remains a lossy observation-versus-projection comparison surface rather than broad Excel parity truth
@@ -136,6 +139,8 @@ Rules:
 3. `OxReplay` should consume typed evidence surfaces and must not require TreeCalc-private or OneCalc-private shims.
 4. The first retained `table_slice` family is accepted for normalized-replay intake from `xlplay_structured_reference_workbook_001`.
 5. Dependency and invalidation evidence stays unavailable until directly observed or explicitly labeled as derived by the producing artifact.
+6. `xlplay_workbook_construction_spec_001`, `xlplay_table_construction_basic_001`, and `xlplay_table_update_oracle_001` now validate and replay through retained OxReplay baselines.
+7. Third-pass W056 batch intake is retained at `docs/test-runs/w007-w056-table-third-pass-intake-baseline/`; non-comparable cross-producer lanes are surfaced as typed projection gaps or seam drift over declared payloads.
 
 ## 10. `DNA OneCalc` comparison use
 `DNA OneCalc` may consume retained `OxXlPlay` artifacts through `OxReplay` for:

@@ -52,6 +52,7 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
    - `docs/test-corpus/bundles/host_rollout_execution_outcome_001/`
    - `docs/test-corpus/bundles/host_rollout_dependency_invalidation_001/`
    - `docs/test-corpus/bundles/host_rollout_retained_artifacts_001/`
+   - `docs/test-corpus/bundles/host_rollout_w056_table_third_pass_001/`
 2. planned retained run roots:
    - `docs/test-runs/w007-host-rollout-<scenario-id>-baseline/`
 3. current retained local fixture roots:
@@ -62,6 +63,7 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
    - `docs/test-corpus/bundles/host_rollout_execution_outcome_001/`
    - `docs/test-corpus/bundles/host_rollout_dependency_invalidation_001/`
    - `docs/test-corpus/bundles/host_rollout_retained_artifacts_001/`
+   - `docs/test-corpus/bundles/host_rollout_w056_table_third_pass_001/`
 4. current retained run roots:
    - `docs/test-runs/w007-host-rollout-host_rollout_per_node_values_001-baseline/`
    - `docs/test-runs/w007-host-rollout-host_rollout_table_slice_001-baseline/`
@@ -71,6 +73,10 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
    - `docs/test-runs/w007-host-rollout-host_rollout_dependency_invalidation_001-baseline/`
    - `docs/test-runs/w007-host-rollout-host_rollout_retained_artifacts_001-baseline/`
    - `docs/test-runs/oxxlplay-seam-xlplay_structured_reference_workbook_001-baseline/`
+   - `docs/test-runs/oxxlplay-seam-xlplay_workbook_construction_spec_001-baseline/`
+   - `docs/test-runs/oxxlplay-seam-xlplay_table_construction_basic_001-baseline/`
+   - `docs/test-runs/oxxlplay-seam-xlplay_table_update_oracle_001-baseline/`
+   - `docs/test-runs/w007-w056-table-third-pass-intake-baseline/`
 5. checked-in versus ephemeral policy:
    - promoted host-rollout fixtures and baseline reports are checked in,
    - exploratory host exports remain ephemeral until they satisfy source-preservation and typed-surface requirements.
@@ -83,8 +89,11 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
 5. This slice does not infer TreeCalc reference semantics, table semantics, invalidation semantics, or OneCalc host policy; it compares retained payloads only.
 6. The `OxXlPlay` structured-reference workbook scenario now provides the first real retained upstream `table_slice` artifact that validates and replays through the local normalized-replay intake path.
 7. The `DnaTreeCalc` W056 table producer scenario now provides the first retained TreeCalc table artifact accepted by OxReplay validation/replay intake: `../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/` plus retained OxReplay intake output at `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/`.
-8. The `OxXlPlay` table-update oracle scenario now validates and replays through OxReplay at `docs/test-runs/oxxlplay-seam-xlplay_table_update_oracle_001-baseline/`. OxReplay admits `table_update_oracle` as an opaque exact-JSON comparison family with policy `table_update_oracle_json_exact`; this policy compares retained observation payloads only and does not infer Excel or TreeCalc table semantics. The refreshed retained self-diff/explain records the remaining comparison blocker as the top-level `comparison_value` shared value-wire decision; `execution_outcome` now carries `class_id`.
+8. The `OxXlPlay` table-update oracle scenario now validates and replays through OxReplay at `docs/test-runs/oxxlplay-seam-xlplay_table_update_oracle_001-baseline/`. OxReplay admits `table_update_oracle` as an opaque exact-JSON comparison family with policy `table_update_oracle_json_exact`; this policy compares retained observation payloads only and does not infer Excel or TreeCalc table semantics. The refreshed retained self-diff/explain is equivalent for the declared table-update-oracle surface; `execution_outcome` now carries `class_id`.
 9. Matched TreeCalc/Excel table comparison mechanics are now retained at `docs/test-corpus/bundles/host_rollout_matched_table_001/` with diff/explain baselines at `docs/test-runs/w007-host-rollout-host_rollout_matched_table_001-baseline/`; the retained diff is equivalent across `comparison_value`, `effective_display_text`, `execution_outcome`, `table_slice`, `table_update_oracle`, `dependency_evidence`, `invalidation_evidence`, and `retained_artifact_ref`. This proves the W007 retained-comparison mechanics for the declared table slice, while `BLK-REPLAY-003` stays active for replacing the local `comparison_value` comparator seam with an admitted OxFunc-owned replay-wire helper. Current evidence remains replay-surface comparison evidence, not a broad adapter capability claim.
+10. Third-pass W056 intake now has retained expectation and batch artifacts at `docs/test-corpus/bundles/host_rollout_w056_table_third_pass_001/` and `docs/test-runs/w007-w056-table-third-pass-intake-baseline/`. The batch admits currently landed `DnaTreeCalc` W056 producer evidence plus `OxXlPlay` structured-reference, WorkbookConstructionSpec, table-construction, and table-update-oracle artifacts. It preserves non-comparable lanes as typed diff/explain projection gaps over declared payloads only.
+11. The local `comparison_value` seam now accepts the declared `oxfunc_value_types.aligned_json.v1` envelope emitted by the current W056 artifacts. This removes the local value-wire self-diff from `xlplay_table_update_oracle_001`; `BLK-REPLAY-003` remains active because the final implementation still depends on an admitted OxFunc-owned replay-wire helper.
+12. Full third-pass W056 closure remains blocked by `BLK-REPLAY-004`: missing paired empty-body table evidence, missing explicit first-row/last-row transition evidence, missing lifecycle callback artifacts, incomplete namespace/anchor/workspace cross-producer pairing, missing `execution_outcome.class_id` in several OxXlPlay table artifacts, and unavailable direct Excel dependency/invalidation internals.
 
 ## Replay-Corpus Readiness
 1. planned replay classes:
@@ -95,6 +104,7 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
    - `host_rollout_execution_outcome`
    - `host_rollout_dependency_invalidation`
    - `host_rollout_retained_artifacts`
+   - `host_rollout_w056_table_third_pass`
 2. planned scenario ids:
    - `host_rollout_per_node_values_001`
    - `host_rollout_table_slice_001`
@@ -103,6 +113,7 @@ Plan the next `OxReplay` support tranche for retained host-rollout evidence cons
    - `host_rollout_execution_outcome_001`
    - `host_rollout_dependency_invalidation_001`
    - `host_rollout_retained_artifacts_001`
+   - `host_rollout_w056_table_third_pass_001`
 3. reserve or later lanes:
    - registry-pinned witness promotion over host-rollout evidence,
    - distillation of host evidence beyond retained-local examples,

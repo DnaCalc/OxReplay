@@ -1,8 +1,8 @@
 {
   "status": "valid",
-  "manifest_path": "../OxXlPlay/states/excel/xlplay_table_update_oracle_001/oxreplay-manifest.json",
-  "bundle_id": "oxxlplay-xlplay_table_update_oracle_001",
-  "scenario_id": "xlplay_table_update_oracle_001",
+  "manifest_path": "../OxXlPlay/states/excel/xlplay_table_construction_basic_001/oxreplay-manifest.json",
+  "bundle_id": "oxxlplay-xlplay_table_construction_basic_001",
+  "scenario_id": "xlplay_table_construction_basic_001",
   "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
   "capability_impact": "shared validate/ingest surface only; no adapter capability claim",
   "errors": [],
@@ -47,9 +47,6 @@
       },
       {
         "path": "views/table-slice.json"
-      },
-      {
-        "path": "views/table-update-oracle.json"
       }
     ]
   }

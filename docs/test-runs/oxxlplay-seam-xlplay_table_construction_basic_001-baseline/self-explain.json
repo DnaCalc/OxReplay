@@ -2,10 +2,10 @@
   "equivalent": false,
   "records": [
     {
-      "query_id": "explain-xlplay_structured_reference_workbook_001-01",
+      "query_id": "explain-xlplay_table_construction_basic_001-01",
       "summary": "typed outcome diverged on `execution_outcome`",
-      "left_scenario_id": "xlplay_structured_reference_workbook_001",
-      "right_scenario_id": "xlplay_structured_reference_workbook_001",
+      "left_scenario_id": "xlplay_table_construction_basic_001",
+      "right_scenario_id": "xlplay_table_construction_basic_001",
       "mismatch_kind": "outcome_value",
       "severity": "semantic",
       "view_family": "execution_outcome",
@@ -18,9 +18,9 @@
         "outcome_stage": "capture_pipeline",
         "replay_artifacts_emitted": true,
         "replay_view_ready": true,
-        "scenario_id": "xlplay_structured_reference_workbook_001",
+        "scenario_id": "xlplay_table_construction_basic_001",
         "workbook_kind": "programmatic-structured-table",
-        "workbook_ref": "programmatic/structured-table/xlplay_structured_reference_workbook_001"
+        "workbook_ref": "programmatic/structured-table/xlplay_table_construction_basic_001"
       },
       "right_value": {
         "capture_artifacts_emitted": true,
@@ -29,9 +29,9 @@
         "outcome_stage": "capture_pipeline",
         "replay_artifacts_emitted": true,
         "replay_view_ready": true,
-        "scenario_id": "xlplay_structured_reference_workbook_001",
+        "scenario_id": "xlplay_table_construction_basic_001",
         "workbook_kind": "programmatic-structured-table",
-        "workbook_ref": "programmatic/structured-table/xlplay_structured_reference_workbook_001"
+        "workbook_ref": "programmatic/structured-table/xlplay_table_construction_basic_001"
       },
       "detail": "execution_outcome envelopes are outside the admitted local seam (left: missing class_id; right: missing class_id)"
     }

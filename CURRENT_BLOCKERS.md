@@ -11,12 +11,21 @@ Last reviewed: 2026-05-23.
 ### BLK-REPLAY-003: OxFunc shared value-types wire helper not admitted yet
 
 - **Status**: active
-- **Impact**: final switch from the local `comparison_value` wire comparator seam to direct shared OxFunc-owned type reuse across `W004` and `W005`
-- **Current state**: `../OxFunc` now includes `crates/oxfunc_value_types`, but there is not yet an admitted serde or replay-wire helper surface that `OxReplay` can consume directly for the `comparison_value` family; `OxReplay` has isolated its comparator seam locally and is still normalizing replay JSON into typed comparisons inside `src/oxreplay-diff/src/lib.rs`. The local seam is now sufficient for W007 matched table comparison evidence, including `docs/test-corpus/bundles/host_rollout_matched_table_001/`, but it remains a workaround rather than the final shared-value implementation.
+- **Impact**: final switch from the local `comparison_value` wire comparator seam to direct shared OxFunc-owned type reuse across `W004`, `W005`, and W007/W056 producer evidence
+- **Current state**: `../OxFunc` now includes `crates/oxfunc_value_types`, but there is not yet an admitted serde or replay-wire helper surface that `OxReplay` can consume directly for the `comparison_value` family; `OxReplay` has isolated its comparator seam locally and is still normalizing replay JSON into typed comparisons inside `src/oxreplay-diff/src/lib.rs`. The local seam now accepts the declared `oxfunc_value_types.aligned_json.v1` envelope emitted by current `DnaTreeCalc`/`OxXlPlay` W056 artifacts, and retained table-update-oracle self-diff evidence is equivalent at `docs/test-runs/oxxlplay-seam-xlplay_table_update_oracle_001-baseline/`, but this remains a workaround rather than the final shared-value implementation.
 - **Exact unblock steps**: admit the OxFunc-owned serde or replay-wire helper surface for published-formula-result comparison values, add the narrow dependency in `OxReplay`, and replace the local JSON-to-typed normalization helper in `src/oxreplay-diff/src/lib.rs` with direct shared-type comparison
 - **Recommendation**: workaround
 - **Opened**: 2026-04-14
 - **Last reviewed**: 2026-05-23
+
+### BLK-REPLAY-004: W056 third-pass producer artifact gaps
+
+- **Status**: active
+- **Impact**: full closure of `oxreplay-qb9` and W007/W056 third-pass table evidence intake
+- **Current state**: `OxReplay` now retains W056 intake evidence for the landed `DnaTreeCalc` W056 producer artifact and current `OxXlPlay` structured-reference, WorkbookConstructionSpec, table-construction, and table-update-oracle artifacts at `docs/test-runs/w007-w056-table-third-pass-intake-baseline/`. The table-update-oracle artifact carries `execution_outcome.class_id` and self-compares cleanly. The structured-reference, WorkbookConstructionSpec, and table-construction artifacts still omit top-level `execution_outcome.class_id`, so their self-diff records remain typed outcome seam drift. `xlplay_table_update_oracle_001` retains row insert/delete/reorder cases, but no explicit paired first-row/last-row transition artifact is currently landed. No paired empty-body table artifact, lifecycle callback artifact, or full namespace/anchor/workspace cross-producer artifact has landed. `OxXlPlay` also still declares Excel dependency graph, dirty-set, and invalidation event-order evidence unavailable through the current COM capture path.
+- **Exact unblock steps**: land producer artifacts with explicit `execution_outcome.class_id` for all W056 table evidence families; land paired empty-body table evidence; land explicit first-row/last-row transition evidence; land lifecycle callback replay artifacts; land namespace/anchor/workspace paired artifacts; and either emit direct or explicitly derived dependency/invalidation evidence from `OxXlPlay` with interpretation limits, or keep those lanes explicitly unavailable.
+- **Recommendation**: workaround
+- **Opened**: 2026-05-23
 
 ### BLK-REPLAY-002: OxCalc manifest C4 lifecycle gap
 

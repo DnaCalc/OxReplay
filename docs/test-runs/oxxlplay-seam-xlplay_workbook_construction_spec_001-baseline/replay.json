@@ -1,0 +1,894 @@
+{
+  "scenario_id": "xlplay_workbook_construction_spec_001",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "node_table_slice",
+      "source_label": "table_slice:NodeTbl:direct",
+      "normalized_family": "excel.surface.table_slice.direct:NodeTbl=NodeTbl"
+    },
+    {
+      "event_id": "node_line_total_row1_value",
+      "source_label": "cell_value:TreeNodes!D2:direct",
+      "normalized_family": "excel.surface.cell_value.direct:TreeNodes!D2:comparison_value"
+    },
+    {
+      "event_id": "node_line_total_row1_formula",
+      "source_label": "formula_text:TreeNodes!D2:direct",
+      "normalized_family": "excel.surface.formula_text.direct:TreeNodes!D2==[@Qty]*[@Price]"
+    },
+    {
+      "event_id": "node_explicit_qty_row1_value",
+      "source_label": "cell_value:TreeNodes!F2:direct",
+      "normalized_family": "excel.surface.cell_value.direct:TreeNodes!F2:comparison_value"
+    },
+    {
+      "event_id": "node_path_column_value",
+      "source_label": "cell_value:TreeNodes!H2:direct",
+      "normalized_family": "excel.surface.cell_value.direct:TreeNodes!H2:comparison_value"
+    },
+    {
+      "event_id": "node_headers_special_item_value",
+      "source_label": "cell_value:TreeNodes!H3:direct",
+      "normalized_family": "excel.surface.cell_value.direct:TreeNodes!H3:comparison_value"
+    },
+    {
+      "event_id": "node_data_special_item_value",
+      "source_label": "cell_value:TreeNodes!H4:direct",
+      "normalized_family": "excel.surface.cell_value.direct:TreeNodes!H4:comparison_value"
+    },
+    {
+      "event_id": "node_totals_special_item_value",
+      "source_label": "cell_value:TreeNodes!H5:direct",
+      "normalized_family": "excel.surface.cell_value.direct:TreeNodes!H5:comparison_value"
+    },
+    {
+      "event_id": "node_composite_data_range_value",
+      "source_label": "cell_value:TreeNodes!H6:direct",
+      "normalized_family": "excel.surface.cell_value.direct:TreeNodes!H6:comparison_value"
+    },
+    {
+      "event_id": "node_composite_formula_column_value",
+      "source_label": "cell_value:TreeNodes!H7:direct",
+      "normalized_family": "excel.surface.cell_value.direct:TreeNodes!H7:comparison_value"
+    },
+    {
+      "event_id": "node_totals_special_item_display",
+      "source_label": "effective_display_text:TreeNodes!H5:direct",
+      "normalized_family": "excel.surface.effective_display_text.direct:TreeNodes!H5=33"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "comparison_value",
+      "value": {
+        "boundary": "published_formula_result",
+        "value": {
+          "kind": "number",
+          "number": 6.0
+        },
+        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+      }
+    },
+    {
+      "view_family": "effective_display_text",
+      "value": "33"
+    },
+    {
+      "view_family": "table_slice",
+      "value": {
+        "columns": [
+          {
+            "column_index": 1,
+            "column_name": "Path",
+            "data_body_range": "A2:A4"
+          },
+          {
+            "column_index": 2,
+            "column_name": "Qty",
+            "data_body_range": "B2:B4"
+          },
+          {
+            "column_index": 3,
+            "column_name": "Price",
+            "data_body_range": "C2:C4"
+          },
+          {
+            "column_index": 4,
+            "column_name": "LineTotal",
+            "data_body_range": "D2:D4"
+          },
+          {
+            "column_index": 5,
+            "column_name": "OmittedQty",
+            "data_body_range": "E2:E4"
+          },
+          {
+            "column_index": 6,
+            "column_name": "ExplicitQty",
+            "data_body_range": "F2:F4"
+          }
+        ],
+        "data_body_range": "A2:F4",
+        "header_row_range": "A1:F1",
+        "headers": [
+          {
+            "address": "A1",
+            "column_index": 1,
+            "column_name": "Path",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  80,
+                  97,
+                  116,
+                  104
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "Path",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "Path"
+          },
+          {
+            "address": "B1",
+            "column_index": 2,
+            "column_name": "Qty",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  81,
+                  116,
+                  121
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "Qty",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "Qty"
+          },
+          {
+            "address": "C1",
+            "column_index": 3,
+            "column_name": "Price",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  80,
+                  114,
+                  105,
+                  99,
+                  101
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "Price",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "Price"
+          },
+          {
+            "address": "D1",
+            "column_index": 4,
+            "column_name": "LineTotal",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  76,
+                  105,
+                  110,
+                  101,
+                  84,
+                  111,
+                  116,
+                  97,
+                  108
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "LineTotal",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "LineTotal"
+          },
+          {
+            "address": "E1",
+            "column_index": 5,
+            "column_name": "OmittedQty",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  79,
+                  109,
+                  105,
+                  116,
+                  116,
+                  101,
+                  100,
+                  81,
+                  116,
+                  121
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "OmittedQty",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "OmittedQty"
+          },
+          {
+            "address": "F1",
+            "column_index": 6,
+            "column_name": "ExplicitQty",
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "text",
+                "utf16_code_units": [
+                  69,
+                  120,
+                  112,
+                  108,
+                  105,
+                  99,
+                  105,
+                  116,
+                  81,
+                  116,
+                  121
+                ]
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "ExplicitQty",
+            "formula_text": null,
+            "row_index": 0,
+            "value_repr": "ExplicitQty"
+          }
+        ],
+        "rows": [
+          {
+            "cells": [
+              {
+                "address": "A2",
+                "column_index": 1,
+                "column_name": "Path",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "text",
+                    "utf16_code_units": [
+                      114,
+                      111,
+                      111,
+                      116,
+                      47,
+                      97
+                    ]
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "root/a",
+                "formula_text": null,
+                "row_index": 1,
+                "value_repr": "root/a"
+              },
+              {
+                "address": "B2",
+                "column_index": 2,
+                "column_name": "Qty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 2.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "2",
+                "formula_text": null,
+                "row_index": 1,
+                "value_repr": "2"
+              },
+              {
+                "address": "C2",
+                "column_index": 3,
+                "column_name": "Price",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 3.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "3",
+                "formula_text": null,
+                "row_index": 1,
+                "value_repr": "3"
+              },
+              {
+                "address": "D2",
+                "column_index": 4,
+                "column_name": "LineTotal",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 6.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "6",
+                "formula_text": "=[@Qty]*[@Price]",
+                "row_index": 1,
+                "value_repr": "6"
+              },
+              {
+                "address": "E2",
+                "column_index": 5,
+                "column_name": "OmittedQty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 2.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "2",
+                "formula_text": "=[@Qty]",
+                "row_index": 1,
+                "value_repr": "2"
+              },
+              {
+                "address": "F2",
+                "column_index": 6,
+                "column_name": "ExplicitQty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 2.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "2",
+                "formula_text": "=[@Qty]",
+                "row_index": 1,
+                "value_repr": "2"
+              }
+            ],
+            "row_index": 1
+          },
+          {
+            "cells": [
+              {
+                "address": "A3",
+                "column_index": 1,
+                "column_name": "Path",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "text",
+                    "utf16_code_units": [
+                      114,
+                      111,
+                      111,
+                      116,
+                      47,
+                      98
+                    ]
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "root/b",
+                "formula_text": null,
+                "row_index": 2,
+                "value_repr": "root/b"
+              },
+              {
+                "address": "B3",
+                "column_index": 2,
+                "column_name": "Qty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 4.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "4",
+                "formula_text": null,
+                "row_index": 2,
+                "value_repr": "4"
+              },
+              {
+                "address": "C3",
+                "column_index": 3,
+                "column_name": "Price",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 5.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "5",
+                "formula_text": null,
+                "row_index": 2,
+                "value_repr": "5"
+              },
+              {
+                "address": "D3",
+                "column_index": 4,
+                "column_name": "LineTotal",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 20.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "20",
+                "formula_text": "=[@Qty]*[@Price]",
+                "row_index": 2,
+                "value_repr": "20"
+              },
+              {
+                "address": "E3",
+                "column_index": 5,
+                "column_name": "OmittedQty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 4.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "4",
+                "formula_text": "=[@Qty]",
+                "row_index": 2,
+                "value_repr": "4"
+              },
+              {
+                "address": "F3",
+                "column_index": 6,
+                "column_name": "ExplicitQty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 4.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "4",
+                "formula_text": "=[@Qty]",
+                "row_index": 2,
+                "value_repr": "4"
+              }
+            ],
+            "row_index": 2
+          },
+          {
+            "cells": [
+              {
+                "address": "A4",
+                "column_index": 1,
+                "column_name": "Path",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "text",
+                    "utf16_code_units": [
+                      114,
+                      111,
+                      111,
+                      116,
+                      47,
+                      99
+                    ]
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "root/c",
+                "formula_text": null,
+                "row_index": 3,
+                "value_repr": "root/c"
+              },
+              {
+                "address": "B4",
+                "column_index": 2,
+                "column_name": "Qty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 1.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "1",
+                "formula_text": null,
+                "row_index": 3,
+                "value_repr": "1"
+              },
+              {
+                "address": "C4",
+                "column_index": 3,
+                "column_name": "Price",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 7.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "7",
+                "formula_text": null,
+                "row_index": 3,
+                "value_repr": "7"
+              },
+              {
+                "address": "D4",
+                "column_index": 4,
+                "column_name": "LineTotal",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 7.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "7",
+                "formula_text": "=[@Qty]*[@Price]",
+                "row_index": 3,
+                "value_repr": "7"
+              },
+              {
+                "address": "E4",
+                "column_index": 5,
+                "column_name": "OmittedQty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 1.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "1",
+                "formula_text": "=[@Qty]",
+                "row_index": 3,
+                "value_repr": "1"
+              },
+              {
+                "address": "F4",
+                "column_index": 6,
+                "column_name": "ExplicitQty",
+                "comparison_value": {
+                  "boundary": "published_formula_result",
+                  "value": {
+                    "kind": "number",
+                    "number": 1.0
+                  },
+                  "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                },
+                "effective_display_text": "1",
+                "formula_text": "=[@Qty]",
+                "row_index": 3,
+                "value_repr": "1"
+              }
+            ],
+            "row_index": 3
+          }
+        ],
+        "show_totals": true,
+        "source_range": "A1:F5",
+        "structured_reference_formulas": [
+          {
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "number",
+                "number": 7.0
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "7",
+            "expected_formula_input": "=SUM(NodeTbl[Qty])",
+            "formula_text": "=SUM(NodeTbl[Qty])",
+            "locator": "TreeNodes!H2",
+            "role": "path_column",
+            "value_repr": "7"
+          },
+          {
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "number",
+                "number": 6.0
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "6",
+            "expected_formula_input": "=COUNTA(NodeTbl[#Headers])",
+            "formula_text": "=COUNTA(NodeTbl[#Headers])",
+            "locator": "TreeNodes!H3",
+            "role": "headers_special_item",
+            "value_repr": "6"
+          },
+          {
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "number",
+                "number": 7.0
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "7",
+            "expected_formula_input": "=SUM(NodeTbl[[#Data],[Qty]])",
+            "formula_text": "=SUM(NodeTbl[[#Data],[Qty]])",
+            "locator": "TreeNodes!H4",
+            "role": "data_special_item",
+            "value_repr": "7"
+          },
+          {
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "number",
+                "number": 33.0
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "33",
+            "expected_formula_input": "=SUM(NodeTbl[[#Totals],[LineTotal]])",
+            "formula_text": "=SUM(NodeTbl[[#Totals],[LineTotal]])",
+            "locator": "TreeNodes!H5",
+            "role": "totals_special_item",
+            "value_repr": "33"
+          },
+          {
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "number",
+                "number": 22.0
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "22",
+            "expected_formula_input": "=SUM(NodeTbl[[#Data],[Qty]:[Price]])",
+            "formula_text": "=SUM(NodeTbl[[#Data],[Qty]:[Price]])",
+            "locator": "TreeNodes!H6",
+            "role": "composite_data_range",
+            "value_repr": "22"
+          },
+          {
+            "comparison_value": {
+              "boundary": "published_formula_result",
+              "value": {
+                "kind": "number",
+                "number": 55.0
+              },
+              "wire_schema": "oxfunc_value_types.aligned_json.v1"
+            },
+            "effective_display_text": "55",
+            "expected_formula_input": "=SUM(NodeTbl[[#Data],[Qty]:[LineTotal]])",
+            "formula_text": "=SUM(NodeTbl[[#Data],[Qty]:[LineTotal]])",
+            "locator": "TreeNodes!H7",
+            "role": "composite_data_body_to_formula_column",
+            "value_repr": "55"
+          }
+        ],
+        "table_name": "NodeTbl",
+        "table_slice_schema": "oxxlplay.table_slice.v1",
+        "totals_row": {
+          "cells": [
+            {
+              "address": "A5",
+              "column_index": 1,
+              "column_name": "Path",
+              "comparison_value": {
+                "boundary": "published_formula_result",
+                "value": {
+                  "kind": "text",
+                  "utf16_code_units": [
+                    84,
+                    111,
+                    116,
+                    97,
+                    108
+                  ]
+                },
+                "wire_schema": "oxfunc_value_types.aligned_json.v1"
+              },
+              "effective_display_text": "Total",
+              "formula_text": null,
+              "row_index": 0,
+              "value_repr": "Total"
+            },
+            {
+              "address": "B5",
+              "column_index": 2,
+              "column_name": "Qty",
+              "comparison_value": {
+                "boundary": "published_formula_result",
+                "value": {
+                  "kind": "number",
+                  "number": 7.0
+                },
+                "wire_schema": "oxfunc_value_types.aligned_json.v1"
+              },
+              "effective_display_text": "7",
+              "formula_text": "=SUBTOTAL(109,[Qty])",
+              "row_index": 0,
+              "value_repr": "7"
+            },
+            {
+              "address": "C5",
+              "column_index": 3,
+              "column_name": "Price",
+              "effective_display_text": "",
+              "formula_text": null,
+              "row_index": 0,
+              "value_repr": null
+            },
+            {
+              "address": "D5",
+              "column_index": 4,
+              "column_name": "LineTotal",
+              "comparison_value": {
+                "boundary": "published_formula_result",
+                "value": {
+                  "kind": "number",
+                  "number": 33.0
+                },
+                "wire_schema": "oxfunc_value_types.aligned_json.v1"
+              },
+              "effective_display_text": "33",
+              "formula_text": "=SUBTOTAL(109,[LineTotal])",
+              "row_index": 0,
+              "value_repr": "33"
+            },
+            {
+              "address": "E5",
+              "column_index": 5,
+              "column_name": "OmittedQty",
+              "effective_display_text": "",
+              "formula_text": null,
+              "row_index": 0,
+              "value_repr": null
+            },
+            {
+              "address": "F5",
+              "column_index": 6,
+              "column_name": "ExplicitQty",
+              "comparison_value": {
+                "boundary": "published_formula_result",
+                "value": {
+                  "kind": "number",
+                  "number": 7.0
+                },
+                "wire_schema": "oxfunc_value_types.aligned_json.v1"
+              },
+              "effective_display_text": "7",
+              "formula_text": "=SUBTOTAL(109,[ExplicitQty])",
+              "row_index": 0,
+              "value_repr": "7"
+            }
+          ],
+          "range": "A5:F5"
+        },
+        "totals_row_range": "A5:F5",
+        "worksheet_name": "TreeNodes"
+      }
+    },
+    {
+      "view_family": "execution_outcome",
+      "value": {
+        "capture_artifacts_emitted": true,
+        "outcome_kind": "accepted_execution",
+        "outcome_schema": "oxxlplay.execution_outcome.v1",
+        "outcome_stage": "capture_pipeline",
+        "replay_artifacts_emitted": true,
+        "replay_view_ready": true,
+        "scenario_id": "xlplay_workbook_construction_spec_001",
+        "workbook_kind": "programmatic-structured-table",
+        "workbook_ref": "programmatic/workbook-construction-spec/xlplay_workbook_construction_spec_001"
+      }
+    }
+  ],
+  "source_metadata": {
+    "automation_policy": "clean_room_declared",
+    "bridge_influenced": true,
+    "capture_loss": "downgraded_instrumentation",
+    "capture_loss_summary": [
+      "environment_partial"
+    ],
+    "capture_mode": "excel_black_box_observation",
+    "captured_at_utc": "2026-05-23T12:15:22Z",
+    "comparison_value_wire_schema": "oxfunc_value_types.aligned_json.v1",
+    "comparison_view_families": [
+      "comparison_value",
+      "effective_display_text",
+      "table_slice",
+      "execution_outcome"
+    ],
+    "excel": {
+      "build": "20026",
+      "channel": "http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60",
+      "version": "16.0"
+    },
+    "execution_outcome": {
+      "capture_artifacts_emitted": true,
+      "outcome_kind": "accepted_execution",
+      "outcome_schema": "oxxlplay.execution_outcome.v1",
+      "outcome_stage": "capture_pipeline",
+      "replay_artifacts_emitted": true,
+      "replay_view_ready": true,
+      "scenario_id": "xlplay_workbook_construction_spec_001",
+      "workbook_kind": "programmatic-structured-table",
+      "workbook_ref": "programmatic/workbook-construction-spec/xlplay_workbook_construction_spec_001"
+    },
+    "host": {
+      "architecture": "x64",
+      "os": "Microsoft Windows 11 Pro",
+      "timezone": "South Africa Standard Time"
+    },
+    "interpretation_limits": [
+      {
+        "detail": "effective_display_text reflects host-rendered Excel text on the observation machine.",
+        "kind": "effective_display_host_rendered"
+      },
+      {
+        "detail": "workbook_ref could not be hashed on disk for this case; provenance retains a partial workbook fingerprint marker.",
+        "kind": "workbook_fingerprint_partial"
+      }
+    ],
+    "macro_mode": "force_disable_requested",
+    "projection_status": "lossy",
+    "run_id": "run_xlplay_workbook_construction_spec_001_20260523_141536",
+    "source_schema_id": "oxxlplay.normalized_replay.v2",
+    "trigger": "open_then_recalc",
+    "unavailable_surfaces": [],
+    "uncertainty_summary": [],
+    "workbook_construction_spec": {
+      "construction_input_only": true,
+      "role": "treecalc_table_node_equivalent",
+      "scenario_ref": "docs/test-corpus/excel/xlplay_workbook_construction_spec_001/scenario.json",
+      "schema": "oxxlplay.workbook_construction_spec.v1",
+      "semantic_authority": "none"
+    },
+    "workbook_fingerprint": "partial:programmatic-structured-table:workbook_ref_unavailable",
+    "workbook_kind": "programmatic-structured-table",
+    "workbook_ref": "programmatic/workbook-construction-spec/xlplay_workbook_construction_spec_001"
+  }
+}

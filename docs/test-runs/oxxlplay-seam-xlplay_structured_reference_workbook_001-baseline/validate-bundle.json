@@ -1,6 +1,6 @@
 {
   "status": "valid",
-  "manifest_path": "..\\OxXlPlay\\states\\excel\\xlplay_structured_reference_workbook_001\\oxreplay-manifest.json",
+  "manifest_path": "../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/oxreplay-manifest.json",
   "bundle_id": "oxxlplay-xlplay_structured_reference_workbook_001",
   "scenario_id": "xlplay_structured_reference_workbook_001",
   "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",

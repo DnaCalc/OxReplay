@@ -1,33 +1,9 @@
 {
-  "equivalent": false,
+  "equivalent": true,
   "records": [
     {
-      "query_id": "explain-xlplay_table_update_oracle_001-01",
-      "summary": "comparison diverged on `worksheet_comparison_value`",
-      "left_scenario_id": "xlplay_table_update_oracle_001",
-      "right_scenario_id": "xlplay_table_update_oracle_001",
-      "mismatch_kind": "comparison_value",
-      "severity": "semantic",
-      "view_family": "worksheet_comparison_value",
-      "equivalence_policy_id": "worksheet_value_exact",
-      "required": true,
-      "left_value": {
-        "boundary": "published_formula_result",
-        "value": {
-          "kind": "number",
-          "number": 18.0
-        },
-        "wire_schema": "oxfunc_value_types.aligned_json.v1"
-      },
-      "right_value": {
-        "boundary": "published_formula_result",
-        "value": {
-          "kind": "number",
-          "number": 18.0
-        },
-        "wire_schema": "oxfunc_value_types.aligned_json.v1"
-      },
-      "detail": "comparison_value envelopes are outside the admitted local seam (left: missing declared comparison_value kind; right: missing declared comparison_value kind)"
+      "query_id": "explain-equivalent",
+      "summary": "scenarios are equivalent on the current comparison surface"
     }
   ]
 }

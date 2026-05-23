@@ -765,6 +765,17 @@ fn parse_typed_comparison_value(
 fn parse_typed_object(
     object: &serde_json::Map<String, serde_json::Value>,
 ) -> Result<TypedComparisonValue, ComparisonValueParseError> {
+    if object
+        .get("wire_schema")
+        .and_then(serde_json::Value::as_str)
+        .is_some_and(|schema| schema == "oxfunc_value_types.aligned_json.v1")
+    {
+        return object
+            .get("value")
+            .ok_or(ComparisonValueParseError::MissingDeclaredKind)
+            .and_then(parse_typed_comparison_value);
+    }
+
     let kind = object
         .get("value_kind")
         .or_else(|| object.get("kind"))
@@ -1547,6 +1558,70 @@ mod tests {
                 value: serde_json::json!({
                     "kind": "error",
                     "worksheet_error_code": "na"
+                }),
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[test]
+    fn treats_declared_oxfunc_aligned_json_wire_envelopes_as_equivalent() {
+        let value = serde_json::json!({
+            "wire_schema": "oxfunc_value_types.aligned_json.v1",
+            "boundary": "published_formula_result",
+            "value": {
+                "kind": "number",
+                "number": 18.0
+            }
+        });
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: value.clone(),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value,
+            }],
+        );
+
+        let report = diff_summary(&left, &right);
+
+        assert!(report.equivalent);
+        assert!(report.mismatches.is_empty());
+    }
+
+    #[test]
+    fn decodes_declared_oxfunc_aligned_json_text_payloads() {
+        let left = scenario(
+            "left",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "wire_schema": "oxfunc_value_types.aligned_json.v1",
+                    "boundary": "published_formula_result",
+                    "value": {
+                        "kind": "text",
+                        "utf16_code_units": [73, 116, 101, 109]
+                    }
+                }),
+            }],
+        );
+        let right = scenario(
+            "right",
+            vec![ReplayComparisonView {
+                view_family: "comparison_value".to_string(),
+                value: serde_json::json!({
+                    "kind": "text",
+                    "text": "Item"
                 }),
             }],
         );

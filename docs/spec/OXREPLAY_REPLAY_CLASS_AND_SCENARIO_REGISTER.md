@@ -75,8 +75,9 @@ The ids below are planning commitments until the retained artifacts exist.
 | `host_rollout_execution_outcome` | `host_rollout_execution_outcome_001` | `docs/test-corpus/bundles/host_rollout_execution_outcome_001/` |
 | `host_rollout_dependency_invalidation` | `host_rollout_dependency_invalidation_001` | `docs/test-corpus/bundles/host_rollout_dependency_invalidation_001/` |
 | `host_rollout_retained_artifacts` | `host_rollout_retained_artifacts_001` | `docs/test-corpus/bundles/host_rollout_retained_artifacts_001/` |
+| `host_rollout_w056_table_third_pass` | `host_rollout_w056_table_third_pass_001` | `docs/test-corpus/bundles/host_rollout_w056_table_third_pass_001/` |
 
-These roots now contain local OxReplay normalized-replay fixtures and retained diff/explain baselines for shared comparison mechanics. They remain producer-integration partial. `OxXlPlay` has published the first real retained `table_slice` artifact for `xlplay_structured_reference_workbook_001`; `DNA TreeCalc`, `DNA OneCalc`, dependency, invalidation, and retained-artifact-ref producer artifacts remain open.
+These roots now contain local OxReplay normalized-replay fixtures and retained diff/explain baselines for shared comparison mechanics. They remain producer-integration partial. `OxXlPlay` has published retained structured-reference, WorkbookConstructionSpec, table-construction, and table-update-oracle artifacts; `DnaTreeCalc` has published the first W056 retained table producer artifact. Third-pass W056 intake evidence is retained at `docs/test-runs/w007-w056-table-third-pass-intake-baseline/`, with non-comparable lanes represented as typed projection gaps or seam drift over declared payloads only. `DNA OneCalc`, paired empty-body table evidence, lifecycle callback artifacts, full namespace/anchor/workspace cross-producer pairing, direct Excel dependency/invalidation internals, and some `execution_outcome.class_id` producer fields remain open.
 
 ## 9. Naming rule
 Scenario ids must remain stable once a retained artifact root is created.

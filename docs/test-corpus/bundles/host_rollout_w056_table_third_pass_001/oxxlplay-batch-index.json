@@ -1,0 +1,41 @@
+{
+  "batch_id": "host_rollout_w056_table_third_pass_001_oxxlplay",
+  "cases": [
+    {
+      "case_id": "xlplay_structured_reference_workbook_001",
+      "status": "producer_intake",
+      "error": null,
+      "output_dir": "../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001",
+      "capture_path": "../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/capture.json",
+      "oxreplay_manifest_path": "../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/oxreplay-manifest.json",
+      "normalized_replay_path": "../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/views/normalized-replay.json"
+    },
+    {
+      "case_id": "xlplay_workbook_construction_spec_001",
+      "status": "producer_intake",
+      "error": null,
+      "output_dir": "../OxXlPlay/states/excel/xlplay_workbook_construction_spec_001",
+      "capture_path": "../OxXlPlay/states/excel/xlplay_workbook_construction_spec_001/capture.json",
+      "oxreplay_manifest_path": "../OxXlPlay/states/excel/xlplay_workbook_construction_spec_001/oxreplay-manifest.json",
+      "normalized_replay_path": "../OxXlPlay/states/excel/xlplay_workbook_construction_spec_001/views/normalized-replay.json"
+    },
+    {
+      "case_id": "xlplay_table_construction_basic_001",
+      "status": "producer_intake",
+      "error": null,
+      "output_dir": "../OxXlPlay/states/excel/xlplay_table_construction_basic_001",
+      "capture_path": "../OxXlPlay/states/excel/xlplay_table_construction_basic_001/capture.json",
+      "oxreplay_manifest_path": "../OxXlPlay/states/excel/xlplay_table_construction_basic_001/oxreplay-manifest.json",
+      "normalized_replay_path": "../OxXlPlay/states/excel/xlplay_table_construction_basic_001/views/normalized-replay.json"
+    },
+    {
+      "case_id": "xlplay_table_update_oracle_001",
+      "status": "producer_intake",
+      "error": null,
+      "output_dir": "../OxXlPlay/states/excel/xlplay_table_update_oracle_001",
+      "capture_path": "../OxXlPlay/states/excel/xlplay_table_update_oracle_001/capture.json",
+      "oxreplay_manifest_path": "../OxXlPlay/states/excel/xlplay_table_update_oracle_001/oxreplay-manifest.json",
+      "normalized_replay_path": "../OxXlPlay/states/excel/xlplay_table_update_oracle_001/views/normalized-replay.json"
+    }
+  ]
+}
