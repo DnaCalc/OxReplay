@@ -26,38 +26,6 @@
         "wire_schema": "oxfunc_value_types.aligned_json.v1"
       },
       "detail": "comparison_value envelopes are outside the admitted local seam (left: missing declared comparison_value kind; right: missing declared comparison_value kind)"
-    },
-    {
-      "left_scenario_id": "xlplay_table_update_oracle_001",
-      "right_scenario_id": "xlplay_table_update_oracle_001",
-      "mismatch_kind": "outcome_value",
-      "severity": "semantic",
-      "view_family": "execution_outcome",
-      "equivalence_policy_id": "typed_outcome_class",
-      "required": true,
-      "left_value": {
-        "capture_artifacts_emitted": true,
-        "outcome_kind": "accepted_execution",
-        "outcome_schema": "oxxlplay.execution_outcome.v1",
-        "outcome_stage": "capture_pipeline",
-        "replay_artifacts_emitted": true,
-        "replay_view_ready": true,
-        "scenario_id": "xlplay_table_update_oracle_001",
-        "workbook_kind": "programmatic-structured-table",
-        "workbook_ref": "programmatic/structured-table/xlplay_table_update_oracle_001"
-      },
-      "right_value": {
-        "capture_artifacts_emitted": true,
-        "outcome_kind": "accepted_execution",
-        "outcome_schema": "oxxlplay.execution_outcome.v1",
-        "outcome_stage": "capture_pipeline",
-        "replay_artifacts_emitted": true,
-        "replay_view_ready": true,
-        "scenario_id": "xlplay_table_update_oracle_001",
-        "workbook_kind": "programmatic-structured-table",
-        "workbook_ref": "programmatic/structured-table/xlplay_table_update_oracle_001"
-      },
-      "detail": "execution_outcome envelopes are outside the admitted local seam (left: missing class_id; right: missing class_id)"
     }
   ]
 }

@@ -5,7 +5,7 @@
     {
       "event_id": "basic_table_update_oracle",
       "source_label": "table_update_oracle:BasicTbl:derived",
-      "normalized_family": "excel.surface.table_update_oracle.derived:BasicTbl=table_update_cases:15"
+      "normalized_family": "excel.surface.table_update_oracle.derived:BasicTbl=table_update_cases:17"
     },
     {
       "event_id": "basic_table_update_final_slice",
@@ -1209,6 +1209,11 @@
                 },
                 "totals_row_range": "A5:D5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -1734,16 +1739,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "body_edit_units",
             "description": "Edit one data-body value and observe row-context and structured-reference recalculation.",
             "execution_outcome": {
               "case_id": "body_edit_units",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "body_edit"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -2536,6 +2560,11 @@
                 },
                 "totals_row_range": "A6:D6",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -3061,16 +3090,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "row_insert",
             "description": "Insert one data row through the ListObject row surface.",
             "execution_outcome": {
               "case_id": "row_insert",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "row_insert"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -3779,6 +3827,11 @@
                 },
                 "totals_row_range": "A5:D5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -4383,16 +4436,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "row_delete",
             "description": "Delete the first data row through the ListObject row surface.",
             "execution_outcome": {
               "case_id": "row_delete",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "row_delete"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -5102,6 +5174,11 @@
                 },
                 "totals_row_range": "A5:D5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -5627,16 +5704,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "row_reorder",
             "description": "Reorder rows with an Excel table sort.",
             "execution_outcome": {
               "case_id": "row_reorder",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "row_reorder"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -6666,6 +6762,11 @@
                 },
                 "totals_row_range": "A5:E5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -7191,16 +7292,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "column_insert",
             "description": "Insert a table column and observe table range and column inventory changes.",
             "execution_outcome": {
               "case_id": "column_insert",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "column_insert"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 5,
@@ -8450,6 +8570,11 @@
                 },
                 "totals_row_range": "A5:E5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -9290,16 +9415,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "column_reorder",
             "description": "Move the inserted column before Price using Excel range cut/insert.",
             "execution_outcome": {
               "case_id": "column_reorder",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "column_reorder"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 5,
@@ -10458,6 +10602,11 @@
                 },
                 "totals_row_range": "A5:D5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -11298,16 +11447,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "column_delete",
             "description": "Delete the inserted column through the ListObject column surface.",
             "execution_outcome": {
               "case_id": "column_delete",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "column_delete"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -12246,6 +12414,11 @@
                 },
                 "totals_row_range": "A5:D5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -12771,16 +12944,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "column_rename",
             "description": "Rename a formula-referenced table column and observe Excel formula rewrites.",
             "execution_outcome": {
               "case_id": "column_rename",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "column_rename"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -13497,6 +13689,11 @@
                 },
                 "totals_row_range": "A5:D5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -14026,16 +14223,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "header_edit",
             "description": "Edit a non-formula table header cell and observe column identity changes.",
             "execution_outcome": {
               "case_id": "header_edit",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "header_edit"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -14681,6 +14897,11 @@
                 "totals_row": null,
                 "totals_row_range": null,
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -15213,16 +15434,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "totals_row_toggle",
             "description": "Toggle the totals row off and observe the table slice without a totals row.",
             "execution_outcome": {
               "case_id": "totals_row_toggle",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "totals_row_toggle"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -15944,6 +16184,11 @@
                 },
                 "totals_row_range": "A5:D5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -16406,16 +16651,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "totals_row_edit",
             "description": "Restore the totals row and edit one totals formula.",
             "execution_outcome": {
               "case_id": "totals_row_edit",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "totals_row_edit"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -17131,6 +17395,11 @@
                 },
                 "totals_row_range": "A5:D5",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -17663,16 +17932,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "table_rename",
             "description": "Rename the table and observe structured-reference formula rewrites.",
             "execution_outcome": {
               "case_id": "table_rename",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "table_rename"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -18474,6 +18762,11 @@
                 },
                 "totals_row_range": "A6:D6",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -19006,16 +19299,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "table_resize",
             "description": "Resize the table by one data row and observe range and formula-fill effects.",
             "execution_outcome": {
               "case_id": "table_resize",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "table_resize"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -19813,6 +20125,11 @@
                 },
                 "totals_row_range": "A6:D6",
                 "worksheet_name": "TableUpdates"
+              },
+              "table_status": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
               }
             },
             "before": {
@@ -20426,16 +20743,35 @@
               }
             },
             "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
             "case_id": "structured_reference_formula_recalculation",
             "description": "Edit a body value after rename/resize to retain a focused recalculation observation.",
             "execution_outcome": {
               "case_id": "structured_reference_formula_recalculation",
+              "class_id": "observation_retained",
               "error_kind": null,
               "error_message": null,
               "outcome_kind": "accepted_observation",
               "outcome_stage": "table_update_case",
               "update_kind": "body_edit"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": {
               "column_count": {
                 "after": 4,
@@ -20622,10 +20958,15 @@
           },
           {
             "action": {
-              "target_cell": "H2"
+              "copy_scope": "temporary_workbook_copy"
             },
             "after": {
-              "table_slice": null
+              "table_slice": null,
+              "table_status": {
+                "capture_loss": "update_action_failed",
+                "status": "unavailable",
+                "uncertainty": "case_failed_after_before_snapshot"
+              }
             },
             "before": {
               "table_slice": {
@@ -21238,16 +21579,1321 @@
               }
             },
             "capture_loss": "update_action_failed",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "update_action_failed",
+                "status": "unavailable",
+                "uncertainty": "case_failed_after_before_snapshot"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "update_action_failed",
+                "status": "unavailable",
+                "uncertainty": "case_failed_after_before_snapshot"
+              }
+            },
+            "case_id": "save_reopen",
+            "description": "Attempt to cover save/reopen persistence; retained as a typed capture rejection when unattended Excel COM save/open can block on the exercised host.",
+            "execution_outcome": {
+              "case_id": "save_reopen",
+              "class_id": "observation_rejected",
+              "error_kind": "table_update_action_failed",
+              "error_message": "save_reopen is retained as a typed capture rejection in this tranche: hidden Excel COM SaveCopyAs/Open can block unattended observation on the exercised host, and OxXlPlay does not substitute a private replay shim for that persistence boundary.",
+              "outcome_kind": "capture_rejection",
+              "outcome_stage": "table_update_case",
+              "update_kind": "save_reopen"
+            },
+            "observation_scope": "main_observation_workbook",
+            "table_slice_delta": null,
+            "uncertainty": "case_failed_after_before_snapshot",
+            "update_kind": "save_reopen"
+          },
+          {
+            "action": {
+              "copy_scope": "isolated_programmatic_workbook"
+            },
+            "after": {
+              "table_slice": null,
+              "table_status": {
+                "capture_loss": "table_deleted_observed",
+                "detail": "The table was deleted through Excel ListObject.Delete on an isolated programmatic workbook; no after table_slice is available because Excel no longer exposes that ListObject.",
+                "status": "unavailable",
+                "uncertainty": "none"
+              }
+            },
+            "before": {
+              "table_slice": {
+                "columns": [
+                  {
+                    "column_index": 1,
+                    "column_name": "Item",
+                    "data_body_range": "A2:A4"
+                  },
+                  {
+                    "column_index": 2,
+                    "column_name": "Units",
+                    "data_body_range": "B2:B4"
+                  },
+                  {
+                    "column_index": 3,
+                    "column_name": "Price",
+                    "data_body_range": "C2:C4"
+                  },
+                  {
+                    "column_index": 4,
+                    "column_name": "LineTotal",
+                    "data_body_range": "D2:D4"
+                  }
+                ],
+                "data_body_range": "A2:D4",
+                "header_row_range": "A1:D1",
+                "headers": [
+                  {
+                    "address": "A1",
+                    "column_index": 1,
+                    "column_name": "Item",
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "text",
+                        "utf16_code_units": [
+                          73,
+                          116,
+                          101,
+                          109
+                        ]
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "Item",
+                    "formula_text": null,
+                    "row_index": 0,
+                    "value_repr": "Item"
+                  },
+                  {
+                    "address": "B1",
+                    "column_index": 2,
+                    "column_name": "Units",
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "text",
+                        "utf16_code_units": [
+                          85,
+                          110,
+                          105,
+                          116,
+                          115
+                        ]
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "Units",
+                    "formula_text": null,
+                    "row_index": 0,
+                    "value_repr": "Units"
+                  },
+                  {
+                    "address": "C1",
+                    "column_index": 3,
+                    "column_name": "Price",
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "text",
+                        "utf16_code_units": [
+                          80,
+                          114,
+                          105,
+                          99,
+                          101
+                        ]
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "Price",
+                    "formula_text": null,
+                    "row_index": 0,
+                    "value_repr": "Price"
+                  },
+                  {
+                    "address": "D1",
+                    "column_index": 4,
+                    "column_name": "LineTotal",
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "text",
+                        "utf16_code_units": [
+                          76,
+                          105,
+                          110,
+                          101,
+                          84,
+                          111,
+                          116,
+                          97,
+                          108
+                        ]
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "LineTotal",
+                    "formula_text": null,
+                    "row_index": 0,
+                    "value_repr": "LineTotal"
+                  }
+                ],
+                "rows": [
+                  {
+                    "cells": [
+                      {
+                        "address": "A2",
+                        "column_index": 1,
+                        "column_name": "Item",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "text",
+                            "utf16_code_units": [
+                              65,
+                              108,
+                              112,
+                              104,
+                              97
+                            ]
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "Alpha",
+                        "formula_text": null,
+                        "row_index": 1,
+                        "value_repr": "Alpha"
+                      },
+                      {
+                        "address": "B2",
+                        "column_index": 2,
+                        "column_name": "Units",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 2.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "2",
+                        "formula_text": null,
+                        "row_index": 1,
+                        "value_repr": "2"
+                      },
+                      {
+                        "address": "C2",
+                        "column_index": 3,
+                        "column_name": "Price",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 3.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "3",
+                        "formula_text": null,
+                        "row_index": 1,
+                        "value_repr": "3"
+                      },
+                      {
+                        "address": "D2",
+                        "column_index": 4,
+                        "column_name": "LineTotal",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 6.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "6",
+                        "formula_text": "=[@Units]*[@Price]",
+                        "row_index": 1,
+                        "value_repr": "6"
+                      }
+                    ],
+                    "row_index": 1
+                  },
+                  {
+                    "cells": [
+                      {
+                        "address": "A3",
+                        "column_index": 1,
+                        "column_name": "Item",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "text",
+                            "utf16_code_units": [
+                              66,
+                              101,
+                              116,
+                              97
+                            ]
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "Beta",
+                        "formula_text": null,
+                        "row_index": 2,
+                        "value_repr": "Beta"
+                      },
+                      {
+                        "address": "B3",
+                        "column_index": 2,
+                        "column_name": "Units",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 4.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "4",
+                        "formula_text": null,
+                        "row_index": 2,
+                        "value_repr": "4"
+                      },
+                      {
+                        "address": "C3",
+                        "column_index": 3,
+                        "column_name": "Price",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 5.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "5",
+                        "formula_text": null,
+                        "row_index": 2,
+                        "value_repr": "5"
+                      },
+                      {
+                        "address": "D3",
+                        "column_index": 4,
+                        "column_name": "LineTotal",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 20.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "20",
+                        "formula_text": "=[@Units]*[@Price]",
+                        "row_index": 2,
+                        "value_repr": "20"
+                      }
+                    ],
+                    "row_index": 2
+                  },
+                  {
+                    "cells": [
+                      {
+                        "address": "A4",
+                        "column_index": 1,
+                        "column_name": "Item",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "text",
+                            "utf16_code_units": [
+                              71,
+                              97,
+                              109,
+                              109,
+                              97
+                            ]
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "Gamma",
+                        "formula_text": null,
+                        "row_index": 3,
+                        "value_repr": "Gamma"
+                      },
+                      {
+                        "address": "B4",
+                        "column_index": 2,
+                        "column_name": "Units",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 1.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "1",
+                        "formula_text": null,
+                        "row_index": 3,
+                        "value_repr": "1"
+                      },
+                      {
+                        "address": "C4",
+                        "column_index": 3,
+                        "column_name": "Price",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 7.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "7",
+                        "formula_text": null,
+                        "row_index": 3,
+                        "value_repr": "7"
+                      },
+                      {
+                        "address": "D4",
+                        "column_index": 4,
+                        "column_name": "LineTotal",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 7.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "7",
+                        "formula_text": "=[@Units]*[@Price]",
+                        "row_index": 3,
+                        "value_repr": "7"
+                      }
+                    ],
+                    "row_index": 3
+                  }
+                ],
+                "show_totals": true,
+                "source_range": "A1:D5",
+                "structured_reference_formulas": [
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "number",
+                        "number": 7.0
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "7",
+                    "expected_formula_input": "=SUM(BasicTbl[Units])",
+                    "formula_text": "=SUM(BasicTbl[Units])",
+                    "locator": "TableUpdates!F2",
+                    "role": "column_reference",
+                    "value_repr": "7"
+                  },
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "number",
+                        "number": 22.0
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "22",
+                    "expected_formula_input": "=SUM(BasicTbl[[#Data],[Units]:[Price]])",
+                    "formula_text": "=SUM(BasicTbl[[#Data],[Units]:[Price]])",
+                    "locator": "TableUpdates!F3",
+                    "role": "composite_data_range",
+                    "value_repr": "22"
+                  },
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "number",
+                        "number": 33.0
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "33",
+                    "expected_formula_input": "=SUM(BasicTbl[[#Totals],[LineTotal]])",
+                    "formula_text": "=SUM(BasicTbl[[#Totals],[LineTotal]])",
+                    "locator": "TableUpdates!F4",
+                    "role": "totals_reference",
+                    "value_repr": "33"
+                  },
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "number",
+                        "number": 55.0
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "55",
+                    "expected_formula_input": "=SUM(BasicTbl[[#Data],[Units]:[LineTotal]])",
+                    "formula_text": "=SUM(BasicTbl[[#Data],[Units]:[LineTotal]])",
+                    "locator": "TableUpdates!F5",
+                    "role": "composite_data_body_to_formula_column",
+                    "value_repr": "55"
+                  },
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "number",
+                        "number": 3.0
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "3",
+                    "expected_formula_input": "=ROWS(BasicTbl[#Data])",
+                    "formula_text": "=ROWS(BasicTbl[#Data])",
+                    "locator": "TableUpdates!F6",
+                    "role": "data_row_count",
+                    "value_repr": "3"
+                  }
+                ],
+                "table_name": "BasicTbl",
+                "table_slice_schema": "oxxlplay.table_slice.v1",
+                "totals_row": {
+                  "cells": [
+                    {
+                      "address": "A5",
+                      "column_index": 1,
+                      "column_name": "Item",
+                      "comparison_value": {
+                        "boundary": "published_formula_result",
+                        "value": {
+                          "kind": "text",
+                          "utf16_code_units": [
+                            84,
+                            111,
+                            116,
+                            97,
+                            108
+                          ]
+                        },
+                        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                      },
+                      "effective_display_text": "Total",
+                      "formula_text": null,
+                      "row_index": 0,
+                      "value_repr": "Total"
+                    },
+                    {
+                      "address": "B5",
+                      "column_index": 2,
+                      "column_name": "Units",
+                      "comparison_value": {
+                        "boundary": "published_formula_result",
+                        "value": {
+                          "kind": "number",
+                          "number": 7.0
+                        },
+                        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                      },
+                      "effective_display_text": "7",
+                      "formula_text": "=SUBTOTAL(109,[Units])",
+                      "row_index": 0,
+                      "value_repr": "7"
+                    },
+                    {
+                      "address": "C5",
+                      "column_index": 3,
+                      "column_name": "Price",
+                      "effective_display_text": "",
+                      "formula_text": null,
+                      "row_index": 0,
+                      "value_repr": null
+                    },
+                    {
+                      "address": "D5",
+                      "column_index": 4,
+                      "column_name": "LineTotal",
+                      "comparison_value": {
+                        "boundary": "published_formula_result",
+                        "value": {
+                          "kind": "number",
+                          "number": 33.0
+                        },
+                        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                      },
+                      "effective_display_text": "33",
+                      "formula_text": "=SUBTOTAL(109,[LineTotal])",
+                      "row_index": 0,
+                      "value_repr": "33"
+                    }
+                  ],
+                  "range": "A5:D5"
+                },
+                "totals_row_range": "A5:D5",
+                "worksheet_name": "TableUpdates"
+              }
+            },
+            "capture_loss": "none",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "table_deleted_observed",
+                "detail": "The table was deleted through Excel ListObject.Delete on an isolated programmatic workbook; no after table_slice is available because Excel no longer exposes that ListObject.",
+                "status": "unavailable",
+                "uncertainty": "none"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "table_update_delta_projection",
+                "status": "derived",
+                "uncertainty": "post_processed"
+              }
+            },
+            "case_id": "table_delete",
+            "description": "Delete a table in an isolated programmatic Excel workbook and retain the observed absence without disturbing the final W056Tbl surface.",
+            "execution_outcome": {
+              "case_id": "table_delete",
+              "class_id": "observation_retained",
+              "error_kind": null,
+              "error_message": null,
+              "outcome_kind": "accepted_observation",
+              "outcome_stage": "table_update_case",
+              "update_kind": "table_delete"
+            },
+            "observation_scope": "isolated_programmatic_workbook",
+            "table_slice_delta": {
+              "column_count": {
+                "after": 0,
+                "before": 4,
+                "changed": true
+              },
+              "column_names": {
+                "after": [],
+                "before": [
+                  "Item",
+                  "Units",
+                  "Price",
+                  "LineTotal"
+                ]
+              },
+              "delta_kind": "table_deleted",
+              "delta_schema": "oxxlplay.table_slice_delta.v1",
+              "ranges": {
+                "data_body_range": {
+                  "after": null,
+                  "before": "A2:D4",
+                  "changed": true
+                },
+                "header_row_range": {
+                  "after": null,
+                  "before": "A1:D1",
+                  "changed": true
+                },
+                "source_range": {
+                  "after": null,
+                  "before": "A1:D5",
+                  "changed": true
+                },
+                "totals_row_range": {
+                  "after": null,
+                  "before": "A5:D5",
+                  "changed": true
+                }
+              },
+              "row_count": {
+                "after": 0,
+                "before": 3,
+                "changed": true
+              },
+              "show_totals": {
+                "after": null,
+                "before": true,
+                "changed": true
+              },
+              "structured_reference_formula_deltas": [],
+              "table_name": {
+                "after": null,
+                "before": "BasicTbl",
+                "changed": true
+              },
+              "worksheet_name": {
+                "after": "TableUpdates",
+                "before": "TableUpdates",
+                "changed": false
+              }
+            },
+            "uncertainty": "none",
+            "update_kind": "table_delete"
+          },
+          {
+            "action": {
+              "target_cell": "H2"
+            },
+            "after": {
+              "table_slice": null,
+              "table_status": {
+                "capture_loss": "update_action_failed",
+                "status": "unavailable",
+                "uncertainty": "case_failed_after_before_snapshot"
+              }
+            },
+            "before": {
+              "table_slice": {
+                "columns": [
+                  {
+                    "column_index": 1,
+                    "column_name": "Product",
+                    "data_body_range": "A2:A5"
+                  },
+                  {
+                    "column_index": 2,
+                    "column_name": "Units",
+                    "data_body_range": "B2:B5"
+                  },
+                  {
+                    "column_index": 3,
+                    "column_name": "UnitPrice",
+                    "data_body_range": "C2:C5"
+                  },
+                  {
+                    "column_index": 4,
+                    "column_name": "LineTotal",
+                    "data_body_range": "D2:D5"
+                  }
+                ],
+                "data_body_range": "A2:D5",
+                "header_row_range": "A1:D1",
+                "headers": [
+                  {
+                    "address": "A1",
+                    "column_index": 1,
+                    "column_name": "Product",
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "text",
+                        "utf16_code_units": [
+                          80,
+                          114,
+                          111,
+                          100,
+                          117,
+                          99,
+                          116
+                        ]
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "Product",
+                    "formula_text": null,
+                    "row_index": 0,
+                    "value_repr": "Product"
+                  },
+                  {
+                    "address": "B1",
+                    "column_index": 2,
+                    "column_name": "Units",
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "text",
+                        "utf16_code_units": [
+                          85,
+                          110,
+                          105,
+                          116,
+                          115
+                        ]
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "Units",
+                    "formula_text": null,
+                    "row_index": 0,
+                    "value_repr": "Units"
+                  },
+                  {
+                    "address": "C1",
+                    "column_index": 3,
+                    "column_name": "UnitPrice",
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "text",
+                        "utf16_code_units": [
+                          85,
+                          110,
+                          105,
+                          116,
+                          80,
+                          114,
+                          105,
+                          99,
+                          101
+                        ]
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "UnitPrice",
+                    "formula_text": null,
+                    "row_index": 0,
+                    "value_repr": "UnitPrice"
+                  },
+                  {
+                    "address": "D1",
+                    "column_index": 4,
+                    "column_name": "LineTotal",
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "text",
+                        "utf16_code_units": [
+                          76,
+                          105,
+                          110,
+                          101,
+                          84,
+                          111,
+                          116,
+                          97,
+                          108
+                        ]
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "LineTotal",
+                    "formula_text": null,
+                    "row_index": 0,
+                    "value_repr": "LineTotal"
+                  }
+                ],
+                "rows": [
+                  {
+                    "cells": [
+                      {
+                        "address": "A2",
+                        "column_index": 1,
+                        "column_name": "Product",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "text",
+                            "utf16_code_units": [
+                              71,
+                              97,
+                              109,
+                              109,
+                              97
+                            ]
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "Gamma",
+                        "formula_text": null,
+                        "row_index": 1,
+                        "value_repr": "Gamma"
+                      },
+                      {
+                        "address": "B2",
+                        "column_index": 2,
+                        "column_name": "Units",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 1.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "1",
+                        "formula_text": null,
+                        "row_index": 1,
+                        "value_repr": "1"
+                      },
+                      {
+                        "address": "C2",
+                        "column_index": 3,
+                        "column_name": "UnitPrice",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 7.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "7",
+                        "formula_text": null,
+                        "row_index": 1,
+                        "value_repr": "7"
+                      },
+                      {
+                        "address": "D2",
+                        "column_index": 4,
+                        "column_name": "LineTotal",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 7.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "7",
+                        "formula_text": "=[@Units]*[@UnitPrice]",
+                        "row_index": 1,
+                        "value_repr": "7"
+                      }
+                    ],
+                    "row_index": 1
+                  },
+                  {
+                    "cells": [
+                      {
+                        "address": "A3",
+                        "column_index": 1,
+                        "column_name": "Product",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "text",
+                            "utf16_code_units": [
+                              68,
+                              101,
+                              108,
+                              116,
+                              97
+                            ]
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "Delta",
+                        "formula_text": null,
+                        "row_index": 2,
+                        "value_repr": "Delta"
+                      },
+                      {
+                        "address": "B3",
+                        "column_index": 2,
+                        "column_name": "Units",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 9.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "9",
+                        "formula_text": null,
+                        "row_index": 2,
+                        "value_repr": "9"
+                      },
+                      {
+                        "address": "C3",
+                        "column_index": 3,
+                        "column_name": "UnitPrice",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 2.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "2",
+                        "formula_text": null,
+                        "row_index": 2,
+                        "value_repr": "2"
+                      },
+                      {
+                        "address": "D3",
+                        "column_index": 4,
+                        "column_name": "LineTotal",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 18.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "18",
+                        "formula_text": "=[@Units]*[@UnitPrice]",
+                        "row_index": 2,
+                        "value_repr": "18"
+                      }
+                    ],
+                    "row_index": 2
+                  },
+                  {
+                    "cells": [
+                      {
+                        "address": "A4",
+                        "column_index": 1,
+                        "column_name": "Product",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "text",
+                            "utf16_code_units": [
+                              66,
+                              101,
+                              116,
+                              97
+                            ]
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "Beta",
+                        "formula_text": null,
+                        "row_index": 3,
+                        "value_repr": "Beta"
+                      },
+                      {
+                        "address": "B4",
+                        "column_index": 2,
+                        "column_name": "Units",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 6.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "6",
+                        "formula_text": null,
+                        "row_index": 3,
+                        "value_repr": "6"
+                      },
+                      {
+                        "address": "C4",
+                        "column_index": 3,
+                        "column_name": "UnitPrice",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 5.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "5",
+                        "formula_text": null,
+                        "row_index": 3,
+                        "value_repr": "5"
+                      },
+                      {
+                        "address": "D4",
+                        "column_index": 4,
+                        "column_name": "LineTotal",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 30.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "30",
+                        "formula_text": "=[@Units]*[@UnitPrice]",
+                        "row_index": 3,
+                        "value_repr": "30"
+                      }
+                    ],
+                    "row_index": 3
+                  },
+                  {
+                    "cells": [
+                      {
+                        "address": "A5",
+                        "column_index": 1,
+                        "column_name": "Product",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "text",
+                            "utf16_code_units": [
+                              69,
+                              112,
+                              115,
+                              105,
+                              108,
+                              111,
+                              110
+                            ]
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "Epsilon",
+                        "formula_text": null,
+                        "row_index": 4,
+                        "value_repr": "Epsilon"
+                      },
+                      {
+                        "address": "B5",
+                        "column_index": 2,
+                        "column_name": "Units",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 2.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "2",
+                        "formula_text": null,
+                        "row_index": 4,
+                        "value_repr": "2"
+                      },
+                      {
+                        "address": "C5",
+                        "column_index": 3,
+                        "column_name": "UnitPrice",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 8.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "8",
+                        "formula_text": null,
+                        "row_index": 4,
+                        "value_repr": "8"
+                      },
+                      {
+                        "address": "D5",
+                        "column_index": 4,
+                        "column_name": "LineTotal",
+                        "comparison_value": {
+                          "boundary": "published_formula_result",
+                          "value": {
+                            "kind": "number",
+                            "number": 16.0
+                          },
+                          "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                        },
+                        "effective_display_text": "16",
+                        "formula_text": "=[@Units]*[@UnitPrice]",
+                        "row_index": 4,
+                        "value_repr": "16"
+                      }
+                    ],
+                    "row_index": 4
+                  }
+                ],
+                "show_totals": true,
+                "source_range": "A1:D6",
+                "structured_reference_formulas": [
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "number",
+                        "number": 18.0
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "18",
+                    "expected_formula_input": "=SUM(BasicTbl[Units])",
+                    "formula_text": "=SUM(W056Tbl[Units])",
+                    "locator": "TableUpdates!F2",
+                    "role": "column_reference",
+                    "value_repr": "18"
+                  },
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "error",
+                        "worksheet_error_code": "ref"
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "#REF!",
+                    "expected_formula_input": "=SUM(BasicTbl[[#Data],[Units]:[Price]])",
+                    "formula_text": "=SUM(#REF!)",
+                    "locator": "TableUpdates!F3",
+                    "role": "composite_data_range",
+                    "value_repr": "#REF!"
+                  },
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "number",
+                        "number": 72.0
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "72",
+                    "expected_formula_input": "=SUM(BasicTbl[[#Totals],[LineTotal]])",
+                    "formula_text": "=SUM(W056Tbl[[#Totals],[LineTotal]])",
+                    "locator": "TableUpdates!F4",
+                    "role": "totals_reference",
+                    "value_repr": "72"
+                  },
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "number",
+                        "number": 111.0
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "111",
+                    "expected_formula_input": "=SUM(BasicTbl[[#Data],[Units]:[LineTotal]])",
+                    "formula_text": "=SUM(W056Tbl[[#Data],[Units]:[LineTotal]])",
+                    "locator": "TableUpdates!F5",
+                    "role": "composite_data_body_to_formula_column",
+                    "value_repr": "111"
+                  },
+                  {
+                    "comparison_value": {
+                      "boundary": "published_formula_result",
+                      "value": {
+                        "kind": "number",
+                        "number": 4.0
+                      },
+                      "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                    },
+                    "effective_display_text": "4",
+                    "expected_formula_input": "=ROWS(BasicTbl[#Data])",
+                    "formula_text": "=ROWS(W056Tbl[#Data])",
+                    "locator": "TableUpdates!F6",
+                    "role": "data_row_count",
+                    "value_repr": "4"
+                  }
+                ],
+                "table_name": "W056Tbl",
+                "table_slice_schema": "oxxlplay.table_slice.v1",
+                "totals_row": {
+                  "cells": [
+                    {
+                      "address": "A6",
+                      "column_index": 1,
+                      "column_name": "Product",
+                      "comparison_value": {
+                        "boundary": "published_formula_result",
+                        "value": {
+                          "kind": "text",
+                          "utf16_code_units": [
+                            84,
+                            111,
+                            116,
+                            97,
+                            108
+                          ]
+                        },
+                        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                      },
+                      "effective_display_text": "Total",
+                      "formula_text": null,
+                      "row_index": 0,
+                      "value_repr": "Total"
+                    },
+                    {
+                      "address": "B6",
+                      "column_index": 2,
+                      "column_name": "Units",
+                      "comparison_value": {
+                        "boundary": "published_formula_result",
+                        "value": {
+                          "kind": "number",
+                          "number": 18.0
+                        },
+                        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                      },
+                      "effective_display_text": "18",
+                      "formula_text": "=SUBTOTAL(109,[Units])",
+                      "row_index": 0,
+                      "value_repr": "18"
+                    },
+                    {
+                      "address": "C6",
+                      "column_index": 3,
+                      "column_name": "UnitPrice",
+                      "effective_display_text": "",
+                      "formula_text": null,
+                      "row_index": 0,
+                      "value_repr": null
+                    },
+                    {
+                      "address": "D6",
+                      "column_index": 4,
+                      "column_name": "LineTotal",
+                      "comparison_value": {
+                        "boundary": "published_formula_result",
+                        "value": {
+                          "kind": "number",
+                          "number": 72.0
+                        },
+                        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+                      },
+                      "effective_display_text": "72",
+                      "formula_text": "=SUBTOTAL(109,[LineTotal])+1",
+                      "row_index": 0,
+                      "value_repr": "72"
+                    }
+                  ],
+                  "range": "A6:D6"
+                },
+                "totals_row_range": "A6:D6",
+                "worksheet_name": "TableUpdates"
+              }
+            },
+            "capture_loss": "update_action_failed",
+            "capture_status": {
+              "after_table_slice": {
+                "capture_loss": "update_action_failed",
+                "status": "unavailable",
+                "uncertainty": "case_failed_after_before_snapshot"
+              },
+              "before_table_slice": {
+                "capture_loss": "none",
+                "status": "direct",
+                "uncertainty": "none"
+              },
+              "table_slice_delta": {
+                "capture_loss": "update_action_failed",
+                "status": "unavailable",
+                "uncertainty": "case_failed_after_before_snapshot"
+              }
+            },
             "case_id": "table_move",
             "description": "Attempt to cover table move; retained as unavailable because unattended Excel COM table moves are clipboard-mediated while resize is the observable range-change case.",
             "execution_outcome": {
               "case_id": "table_move",
+              "class_id": "observation_rejected",
               "error_kind": "table_update_action_failed",
               "error_message": "table_move is not retained as a direct update action in this oracle tranche because the Excel COM table move path is clipboard-mediated and can block unattended observation. table_resize remains the retained observable range-change case.",
               "outcome_kind": "capture_rejection",
               "outcome_stage": "table_update_case",
               "update_kind": "table_move"
             },
+            "observation_scope": "main_observation_workbook",
             "table_slice_delta": null,
             "uncertainty": "case_failed_after_before_snapshot",
             "update_kind": "table_move"
@@ -21260,6 +22906,7 @@
       "view_family": "execution_outcome",
       "value": {
         "capture_artifacts_emitted": true,
+        "class_id": "value_published",
         "outcome_kind": "accepted_execution",
         "outcome_schema": "oxxlplay.execution_outcome.v1",
         "outcome_stage": "capture_pipeline",
@@ -21280,7 +22927,7 @@
       "environment_partial"
     ],
     "capture_mode": "excel_black_box_observation",
-    "captured_at_utc": "2026-05-23T13:30:43Z",
+    "captured_at_utc": "2026-05-23T14:15:22Z",
     "comparison_value_wire_schema": "oxfunc_value_types.aligned_json.v1",
     "comparison_view_families": [
       "comparison_value",
@@ -21296,6 +22943,7 @@
     },
     "execution_outcome": {
       "capture_artifacts_emitted": true,
+      "class_id": "value_published",
       "outcome_kind": "accepted_execution",
       "outcome_schema": "oxxlplay.execution_outcome.v1",
       "outcome_stage": "capture_pipeline",
@@ -21330,7 +22978,7 @@
     ],
     "macro_mode": "force_disable_requested",
     "projection_status": "lossy",
-    "run_id": "run_xlplay_table_update_oracle_001_20260523_153345",
+    "run_id": "run_xlplay_table_update_oracle_001_20260523_161821",
     "source_schema_id": "oxxlplay.normalized_replay.v2",
     "trigger": "open_then_recalc",
     "unavailable_surfaces": [],

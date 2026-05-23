@@ -70,6 +70,7 @@ The ids below are planning commitments until the retained artifacts exist.
 |---|---|---|
 | `host_rollout_per_node_values` | `host_rollout_per_node_values_001` | `docs/test-corpus/bundles/host_rollout_per_node_values_001/` |
 | `host_rollout_table_slice` | `host_rollout_table_slice_001` | `docs/test-corpus/bundles/host_rollout_table_slice_001/` |
+| `host_rollout_table_update_oracle` | `host_rollout_table_update_oracle_001` | `docs/test-corpus/bundles/host_rollout_table_update_oracle_001/` |
 | `host_rollout_effective_display` | `host_rollout_effective_display_001` | `docs/test-corpus/bundles/host_rollout_effective_display_001/` |
 | `host_rollout_execution_outcome` | `host_rollout_execution_outcome_001` | `docs/test-corpus/bundles/host_rollout_execution_outcome_001/` |
 | `host_rollout_dependency_invalidation` | `host_rollout_dependency_invalidation_001` | `docs/test-corpus/bundles/host_rollout_dependency_invalidation_001/` |

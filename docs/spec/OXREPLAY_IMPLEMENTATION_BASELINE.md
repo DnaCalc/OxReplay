@@ -36,7 +36,7 @@ The initial workspace members are:
    - normalized comparison/equivalence ownership over declared comparison views, including `worksheet_comparison_value`, `effective_display_text`, optional `visible_value_text`, and typed `execution_outcome` comparison
    - the typed `execution_outcome` path should require explicit payload `outcome_kind`, `outcome_stage`, and `class_id` rather than repairing legacy outcome-family shapes inside comparison logic
    - display-text comparison may consume replay-facing `render_context` or one-hop `render_context_ref` metadata and should surface resolved versus untrusted render-context status in mismatch detail without changing text-equality semantics
-   - host-rollout families `per_node_value`, `table_slice`, `dependency_evidence`, `invalidation_evidence`, and `retained_artifact_ref` are compared as declared retained payloads with exact family-specific policies; OxReplay must not derive missing TreeCalc, OneCalc, or Excel semantics for these families
+   - host-rollout families `per_node_value`, `table_slice`, `table_update_oracle`, `dependency_evidence`, `invalidation_evidence`, and `retained_artifact_ref` are compared as declared retained payloads with exact family-specific policies; OxReplay must not derive missing TreeCalc, OneCalc, or Excel semantics for these families
 5. `oxreplay-explain`
    - explanation queries and causal records
    - machine-usable propagation of comparison policy, coverage-gap, outcome-class, numeric mismatch-shape labeling, and display-surface render-context status when present
