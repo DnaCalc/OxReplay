@@ -10,7 +10,7 @@
 ## Purpose
 Record the retained producer artifacts needed before `OxReplay` can close the TreeCalc side of W056 table comparison evidence.
 
-`OxReplay` already accepts declared comparison views and can compare retained JSON payloads without parsing structured-reference text or reimplementing table semantics. Update after `DnaTreeCalc` commit `8eba3cb`: the first W056 retained TreeCalc table producer artifact now exists and validates/replays through OxReplay at `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/`. This handoff remains useful as the original request and as the scope record for later full cross-producer table comparison closure.
+`OxReplay` already accepts declared comparison views and can compare retained JSON payloads without parsing structured-reference text or reimplementing table semantics. Update after `DnaTreeCalc` commits `7ebaca4`, `e7b22f3`, `cdde775`, and `86fd0ba`: the structured-reference, empty-body, lifecycle, and dynamic/cross-workspace W056 retained TreeCalc table producer artifacts now validate/replay through the third-pass producer batch at `docs/test-runs/w007-w056-table-third-pass-intake-baseline/`. This handoff remains useful as the original request and as the scope record for later full cross-producer table comparison closure.
 
 ## Proposed change
 `DnaTreeCalc` should emit retained replay-facing artifacts for W056 table comparison scenarios with:
@@ -64,14 +64,23 @@ For cross-producer comparison against Excel-observed fixtures, publish a shared 
 4. Accepted DnaTreeCalc W056 retained producer intake:
    - `../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/oxreplay-manifest.json`
    - `../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/views/normalized-replay.json`
+   - `../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001/oxreplay-manifest.json`
+   - `../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001/views/normalized-replay.json`
+   - `../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001/oxreplay-manifest.json`
+   - `../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001/views/normalized-replay.json`
+   - `../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001/oxreplay-manifest.json`
+   - `../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001/views/normalized-replay.json`
    - `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/validate-bundle.json`
    - `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/replay.json`
    - `docs/test-runs/dnatreecalc-w056-table-structured-references-001-baseline/self-diff.json`
+   - `docs/test-runs/w007-w056-table-third-pass-intake-baseline/validate-bundle.json`
+   - `docs/test-runs/w007-w056-table-third-pass-intake-baseline/diff.json`
+   - `docs/test-runs/w007-w056-table-third-pass-intake-baseline/explain.json`
 
 ## Impact
-1. capability impact: no new OxReplay adapter capability claim; the first TreeCalc producer artifact intake is accepted, but full cross-producer table comparison remains a later evidence gate.
+1. capability impact: no new OxReplay adapter capability claim; the current TreeCalc producer artifact intake is accepted, but full cross-producer table comparison remains a later evidence gate.
 2. pack impact: candidate intake evidence for `PACK.replay.appliance`; `PACK.diff.cross_engine.continuous` and `PACK.trace.forensic_plane` remain pending matched comparison/update evidence.
-3. migration or fallback impact: OxReplay can now report local mechanics fixtures, accepted OxXlPlay table-slice intake, and accepted DnaTreeCalc W056 table producer intake.
+3. migration or fallback impact: OxReplay can now report local mechanics fixtures, accepted OxXlPlay table-slice intake, and accepted DnaTreeCalc W056 table producer intake across structured-reference, empty-body, lifecycle, and dynamic/cross-workspace artifacts.
 4. affected repos or hosts: `DnaTreeCalc`, `OxCalc`, `OxReplay`, `OxXlPlay`, `DNA ReCalc`, downstream `DNA OneCalc` comparison consumers.
 
 ## Requested response

@@ -1,7 +1,119 @@
 {
-  "batch_id": "host_rollout_w056_table_third_pass_001_oxxlplay",
-  "case_count": 4,
+  "batch_id": "host_rollout_w056_table_third_pass_001_producers",
+  "case_count": 8,
   "cases": [
+    {
+      "capture_path": null,
+      "case_id": "dnatreecalc_w056_table_structured_references_001",
+      "error": null,
+      "normalized_replay_path": "../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/views/normalized-replay.json",
+      "output_dir": "../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001",
+      "oxreplay_manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/oxreplay-manifest.json",
+      "status": "producer_intake",
+      "validation": {
+        "bundle_id": "dnatreecalc-w056-table-structured-references-001",
+        "capability_impact": "shared validate/ingest surface only; no adapter capability claim",
+        "errors": [],
+        "index": {
+          "registry_families": [],
+          "sidecar_artifacts": [],
+          "view_artifacts": [
+            {
+              "path": "views/normalized-replay.json"
+            }
+          ]
+        },
+        "manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/oxreplay-manifest.json",
+        "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
+        "scenario_id": "w056_treecalc_table_structured_references_001",
+        "status": "valid",
+        "warnings": []
+      }
+    },
+    {
+      "capture_path": null,
+      "case_id": "dnatreecalc_w056_table_empty_body_001",
+      "error": null,
+      "normalized_replay_path": "../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001/views/normalized-replay.json",
+      "output_dir": "../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001",
+      "oxreplay_manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001/oxreplay-manifest.json",
+      "status": "producer_intake",
+      "validation": {
+        "bundle_id": "dnatreecalc-w056-table-empty-body-001",
+        "capability_impact": "shared validate/ingest surface only; no adapter capability claim",
+        "errors": [],
+        "index": {
+          "registry_families": [],
+          "sidecar_artifacts": [],
+          "view_artifacts": [
+            {
+              "path": "views/normalized-replay.json"
+            }
+          ]
+        },
+        "manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001/oxreplay-manifest.json",
+        "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
+        "scenario_id": "w056_treecalc_empty_body_tables_001",
+        "status": "valid",
+        "warnings": []
+      }
+    },
+    {
+      "capture_path": null,
+      "case_id": "dnatreecalc_w056_table_lifecycle_001",
+      "error": null,
+      "normalized_replay_path": "../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001/views/normalized-replay.json",
+      "output_dir": "../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001",
+      "oxreplay_manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001/oxreplay-manifest.json",
+      "status": "producer_intake",
+      "validation": {
+        "bundle_id": "dnatreecalc-w056-table-lifecycle-001",
+        "capability_impact": "shared validate/ingest surface only; no adapter capability claim",
+        "errors": [],
+        "index": {
+          "registry_families": [],
+          "sidecar_artifacts": [],
+          "view_artifacts": [
+            {
+              "path": "views/normalized-replay.json"
+            }
+          ]
+        },
+        "manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001/oxreplay-manifest.json",
+        "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
+        "scenario_id": "w056_treecalc_table_lifecycle_001",
+        "status": "valid",
+        "warnings": []
+      }
+    },
+    {
+      "capture_path": null,
+      "case_id": "dnatreecalc_w056_table_dynamic_cross_workspace_001",
+      "error": null,
+      "normalized_replay_path": "../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001/views/normalized-replay.json",
+      "output_dir": "../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001",
+      "oxreplay_manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001/oxreplay-manifest.json",
+      "status": "producer_intake",
+      "validation": {
+        "bundle_id": "dnatreecalc-w056-table-dynamic-cross-workspace-001",
+        "capability_impact": "shared validate/ingest surface only; no adapter capability claim",
+        "errors": [],
+        "index": {
+          "registry_families": [],
+          "sidecar_artifacts": [],
+          "view_artifacts": [
+            {
+              "path": "views/normalized-replay.json"
+            }
+          ]
+        },
+        "manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001/oxreplay-manifest.json",
+        "pack_impact": "candidate validate/ingest surface for PACK.replay.appliance",
+        "scenario_id": "w056_treecalc_dynamic_cross_workspace_tables_001",
+        "status": "valid",
+        "warnings": []
+      }
+    },
     {
       "capture_path": "../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/capture.json",
       "case_id": "xlplay_structured_reference_workbook_001",

@@ -1,6 +1,42 @@
 {
-  "batch_id": "host_rollout_w056_table_third_pass_001_oxxlplay",
+  "batch_id": "host_rollout_w056_table_third_pass_001_producers",
   "cases": [
+    {
+      "case_id": "dnatreecalc_w056_table_structured_references_001",
+      "status": "producer_intake",
+      "error": null,
+      "output_dir": "../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001",
+      "capture_path": null,
+      "oxreplay_manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/oxreplay-manifest.json",
+      "normalized_replay_path": "../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/views/normalized-replay.json"
+    },
+    {
+      "case_id": "dnatreecalc_w056_table_empty_body_001",
+      "status": "producer_intake",
+      "error": null,
+      "output_dir": "../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001",
+      "capture_path": null,
+      "oxreplay_manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001/oxreplay-manifest.json",
+      "normalized_replay_path": "../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001/views/normalized-replay.json"
+    },
+    {
+      "case_id": "dnatreecalc_w056_table_lifecycle_001",
+      "status": "producer_intake",
+      "error": null,
+      "output_dir": "../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001",
+      "capture_path": null,
+      "oxreplay_manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001/oxreplay-manifest.json",
+      "normalized_replay_path": "../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001/views/normalized-replay.json"
+    },
+    {
+      "case_id": "dnatreecalc_w056_table_dynamic_cross_workspace_001",
+      "status": "producer_intake",
+      "error": null,
+      "output_dir": "../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001",
+      "capture_path": null,
+      "oxreplay_manifest_path": "../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001/oxreplay-manifest.json",
+      "normalized_replay_path": "../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001/views/normalized-replay.json"
+    },
     {
       "case_id": "xlplay_structured_reference_workbook_001",
       "status": "producer_intake",

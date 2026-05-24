@@ -4,7 +4,7 @@
   "scope": "third-pass W056 table evidence intake over currently landed DnaTreeCalc and OxXlPlay retained artifacts",
   "comparison_rule": "OxReplay compares declared comparison view payloads only; it does not parse TreeCalc formula text, structured-reference text, or Excel private strings.",
   "constant_treecalc_replay": "../DnaTreeCalc/docs/test-runs/w056-table-structured-references-001/views/normalized-replay.json",
-  "batch_index": "docs/test-corpus/bundles/host_rollout_w056_table_third_pass_001/oxxlplay-batch-index.json",
+  "batch_index": "docs/test-corpus/bundles/host_rollout_w056_table_third_pass_001/producer-batch-index.json",
   "admitted_available_artifacts": [
     {
       "producer": "DnaTreeCalc",
@@ -15,6 +15,45 @@
         "table_slice",
         "per_node_value",
         "effective_display_text",
+        "execution_outcome",
+        "dependency_evidence",
+        "invalidation_evidence",
+        "retained_artifact_ref"
+      ]
+    },
+    {
+      "producer": "DnaTreeCalc",
+      "scenario_id": "w056_treecalc_empty_body_tables_001",
+      "manifest": "../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001/oxreplay-manifest.json",
+      "normalized_replay": "../DnaTreeCalc/docs/test-runs/w056-table-empty-body-001/views/normalized-replay.json",
+      "families": [
+        "table_slice",
+        "per_node_value",
+        "effective_display_text",
+        "execution_outcome",
+        "dependency_evidence",
+        "invalidation_evidence",
+        "retained_artifact_ref"
+      ]
+    },
+    {
+      "producer": "DnaTreeCalc",
+      "scenario_id": "w056_treecalc_table_lifecycle_001",
+      "manifest": "../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001/oxreplay-manifest.json",
+      "normalized_replay": "../DnaTreeCalc/docs/test-runs/w056-table-lifecycle-001/views/normalized-replay.json",
+      "families": [
+        "execution_outcome",
+        "dependency_evidence",
+        "invalidation_evidence",
+        "retained_artifact_ref"
+      ]
+    },
+    {
+      "producer": "DnaTreeCalc",
+      "scenario_id": "w056_treecalc_dynamic_cross_workspace_tables_001",
+      "manifest": "../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001/oxreplay-manifest.json",
+      "normalized_replay": "../DnaTreeCalc/docs/test-runs/w056-table-dynamic-cross-workspace-001/views/normalized-replay.json",
+      "families": [
         "execution_outcome",
         "dependency_evidence",
         "invalidation_evidence",
@@ -74,23 +113,23 @@
   "blocked_or_unavailable_expectations": [
     {
       "surface": "empty_body_table_full_cross_producer_pair",
-      "state": "partial",
-      "reason": "OxXlPlay retains empty data-body observations and DnaTreeCalc activates empty-body tables through LiveOxCalc, but no retained DnaTreeCalc empty-body replay artifact is landed for a paired comparison"
+      "state": "producer_artifacts_available",
+      "reason": "OxXlPlay retains empty data-body observations and DnaTreeCalc now publishes retained empty-body table replay artifacts; batch comparison still reports cross-producer projection gaps where declared payload families differ"
     },
     {
       "surface": "lifecycle_callback_artifacts",
-      "state": "blocked",
-      "reason": "no retained W056 lifecycle callback replay artifact is currently landed"
+      "state": "treecalc_artifact_available",
+      "reason": "DnaTreeCalc now publishes retained lifecycle callback replay artifacts; direct Excel dependency and invalidation internals remain unavailable unless OxXlPlay emits comparable observation payloads"
     },
     {
       "surface": "first_row_last_row_transitions",
-      "state": "partial",
-      "reason": "xlplay_table_update_oracle_001 retains explicit first-row insert and last-row delete observations, and DnaTreeCalc activates the corresponding endpoints through LiveOxCalc; retained DnaTreeCalc transition replay is still needed for a paired comparison"
+      "state": "producer_artifacts_available",
+      "reason": "xlplay_table_update_oracle_001 retains explicit first-row insert and last-row delete observations, and DnaTreeCalc empty-body retained artifacts now include first-row insert and last-row delete transition evidence"
     },
     {
       "surface": "namespace_anchor_workspace_full_pair",
       "state": "partial",
-      "reason": "DnaTreeCalc source metadata and corpus refs expose table namespace/workspace context, but no full paired OxXlPlay cross-producer artifact for this lane is landed"
+      "reason": "DnaTreeCalc now publishes dynamic/cross-workspace table retained artifacts, but no full paired OxXlPlay cross-workspace table artifact is landed for this lane"
     },
     {
       "surface": "dependency_invalidation_excel_internals",
