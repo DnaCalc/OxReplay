@@ -2,11 +2,20 @@
 
 Status: active blockers present.
 
-Last reviewed: 2026-05-23.
+Last reviewed: 2026-09-02.
 
 ---
 
 ## Active Blockers
+
+### BLK-REPLAY-005: W011 Excel-vs-DNA value verdict has no multi-cell intake and no DNA-side producer artifact
+
+- **Status**: active
+- **Impact**: DnaTreeCalc W011 bead `dtc-j7n8.12` (OxReplay value-diff DNA vs Excel on the `a1_times_three` fixture states); any OxReplay verdict over multi-surface OxXlPlay cell captures
+- **Current state**: both OxXlPlay W011 states (`../OxXlPlay/states/excel/xlplay_w011_a1_times_three_pre_edit_001/`, `..._dna_saved_001/`) validate, replay, and self-diff cleanly, but the cross-state diff retained at `docs/test-runs/w011-a1-times-three-excel-compare-intake-baseline/cross-state.diff.json` reports only the Sheet1!A1 divergence (7 vs 10) and nothing for Sheet1!B1 (21 vs 30): the normalized-replay view carries one `comparison_value` (first surface only), events no longer embed values, and the per-surface `views/comparison-value.json` has no `--kind` loader. Independently, DnaTreeCalc emits no replay-facing artifact for this fixture, so there is no DNA side to diff (values exist only as host-core test assertions and cached `<v>` parts of the DNA-saved package, which OxReplay cannot read). The decisive requirement (post-save cached B1 = 30) is invisible to the current intake path, so no verdict is issued.
+- **Exact unblock steps**: (1) `oxreplay-5nn`: add an OxReplay-owned loader for the declared per-surface `comparison_value` view (or a widened multi-cell family) so every observed cell is compared, deciding whether per-node envelopes reuse the typed `comparison_value_equal` seam or stay json-exact; (2) DnaTreeCalc `dtc-j7n8.21`: emit retained `oxreplay-manifest.json` + `views/normalized-replay.json` for the pre-edit and DNA-saved fixture states from the reopened saved bytes, carrying both cells in the same family; (3) re-run diff/explain pre-edit-DNA vs pre-edit-Excel and dna-saved-DNA vs dna-saved-Excel and retain the verdict.
+- **Recommendation**: escalate (cross-repo pairing of the multi-cell family shape)
+- **Opened**: 2026-09-02
 
 ### BLK-REPLAY-003: OxFunc shared value-types wire helper not admitted yet
 

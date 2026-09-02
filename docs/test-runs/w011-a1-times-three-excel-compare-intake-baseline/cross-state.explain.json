@@ -1,0 +1,33 @@
+{
+  "equivalent": false,
+  "records": [
+    {
+      "query_id": "explain-xlplay_w011_a1_times_three_pre_edit_001-01",
+      "summary": "comparison diverged on `worksheet_comparison_value`",
+      "left_scenario_id": "xlplay_w011_a1_times_three_pre_edit_001",
+      "right_scenario_id": "xlplay_w011_a1_times_three_dna_saved_001",
+      "mismatch_kind": "comparison_value",
+      "severity": "semantic",
+      "view_family": "worksheet_comparison_value",
+      "equivalence_policy_id": "worksheet_value_exact",
+      "required": true,
+      "left_value": {
+        "boundary": "published_formula_result",
+        "value": {
+          "kind": "number",
+          "number": 7.0
+        },
+        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+      },
+      "right_value": {
+        "boundary": "published_formula_result",
+        "value": {
+          "kind": "number",
+          "number": 10.0
+        },
+        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+      },
+      "detail": "typed comparison values diverged"
+    }
+  ]
+}

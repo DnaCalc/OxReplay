@@ -1,0 +1,97 @@
+{
+  "scenario_id": "xlplay_w011_a1_times_three_dna_saved_001",
+  "lane_id": "oxxlplay",
+  "events": [
+    {
+      "event_id": "sheet1_a1_value",
+      "source_label": "cell_value:Sheet1!A1:direct",
+      "normalized_family": "excel.surface.cell_value.direct:Sheet1!A1:comparison_value"
+    },
+    {
+      "event_id": "sheet1_b1_value",
+      "source_label": "cell_value:Sheet1!B1:direct",
+      "normalized_family": "excel.surface.cell_value.direct:Sheet1!B1:comparison_value"
+    },
+    {
+      "event_id": "sheet1_b1_formula",
+      "source_label": "formula_text:Sheet1!B1:direct",
+      "normalized_family": "excel.surface.formula_text.direct:Sheet1!B1==A1*3"
+    }
+  ],
+  "registry_refs": [],
+  "comparison_views": [
+    {
+      "view_family": "comparison_value",
+      "value": {
+        "boundary": "published_formula_result",
+        "value": {
+          "kind": "number",
+          "number": 10.0
+        },
+        "wire_schema": "oxfunc_value_types.aligned_json.v1"
+      }
+    },
+    {
+      "view_family": "execution_outcome",
+      "value": {
+        "capture_artifacts_emitted": true,
+        "class_id": "value_published",
+        "outcome_kind": "accepted_execution",
+        "outcome_schema": "oxxlplay.execution_outcome.v1",
+        "outcome_stage": "capture_pipeline",
+        "replay_artifacts_emitted": true,
+        "replay_view_ready": true,
+        "scenario_id": "xlplay_w011_a1_times_three_dna_saved_001",
+        "workbook_kind": "file-backed",
+        "workbook_ref": "docs/test-corpus/excel/xlplay_w011_a1_times_three_dna_saved_001/workbook.xlsx"
+      }
+    }
+  ],
+  "source_metadata": {
+    "automation_policy": "clean_room_declared",
+    "bridge_influenced": false,
+    "capture_loss": "none",
+    "capture_loss_summary": [],
+    "capture_mode": "excel_black_box_observation",
+    "captured_at_utc": "2026-09-01T22:08:09Z",
+    "comparison_value_wire_schema": "oxfunc_value_types.aligned_json.v1",
+    "comparison_view_families": [
+      "comparison_value",
+      "execution_outcome"
+    ],
+    "excel": {
+      "build": "20326",
+      "channel": "http://officecdn.microsoft.com/pr/492350f6-3a01-4f97-b9c0-c7c6ddf67d60",
+      "version": "16.0"
+    },
+    "execution_outcome": {
+      "capture_artifacts_emitted": true,
+      "class_id": "value_published",
+      "outcome_kind": "accepted_execution",
+      "outcome_schema": "oxxlplay.execution_outcome.v1",
+      "outcome_stage": "capture_pipeline",
+      "replay_artifacts_emitted": true,
+      "replay_view_ready": true,
+      "scenario_id": "xlplay_w011_a1_times_three_dna_saved_001",
+      "workbook_kind": "file-backed",
+      "workbook_ref": "docs/test-corpus/excel/xlplay_w011_a1_times_three_dna_saved_001/workbook.xlsx"
+    },
+    "host": {
+      "architecture": "x64",
+      "os": "Microsoft Windows 11 Pro",
+      "timezone": "South Africa Standard Time"
+    },
+    "interpretation_limits": [],
+    "macro_mode": "force_disable_requested",
+    "projection_status": "lossy",
+    "run_id": "run_xlplay_w011_a1_times_three_dna_saved_001_20260902_000813",
+    "source_schema_id": "oxxlplay.normalized_replay.v2",
+    "trigger": "open_then_recalc",
+    "unavailable_surfaces": [],
+    "uncertainty_summary": [],
+    "workbook_construction_spec": null,
+    "workbook_fingerprint": "sha256:6ba5af8d85436a145b7a58a4992c5191d71ead94095f834edd18c78d0d27bf01",
+    "workbook_kind": "file-backed",
+    "workbook_ref": "docs/test-corpus/excel/xlplay_w011_a1_times_three_dna_saved_001/workbook.xlsx"
+  }
+}

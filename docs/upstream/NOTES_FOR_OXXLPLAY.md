@@ -17,6 +17,7 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 8. structured-reference workbook normalized replay view: `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/views/normalized-replay.json`
 9. structured-reference workbook typed table view: `../OxXlPlay/states/excel/xlplay_structured_reference_workbook_001/views/table-slice.json`
 10. local retained structured-table seam validation run: `docs/test-runs/oxxlplay-seam-xlplay_structured_reference_workbook_001-baseline/`
+11. W011 multi-cell intake run (2026-09-02): `docs/test-runs/w011-a1-times-three-excel-compare-intake-baseline/` over `../OxXlPlay/states/excel/xlplay_w011_a1_times_three_pre_edit_001/` and `..._dna_saved_001/`; `cross-state.diff.json` reports only the Sheet1!A1 divergence (7 vs 10) and nothing for Sheet1!B1 (21 vs 30) although both captures observed B1 directly
 
 ## Interface implications
 1. the accepted first-pass model is dual-artifact:
@@ -32,6 +33,7 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 9. `WorkbookConstructionSpec` should remain construction input and provenance; `OxReplay` will not treat it as semantic authority
 10. the `xlplay_structured_reference_workbook_001` table-slice payload is accepted as a first retained `OxReplay`-consumable `table_slice` envelope for normalized-replay intake and exact JSON comparison
 11. the same artifact still exposes local non-table family gaps for full-family diff/explain: current `comparison_value` uses the newer OxFunc aligned JSON envelope outside the admitted local comparator seam, and current `execution_outcome` omits the local `class_id` expected by typed outcome comparison
+12. (2026-09-02, `oxreplay-5nn` / `BLK-REPLAY-005`) the normalized-replay v2 shape is lossy for multi-cell captures at the replay-facing view: `comparison_views[comparison_value]` carries only the first observed `cell_value` surface, and the v2 event `normalized_family` strings (`excel.surface.cell_value.direct:<locator>:comparison_value`) no longer embed the value, so `OxReplay` diff/explain cannot see any second cell; the per-surface `views/comparison-value.json` (`surfaces[]` with `locator` and the aligned-JSON envelope) is the artifact that does carry every cell and is the intended intake target for the OxReplay-side loader; until both sides publish a multi-cell family, no Excel-vs-DNA value verdict is issued for W011
 
 ## Minimum invariants
 1. `OxReplay` must not become the owner of Excel-driving logic
@@ -43,6 +45,7 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 7. no TreeCalc-private or OneCalc-private shim should be required to compare workbook/table/oracle evidence
 8. table and structured-reference evidence should use typed families such as `table_slice`, `comparison_value`, `effective_display_text`, and `execution_outcome`
 9. dependency and invalidation evidence should be omitted or marked unavailable until direct or explicitly derived evidence exists
+10. every required `cell_value` surface in a capture must be reachable by `OxReplay` comparison through a declared view; a top-level single-value `comparison_value` must not be the only value-bearing replay-facing surface when more than one cell is observed
 
 ## Open questions
 1. when should a formal `OxXlPlay` adapter manifest be added on top of the accepted canonical-manifest path
@@ -50,3 +53,4 @@ Record `OxReplay` observations that materially affect `OxXlPlay` bundle-emission
 3. should any per-family payload-harmonization contract be declared for `formatting_view` or `conditional_formatting_view` so cross-lane diffs can distinguish structural envelope mismatch from true semantic divergence more precisely
 4. whether `table_slice` payload fields from `xlplay_structured_reference_workbook_001` should become a stable cross-producer payload contract or remain an OxXlPlay-owned observation envelope compared exactly as retained JSON
 5. when should dependency and invalidation evidence graduate from planned family names to retained comparison-view payloads
+6. for multi-cell captures, should `views/normalized-replay.json` publish a multi-cell family (for example `per_node_value` nodes keyed by locator) alongside the first-surface `comparison_value`, or should `OxReplay` load `views/comparison-value.json` directly through a declared `--kind` (`oxreplay-5nn`)
